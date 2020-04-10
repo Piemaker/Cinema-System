@@ -1,4 +1,7 @@
 
+import com.sun.xml.internal.ws.streaming.XMLStreamReaderUtil;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,7 +29,7 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         getConnection();
     }
-    
+    // establishes connection with the DB
     void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -41,15 +44,25 @@ public class GUI extends javax.swing.JFrame {
         System.out.println("connected");
     }
     
+    //closes the current window only
+     public void close(){
+ 
+ WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
+ Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
+ 
+ }
+     
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jmovieTable = new javax.swing.JTable();
-        jrefresh = new javax.swing.JButton();
+        jaddDelete = new javax.swing.JButton();
+        jrefresh1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jmovieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -76,10 +89,20 @@ public class GUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jmovieTable);
 
-        jrefresh.setText("Refresh");
-        jrefresh.addActionListener(new java.awt.event.ActionListener() {
+        jaddDelete.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jaddDelete.setText("Refresh");
+        jaddDelete.setActionCommand("");
+        jaddDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrefreshActionPerformed(evt);
+                jaddDeleteActionPerformed(evt);
+            }
+        });
+
+        jrefresh1.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        jrefresh1.setText("Add/Delete Movie");
+        jrefresh1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrefresh1ActionPerformed(evt);
             }
         });
 
@@ -89,22 +112,26 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jrefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jrefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jaddDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jrefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addComponent(jaddDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jrefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jrefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrefreshActionPerformed
+    private void jaddDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaddDeleteActionPerformed
         try {
             //button to refresh the data in the movie table
             
@@ -128,7 +155,7 @@ public class GUI extends javax.swing.JFrame {
                 id = res.getInt("id");
                 name = res.getString("name");
                 genre = res.getString("genre");
-                rating = res.getDouble("filmrating");
+                rating = res.getDouble("rating");
                 movieArray[row][0] = String.valueOf(id);
                 movieArray[row][1] = String.valueOf(name);
                 movieArray[row][2] = String.valueOf(genre);
@@ -144,7 +171,14 @@ public class GUI extends javax.swing.JFrame {
         }
         
 
-    }//GEN-LAST:event_jrefreshActionPerformed
+    }//GEN-LAST:event_jaddDeleteActionPerformed
+
+    private void jrefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrefresh1ActionPerformed
+        close();
+        addDelete addDeleteWindow = new addDelete();
+     addDeleteWindow.setVisible(true);
+     
+    }//GEN-LAST:event_jrefresh1ActionPerformed
     
     public static void main(String args[]) {
         
@@ -158,8 +192,9 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jaddDelete;
     private javax.swing.JTable jmovieTable;
-    private javax.swing.JButton jrefresh;
+    private javax.swing.JButton jrefresh1;
     // End of variables declaration//GEN-END:variables
 
 }
