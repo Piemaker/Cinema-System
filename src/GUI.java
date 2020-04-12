@@ -67,12 +67,14 @@ public class GUI extends javax.swing.JFrame {
         jaddDelete = new javax.swing.JButton();
         jrefresh1 = new javax.swing.JButton();
         jdelete = new javax.swing.JButton();
+        jTextSearch = new javax.swing.JTextField();
+        jSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(43, 43, 43));
 
-        jmovieTable.setBackground(new java.awt.Color(100, 100, 100));
+        jmovieTable.setBackground(new java.awt.Color(75, 75, 75));
         jmovieTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jmovieTable.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jmovieTable.setForeground(new java.awt.Color(200, 200, 200));
@@ -99,6 +101,7 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jmovieTable.setGridColor(new java.awt.Color(75, 75, 75));
         jmovieTable.setName("Movies"); // NOI18N
         jmovieTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jmovieTable);
@@ -114,7 +117,7 @@ public class GUI extends javax.swing.JFrame {
         }
 
         jaddDelete.setBackground(new java.awt.Color(75, 75, 75));
-        jaddDelete.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jaddDelete.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jaddDelete.setForeground(new java.awt.Color(200, 200, 200));
         jaddDelete.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\icons8-find-and-replace-64.png")); // NOI18N
         jaddDelete.setText("Refresh");
@@ -146,31 +149,54 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jTextSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextSearchActionPerformed(evt);
+            }
+        });
+
+        jSearch.setBackground(new java.awt.Color(75, 75, 75));
+        jSearch.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\icons8-search-30.png")); // NOI18N
+        jSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jaddDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jrefresh1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jdelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jaddDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jdelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextSearch)
+                            .addComponent(jSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addComponent(jaddDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jrefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 28, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -195,7 +221,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jrefresh1ActionPerformed
 
     private void jaddDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaddDeleteActionPerformed
-       try {
+        try {
             //button to refresh the data in the movie table
 
             stat = con.createStatement();
@@ -239,7 +265,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jaddDeleteActionPerformed
 
     private void jdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdeleteActionPerformed
-      //button to delete selected row without entering id works for id set to column 0
+        //button to delete selected row without entering id works for id set to column 0
 
         //geting selected id value
         //you have to typecast to String in order to parse int
@@ -272,14 +298,64 @@ public class GUI extends javax.swing.JFrame {
                     "Please select a row to delete",
                     "Selection error",
                     JOptionPane.ERROR_MESSAGE);
-        }            
-        
+        }
 
-           
 
-          
-       
     }//GEN-LAST:event_jdeleteActionPerformed
+
+    private void jTextSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextSearchActionPerformed
+
+    private void jSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchActionPerformed
+        String search = jTextSearch.getText();
+        PreparedStatement myStatement;
+        ResultSet res;
+
+        try {
+
+            // myStatement = con.prepareStatement("SELECT * FROM movies WHERE name LIKE ?'%'");
+            //  myStatement.setString(1, search);
+            // res=  myStatement.executeQuery();
+            stat = con.createStatement();
+            res = stat.executeQuery("SELECT * FROM movies WHERE name LIKE '" + search + "%'");
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+            model.addColumn("Name");
+            model.addColumn("Genre");
+            model.addColumn("Rating");
+            int id;
+            String name;
+            String genre;
+            double rating;
+            int row = 0;
+            //loop to aquire data from the DB
+            while (res.next()) {
+                id = res.getInt("id");
+                name = res.getString("name");
+                genre = res.getString("genre");
+                rating = res.getDouble("rating");
+                movieArray[row][0] = String.valueOf(id);
+                movieArray[row][1] = String.valueOf(name);
+                movieArray[row][2] = String.valueOf(genre);
+                movieArray[row][3] = String.valueOf(rating);
+                model.addRow(movieArray[row]);
+                row++;
+            }
+            //set model to table
+            jmovieTable.setModel(model);
+
+            jmovieTable.setAutoCreateRowSorter(true);
+            JTableHeader anHeader = jmovieTable.getTableHeader();
+            anHeader.setForeground(new java.awt.Color(187, 187, 187));
+            anHeader.setBackground(new java.awt.Color(75, 75, 75));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jSearchActionPerformed
 
     public static void main(String args[]) {
 
@@ -294,6 +370,8 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jSearch;
+    private javax.swing.JTextField jTextSearch;
     private javax.swing.JButton jaddDelete;
     private javax.swing.JButton jdelete;
     private javax.swing.JTable jmovieTable;
