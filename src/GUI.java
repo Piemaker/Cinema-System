@@ -1,5 +1,4 @@
 
-import com.sun.xml.internal.ws.streaming.XMLStreamReaderUtil;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -12,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -173,7 +173,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jrefresh1ActionPerformed
 
     private void jaddDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaddDeleteActionPerformed
-        try {
+       try {
             //button to refresh the data in the movie table
 
             stat = con.createStatement();
@@ -210,34 +210,48 @@ public class GUI extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        jmovieTable.setAutoCreateRowSorter(true);
+        JTableHeader anHeader = jmovieTable.getTableHeader();
+        anHeader.setForeground(new java.awt.Color(187, 187, 187));
+        anHeader.setBackground(new java.awt.Color(75, 75, 75));
     }//GEN-LAST:event_jaddDeleteActionPerformed
 
     private void jdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdeleteActionPerformed
-    //button to delete selected row without entering id works for id set to column 0
-    
-    //geting selected id value
-    //you have to typecast to String in order to parse int
-        int id =  Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(),0)); 
-      PreparedStatement mystatement;
-        try {
-            mystatement = con.prepareStatement("DELETE FROM movies WHERE id = ?");
-             mystatement.setInt(1, id);
-            mystatement.execute();
-              JOptionPane.showMessageDialog(null,
-                    "Success",
-                    "Successfully Added",
-                    JOptionPane.INFORMATION_MESSAGE);
+      //button to delete selected row without entering id works for id set to column 0
 
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        //geting selected id value
+        //you have to typecast to String in order to parse int
+        //try catch block for when no row is selected
+        try {
+
+            int id = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
+
+            PreparedStatement mystatement;
+            try {
+                mystatement = con.prepareStatement("DELETE FROM movies WHERE id = ?");
+                mystatement.setInt(1, id);
+                mystatement.execute();
+                JOptionPane.showMessageDialog(null,
+                        "Success",
+                        "Successfully Added",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null,
+                        "Enter a numeric rating",
+                        "Rating error",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null,
-                    "Enter a numeric rating",
-                    "Rating error",
+                    "Please select a row to delete",
+                    "Selection error",
                     JOptionPane.ERROR_MESSAGE);
-            
-        }
+        }            
+        
 
            
 
