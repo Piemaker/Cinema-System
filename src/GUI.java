@@ -32,6 +32,10 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
         getConnection();
+        JTableHeader anHeader = jmovieTable.getTableHeader();
+            anHeader.setForeground(new java.awt.Color(187, 187, 187));
+            anHeader.setBackground(new java.awt.Color(75, 75, 75));
+
     }
 
     // establishes connection with the DB
@@ -259,9 +263,7 @@ public class GUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         jmovieTable.setAutoCreateRowSorter(true);
-        JTableHeader anHeader = jmovieTable.getTableHeader();
-        anHeader.setForeground(new java.awt.Color(187, 187, 187));
-        anHeader.setBackground(new java.awt.Color(75, 75, 75));
+       
     }//GEN-LAST:event_jaddDeleteActionPerformed
 
     private void jdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdeleteActionPerformed
@@ -347,10 +349,7 @@ public class GUI extends javax.swing.JFrame {
             jmovieTable.setModel(model);
 
             jmovieTable.setAutoCreateRowSorter(true);
-            JTableHeader anHeader = jmovieTable.getTableHeader();
-            anHeader.setForeground(new java.awt.Color(187, 187, 187));
-            anHeader.setBackground(new java.awt.Color(75, 75, 75));
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }

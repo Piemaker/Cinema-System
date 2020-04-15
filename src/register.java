@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author OSM
@@ -27,18 +26,16 @@ public class register extends javax.swing.JFrame {
      */
     public register() {
         initComponents();
-          getConnection();
-         jPasswordFeild.setBackground(new java.awt.Color(0,0,0,1));
-        jTextName.setBackground(new java.awt.Color(0,0,0,1));
+        getConnection();
+        jPasswordFeild.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jTextName.setBackground(new java.awt.Color(0, 0, 0, 1));
     }
-                
 
-
-  Connection con;
+    Connection con;
     Statement stat;
     ResultSet res;
-    
-     void getConnection() {
+
+    void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -51,8 +48,8 @@ public class register extends javax.swing.JFrame {
         }
         System.out.println("connected");
     }
-     
-       public void close() {
+
+    public void close() {
 
         WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
@@ -177,7 +174,7 @@ public class register extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png")); // NOI18N
         jLabel2.setToolTipText("");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 560));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 560));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -208,7 +205,43 @@ public class register extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        // TODO add your handling code here:
+
+        try {
+
+            String name;
+            String password;
+
+            name = jTextName.getText();
+            password = jPasswordFeild.getText();
+
+            //check if any of the feilds are empty
+            if ((name.isEmpty() || name == null) || password.isEmpty() || password == null) {
+
+                JOptionPane.showMessageDialog(null,
+                        "Please fill both feilds",
+                        "Missing information",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+
+                PreparedStatement myStatement = con.prepareStatement("INSERT INTO users (id,name,password) VALUES (DEFAULT,?,?)");
+                myStatement.setString(1, name);
+                myStatement.setString(2, password);
+                myStatement.execute();
+
+                JOptionPane.showMessageDialog(null,
+                        "Successfully Registerd!",
+                        "Success",
+                        JOptionPane.DEFAULT_OPTION);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "User name is already taken.",
+                    "User name is taken",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_registerButtonActionPerformed
 
     /**
