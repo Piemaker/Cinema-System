@@ -63,7 +63,7 @@ public class registerLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -74,52 +74,48 @@ public class registerLogin extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jPasswordFeild = new javax.swing.JPasswordField();
         jTextName = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonRegister = new javax.swing.JButton();
         loginButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        loginButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(780, 560));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setPreferredSize(new java.awt.Dimension(765, 560));
+        setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(43, 43, 43));
-        jPanel1.setPreferredSize(new java.awt.Dimension(720, 480));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1276, 0, 6, -1));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Password");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Movie Choice");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, -1));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Don't have an account? register here.");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, -1, -1));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("User Name");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, -1, -1));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, -1, -1));
 
         jSeparator2.setBackground(new java.awt.Color(200, 200, 200));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 300, -1));
+        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 300, -1));
 
         jSeparator1.setBackground(new java.awt.Color(200, 200, 200));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 260, 30));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 260, 30));
 
         jSeparator3.setBackground(new java.awt.Color(200, 200, 200));
-        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, 290, 30));
+        jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, 290, 30));
 
         jSeparator4.setBackground(new java.awt.Color(200, 200, 200));
-        getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 290, -1));
+        jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 290, -1));
 
         jPasswordFeild.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
         jPasswordFeild.setForeground(new java.awt.Color(200, 200, 200));
@@ -136,7 +132,7 @@ public class registerLogin extends javax.swing.JFrame {
                 jPasswordFeildActionPerformed(evt);
             }
         });
-        getContentPane().add(jPasswordFeild, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 260, 20));
+        jPanel2.add(jPasswordFeild, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 260, 20));
 
         jTextName.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
         jTextName.setForeground(new java.awt.Color(200, 200, 200));
@@ -153,17 +149,17 @@ public class registerLogin extends javax.swing.JFrame {
                 jTextNameActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextName, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 260, 20));
+        jPanel2.add(jTextName, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 260, 20));
 
-        jButton1.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\Register.png")); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRegister.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\Register.png")); // NOI18N
+        jButtonRegister.setBorder(null);
+        jButtonRegister.setContentAreaFilled(false);
+        jButtonRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonRegisterActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 440, -1, -1));
+        jPanel2.add(jButtonRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 440, -1, -1));
 
         loginButton.setBackground(new java.awt.Color(255, 102, 0));
         loginButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -175,33 +171,29 @@ public class registerLogin extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 340, 180, 40));
+        jPanel2.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 340, 180, 40));
         loginButton.setContentAreaFilled(true);
         loginButton.setFocusPainted(false);
         loginButton.setBorderPainted(false);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\solid_color_bright_lines_18572_1920x1080.jpg")); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 390, 560));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 380, 560));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\popcorn_jxPqo7aS.jpg")); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 560));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 560));
 
-        loginButton1.setBackground(new java.awt.Color(255, 102, 0));
-        loginButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        loginButton1.setForeground(new java.awt.Color(200, 200, 200));
-        loginButton1.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\login.png")); // NOI18N
-        loginButton1.setText("Login");
-        loginButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(loginButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 340, 180, 40));
-        loginButton.setContentAreaFilled(true);
-        loginButton.setFocusPainted(false);
-        loginButton.setBorderPainted(false);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -227,15 +219,11 @@ public class registerLogin extends javax.swing.JFrame {
         jPasswordFeild.setText("");
     }//GEN-LAST:event_jPasswordFeildFocusGained
 
-    private void loginButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginButton1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisterActionPerformed
         close();
         register tableWindow = new register();
         tableWindow.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonRegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,14 +261,14 @@ public class registerLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonRegister;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordFeild;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -288,6 +276,5 @@ public class registerLogin extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTextField jTextName;
     private javax.swing.JButton loginButton;
-    private javax.swing.JButton loginButton1;
     // End of variables declaration//GEN-END:variables
 }
