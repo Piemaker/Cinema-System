@@ -31,7 +31,8 @@ public class GUI extends javax.swing.JFrame {
 
     public GUI() {
         initComponents();
-        getConnection();
+        getConnection(); 
+        //change color of jtable headers
         JTableHeader anHeader = jmovieTable.getTableHeader();
             anHeader.setForeground(new java.awt.Color(187, 187, 187));
             anHeader.setBackground(new java.awt.Color(75, 75, 75));
