@@ -20,13 +20,13 @@ import javax.swing.JOptionPane;
  *
  * @author OSM
  */
-public class addDelete extends javax.swing.JFrame {
+public class AddDeleteMovie extends javax.swing.JFrame {
 
     Connection con;
     Statement stat;
     ResultSet res;
 
-    public addDelete() {
+    public AddDeleteMovie() {
         initComponents();
         jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));
         jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));
@@ -208,7 +208,7 @@ public class addDelete extends javax.swing.JFrame {
 
     private void jbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbackActionPerformed
         close();
-        GUI tableWindow = new GUI();
+        MovieTable tableWindow = new MovieTable();
         tableWindow.setVisible(true);
     }//GEN-LAST:event_jbackActionPerformed
 
@@ -290,7 +290,7 @@ public class addDelete extends javax.swing.JFrame {
                     "Rating error",
                     JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(addDelete.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddDeleteMovie.class.getName()).log(Level.SEVERE, null, ex);
 
             JOptionPane.showMessageDialog(null,
                     "Unable to delete",
@@ -316,20 +316,21 @@ public class addDelete extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new addDelete().setVisible(true);
+                new AddDeleteMovie().setVisible(true);
             }
         });
     }

@@ -22,14 +22,14 @@ import javax.swing.table.JTableHeader;
  *
  * @author OSM
  */
-public class GUI extends javax.swing.JFrame {
+public class MovieTable extends javax.swing.JFrame {
 
     Connection con;
     Statement stat;
     ResultSet res;
     String[][] movieArray = new String[100][4];
 
-    public GUI() {
+    public MovieTable() {
         initComponents();
         getConnection(); 
         //change color of jtable headers
@@ -220,7 +220,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void jrefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrefresh1ActionPerformed
         close();
-        addDelete addDeleteWindow = new addDelete();
+        AddDeleteMovie addDeleteWindow = new AddDeleteMovie();
         addDeleteWindow.setVisible(true);
 
     }//GEN-LAST:event_jrefresh1ActionPerformed
@@ -288,7 +288,7 @@ public class GUI extends javax.swing.JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
 
             } catch (SQLException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MovieTable.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null,
                         "Enter a numeric rating",
                         "Rating error",
@@ -352,7 +352,7 @@ public class GUI extends javax.swing.JFrame {
             jmovieTable.setAutoCreateRowSorter(true);
             
         } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieTable.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jSearchActionPerformed
@@ -361,7 +361,7 @@ public class GUI extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI().setVisible(true);
+                new MovieTable().setVisible(true);
             }
         });
     }

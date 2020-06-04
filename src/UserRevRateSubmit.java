@@ -1,9 +1,11 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,21 +16,21 @@ import java.sql.Statement;
  *
  * @author OSM
  */
-public class UserRevRate extends javax.swing.JFrame {
-
-    Connection con;
-    Statement stat;
-    ResultSet res;
+public class UserRevRateSubmit extends javax.swing.JFrame {
 
     /**
      * Creates new form UserRevRate
      */
-    public UserRevRate() {
+    Connection con;
+    Statement stat;
+    ResultSet res;
+
+    int movieID = 3;//replace with id from movie table
+    int userID = 1;//replace with id of logged in user
+
+    public UserRevRateSubmit() {
         initComponents();
         getConnection();
-        //transparent background
-        jtextUserName.setBackground(new java.awt.Color(0, 0, 0, 1));
-        jtextUserRate.setBackground(new java.awt.Color(0, 0, 0, 1));
         jScrollPane1.setOpaque(false);
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setBorder(null);
@@ -67,12 +69,12 @@ public class UserRevRate extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabelReview = new javax.swing.JLabel();
         jLabelRate = new javax.swing.JLabel();
+        jComboBoxRate = new javax.swing.JComboBox<>();
         jSeparator8 = new javax.swing.JSeparator();
+        jSeparator6 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator7 = new javax.swing.JSeparator();
-        jButtonNextReview = new javax.swing.JButton();
-        jtextUserName = new javax.swing.JTextField();
-        jtextUserRate = new javax.swing.JTextField();
+        jButtonSubmit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaReview = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
@@ -83,16 +85,29 @@ public class UserRevRate extends javax.swing.JFrame {
 
         jLabelReview.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabelReview.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReview.setText("Review");
-        jPanel1.add(jLabelReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 190, 30));
+        jLabelReview.setText("Write Review");
+        jPanel1.add(jLabelReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 390, 30));
 
         jLabelRate.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabelRate.setForeground(new java.awt.Color(255, 255, 255));
         jLabelRate.setText("Rating:");
-        jPanel1.add(jLabelRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 140, 40));
+        jPanel1.add(jLabelRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 140, 40));
+
+        jComboBoxRate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jComboBoxRate.setForeground(new java.awt.Color(255, 255, 255));
+        jComboBoxRate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "(1) Appalling", "(2) Horrible", "(3) Very Bad", "(4) Bad", "(5) Average", "(6) Fine", "(7) Good", "(8) Very Good", "(9) Great", "(10) Masterpiece" }));
+        jComboBoxRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxRateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jComboBoxRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 170, -1));
 
         jSeparator8.setBackground(new java.awt.Color(200, 200, 200));
         jPanel1.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 400, -1));
+
+        jSeparator6.setBackground(new java.awt.Color(200, 200, 200));
+        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 400, 10));
 
         jSeparator5.setBackground(new java.awt.Color(200, 200, 200));
         jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 400, 10));
@@ -100,56 +115,35 @@ public class UserRevRate extends javax.swing.JFrame {
         jSeparator7.setBackground(new java.awt.Color(200, 200, 200));
         jPanel1.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 400, 10));
 
-        jButtonNextReview.setBackground(new java.awt.Color(115, 0, 0));
-        jButtonNextReview.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButtonNextReview.setForeground(new java.awt.Color(200, 200, 200));
-        jButtonNextReview.setText("Next Review");
-        jButtonNextReview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonNextReview.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSubmit.setBackground(new java.awt.Color(115, 0, 0));
+        jButtonSubmit.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButtonSubmit.setForeground(new java.awt.Color(200, 200, 200));
+        jButtonSubmit.setText("Submit");
+        jButtonSubmit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonNextReviewActionPerformed(evt);
+                jButtonSubmitActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonNextReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 520, 180, 40));
-
-        jtextUserName.setEditable(false);
-        jtextUserName.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jtextUserName.setForeground(new java.awt.Color(255, 255, 255));
-        jtextUserName.setText("User Name");
-        jtextUserName.setBorder(null);
-        jtextUserName.setOpaque(false);
-        jtextUserName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtextUserNameActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jtextUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 370, 30));
-
-        jtextUserRate.setEditable(false);
-        jtextUserRate.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jtextUserRate.setForeground(new java.awt.Color(255, 255, 255));
-        jtextUserRate.setText("10");
-        jtextUserRate.setBorder(null);
-        jtextUserRate.setOpaque(false);
-        jtextUserRate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtextUserRateActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jtextUserRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 50, 40));
+        jPanel1.add(jButtonSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 520, 180, 40));
 
         jScrollPane1.setFocusable(false);
         jScrollPane1.setOpaque(false);
 
         jTextAreaReview.setColumns(20);
-        jTextAreaReview.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jTextAreaReview.setFont(new java.awt.Font("Palatino Linotype", 3, 20)); // NOI18N
         jTextAreaReview.setForeground(new java.awt.Color(255, 255, 255));
+        jTextAreaReview.setLineWrap(true);
         jTextAreaReview.setRows(5);
-        jTextAreaReview.setText("The quick brown fox jumps over the lazy dog whatever now");
+        jTextAreaReview.setText("Your review here........");
         jTextAreaReview.setBorder(null);
-        jTextAreaReview.setFocusable(false);
         jTextAreaReview.setHighlighter(null);
         jTextAreaReview.setOpaque(false);
+        jTextAreaReview.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextAreaReviewFocusGained(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextAreaReview);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
@@ -173,17 +167,82 @@ public class UserRevRate extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonNextReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextReviewActionPerformed
+    private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
+        PreparedStatement myStatement;
+        int rate = jComboBoxRate.getSelectedIndex();
+        String review = jTextAreaReview.getText();
 
-    }//GEN-LAST:event_jButtonNextReviewActionPerformed
+        //check if user has selected a value other than the first value
+        if (rate == 0) {
+            JOptionPane.showMessageDialog(null,
+                    "Please select a rating",
+                    "Please select a value",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (review.equals("")) {
 
-    private void jtextUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextUserNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtextUserNameActionPerformed
+            JOptionPane.showMessageDialog(null,
+                    "Please write a review",
+                    "Empty review isn't accepeted",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-    private void jtextUserRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextUserRateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtextUserRateActionPerformed
+        }
+
+        if (rate != 0 && !review.equals("")) {
+
+            try {
+                //check if review already exists
+                myStatement = con.prepareStatement("SELECT movieid,userid FROM userreview WHERE  movieid = ? AND userid = ?");
+                myStatement.setInt(1, movieID);
+                myStatement.setInt(2, userID);
+                if (myStatement.execute()) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Review already exists",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+
+                } else {
+                    //insert rate into userrate table
+                    myStatement = con.prepareStatement("INSERT INTO userrating (id,movieid,userrating) VALUES(DEFAULT,?,?)");
+                    myStatement.setInt(1, movieID);
+                    myStatement.setInt(2, rate);
+                    myStatement.execute();
+                    //insert review into userreview table
+                    myStatement = con.prepareStatement("INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)");
+                    myStatement.setInt(1, movieID);
+                    myStatement.setInt(2, userID);
+                    myStatement.setString(3, review);
+                    myStatement.execute();
+                    
+                    JOptionPane.showMessageDialog(null,
+                    "Success!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+
+                JOptionPane.showMessageDialog(null,
+                        "Unable to submit",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+            
+        }
+
+
+    }//GEN-LAST:event_jButtonSubmitActionPerformed
+
+    private void jComboBoxRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRateActionPerformed
+
+
+    }//GEN-LAST:event_jComboBoxRateActionPerformed
+
+    private void jTextAreaReviewFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextAreaReviewFocusGained
+        jTextAreaReview.setText("");
+    }//GEN-LAST:event_jTextAreaReviewFocusGained
 
     /**
      * @param args the command line arguments
@@ -202,36 +261,37 @@ public class UserRevRate extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserRevRate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRevRateSubmit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserRevRate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRevRateSubmit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserRevRate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRevRateSubmit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserRevRate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRevRateSubmit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserRevRate().setVisible(true);
+                new UserRevRateSubmit().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonNextReview;
+    private javax.swing.JButton jButtonSubmit;
+    private javax.swing.JComboBox<String> jComboBoxRate;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabelRate;
     private javax.swing.JLabel jLabelReview;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JTextArea jTextAreaReview;
-    private javax.swing.JTextField jtextUserName;
-    private javax.swing.JTextField jtextUserRate;
     // End of variables declaration//GEN-END:variables
 }
