@@ -41,7 +41,7 @@ public class registerLogin extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "Mohab", "qwa220zxs18MN313");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -151,7 +151,6 @@ public class registerLogin extends javax.swing.JFrame {
         });
         jPanel2.add(jTextName, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 260, 20));
 
-        jButtonRegister.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\Register.png")); // NOI18N
         jButtonRegister.setBorder(null);
         jButtonRegister.setContentAreaFilled(false);
         jButtonRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -164,7 +163,6 @@ public class registerLogin extends javax.swing.JFrame {
         loginButton.setBackground(new java.awt.Color(255, 102, 0));
         loginButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         loginButton.setForeground(new java.awt.Color(200, 200, 200));
-        loginButton.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\login.png")); // NOI18N
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,11 +175,9 @@ public class registerLogin extends javax.swing.JFrame {
         loginButton.setBorderPainted(false);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\solid_color_bright_lines_18572_1920x1080.jpg")); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 380, 560));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\popcorn_jxPqo7aS.jpg")); // NOI18N
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 560));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
