@@ -25,8 +25,8 @@ public class UserRevRateSubmit extends javax.swing.JFrame {
     Statement stat;
     ResultSet res;
 
-    int movieID = 3;//replace with id from movie table
-    int userID = 1;//replace with id of logged in user
+    int movieID = 1;//replace with id from movie table
+    int userID = 16;//replace with id of logged in user
 
     public UserRevRateSubmit() {
         initComponents();
@@ -191,22 +191,39 @@ public class UserRevRateSubmit extends javax.swing.JFrame {
         if (rate != 0 && !review.equals("")) {
 
             try {
-                //check if review already exists
-                myStatement = con.prepareStatement("SELECT movieid,userid FROM userreview WHERE  movieid = ? AND userid = ?");
+                //check if review already exists by counting if a row exists
+
+                myStatement = con.prepareStatement("SELECT COUNT(*) FROM userreview  WHERE movieid = ? AND userid = ?");
                 myStatement.setInt(1, movieID);
                 myStatement.setInt(2, userID);
-                if (myStatement.execute()) {
+                res = myStatement.executeQuery();
+                res.next();
+                int count = res.getInt("COUNT(*)");
+                System.out.println(count);
+                if (count != 0) {
 
-                    JOptionPane.showMessageDialog(null,
-                            "Review already exists",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    myStatement = con.prepareStatement("UPDATE userrating SET userrating = ? WHERE movieid = ? AND userid = ?");
+                    myStatement.setInt(1, rate);
+                    myStatement.setInt(2, movieID);
+                    myStatement.setInt(3, userID);
+                    myStatement.execute();
+
+                    myStatement = con.prepareStatement("UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?");
+                    myStatement.setString(1, review);
+                    myStatement.setInt(2, movieID);
+                    myStatement.setInt(3, userID);
+                    myStatement.execute();
+                     JOptionPane.showMessageDialog(null,
+                            "Success!",
+                            "Review and rate have been updated.",
+                            JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
                     //insert rate into userrate table
-                    myStatement = con.prepareStatement("INSERT INTO userrating (id,movieid,userrating) VALUES(DEFAULT,?,?)");
+                    myStatement = con.prepareStatement("INSERT INTO userrating (id,movieid,userid,userrating) VALUES(DEFAULT,?,?,?)");
                     myStatement.setInt(1, movieID);
-                    myStatement.setInt(2, rate);
+                    myStatement.setInt(2, userID);
+                    myStatement.setInt(3, rate);
                     myStatement.execute();
                     //insert review into userreview table
                     myStatement = con.prepareStatement("INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)");
@@ -214,11 +231,11 @@ public class UserRevRateSubmit extends javax.swing.JFrame {
                     myStatement.setInt(2, userID);
                     myStatement.setString(3, review);
                     myStatement.execute();
-                    
+
                     JOptionPane.showMessageDialog(null,
-                    "Success!",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
+                            "Success!",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -229,7 +246,7 @@ public class UserRevRateSubmit extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
 
             }
-            
+
         }
 
 

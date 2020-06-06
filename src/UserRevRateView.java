@@ -1,6 +1,7 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,6 +20,24 @@ public class UserRevRateView extends javax.swing.JFrame {
     Connection con;
     Statement stat;
     ResultSet res;
+
+    int movieID = 3;//TODO replace with id from movie table
+    int userID = 1;//TODO replace with id of logged in user
+
+    //statment to fetch data of userRevRateView
+    PreparedStatement joinStatement;
+    PreparedStatement fetchNameStatement;
+
+    // variables passed from the view review button to the userRevRateVeiw 
+    int rate;
+    int uID;//change later to userID 
+    String review;
+    int count;// to count the number of reviews
+    int currentRevPage=0;
+    String name; //name of user
+    //result sets for the userRevRateView
+    ResultSet resJoin;
+    ResultSet resName;
 
     /**
      * Creates new form UserRevRate
@@ -66,10 +85,14 @@ public class UserRevRateView extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabelReview = new javax.swing.JLabel();
+        jLabelReviewCount = new javax.swing.JLabel();
+        jLabeCurrentReview = new javax.swing.JLabel();
+        jLabeSlash = new javax.swing.JLabel();
         jLabelRate = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator7 = new javax.swing.JSeparator();
+        jButtonViewReviews = new javax.swing.JButton();
         jButtonNextReview = new javax.swing.JButton();
         jtextUserName = new javax.swing.JTextField();
         jtextUserRate = new javax.swing.JTextField();
@@ -86,6 +109,21 @@ public class UserRevRateView extends javax.swing.JFrame {
         jLabelReview.setText("Review");
         jPanel1.add(jLabelReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 190, 30));
 
+        jLabelReviewCount.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabelReviewCount.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelReviewCount.setText("Max");
+        jPanel1.add(jLabelReviewCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 540, -1, 40));
+
+        jLabeCurrentReview.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabeCurrentReview.setForeground(new java.awt.Color(255, 255, 255));
+        jLabeCurrentReview.setText("1");
+        jPanel1.add(jLabeCurrentReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 540, -1, 40));
+
+        jLabeSlash.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabeSlash.setForeground(new java.awt.Color(255, 255, 255));
+        jLabeSlash.setText("/");
+        jPanel1.add(jLabeSlash, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 540, -1, 40));
+
         jLabelRate.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabelRate.setForeground(new java.awt.Color(255, 255, 255));
         jLabelRate.setText("Rating:");
@@ -100,6 +138,18 @@ public class UserRevRateView extends javax.swing.JFrame {
         jSeparator7.setBackground(new java.awt.Color(200, 200, 200));
         jPanel1.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 400, 10));
 
+        jButtonViewReviews.setBackground(new java.awt.Color(115, 0, 0));
+        jButtonViewReviews.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButtonViewReviews.setForeground(new java.awt.Color(200, 200, 200));
+        jButtonViewReviews.setText("View Reviews");
+        jButtonViewReviews.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonViewReviews.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonViewReviewsActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonViewReviews, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 510, 70, 40));
+
         jButtonNextReview.setBackground(new java.awt.Color(115, 0, 0));
         jButtonNextReview.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButtonNextReview.setForeground(new java.awt.Color(200, 200, 200));
@@ -110,7 +160,7 @@ public class UserRevRateView extends javax.swing.JFrame {
                 jButtonNextReviewActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonNextReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 520, 180, 40));
+        jPanel1.add(jButtonNextReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, 180, 40));
 
         jtextUserName.setEditable(false);
         jtextUserName.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -174,10 +224,6 @@ public class UserRevRateView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonNextReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextReviewActionPerformed
-
-    }//GEN-LAST:event_jButtonNextReviewActionPerformed
-
     private void jtextUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextUserNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtextUserNameActionPerformed
@@ -185,6 +231,90 @@ public class UserRevRateView extends javax.swing.JFrame {
     private void jtextUserRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextUserRateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtextUserRateActionPerformed
+
+    private void jButtonNextReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextReviewActionPerformed
+//button to get next user rate/review from global result variable resJoin and resName
+        try {
+            resJoin.next();
+            review = resJoin.getString("review");
+            rate = resJoin.getInt("userrating");
+            uID = resJoin.getInt("userid");
+
+            //set review,rate,count and currentRevPage
+            jTextAreaReview.setText(review);
+            jtextUserRate.setText(Integer.toString(rate));
+            if((currentRevPage+1) <= count){
+            jLabeCurrentReview.setText(Integer.toString(++currentRevPage));}
+
+            //this query has to be re written beacuse it depends on the value taken from the previous query
+            fetchNameStatement = con.prepareStatement("SELECT name FROM users WHERE id = ?");
+            fetchNameStatement.setInt(1, uID);
+            resName = fetchNameStatement.executeQuery();
+
+            //set name of user
+            resName.next();
+            name = resName.getString("name");
+            jtextUserName.setText(name);
+
+        } catch (SQLException e) {
+           
+            
+        }
+
+    }//GEN-LAST:event_jButtonNextReviewActionPerformed
+
+    private void jButtonViewReviewsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonViewReviewsActionPerformed
+        //button to view reviews of selected movie
+        //TODO get index of movie from movie table
+        //TODO place this button on the movieTable
+
+        try {
+            //join review table and rate table to get review,rate and userid
+            joinStatement = con.prepareStatement("SELECT userreview.review, userrating.userrating, userrating.userid"
+                    + " FROM userreview INNER JOIN userrating ON userrating.UserID = userreview.UserID"
+                    + " WHERE userrating.MovieID = ? AND userreview.MovieID = ?");
+            
+            joinStatement.setInt(1, movieID);
+            joinStatement.setInt(2, movieID);
+            resJoin = joinStatement.executeQuery();
+            resJoin.next();
+            review = resJoin.getString("review");
+            rate = resJoin.getInt("userrating");
+            uID = resJoin.getInt("userid");
+            
+            //get count of reviews
+            PreparedStatement getCount = con.prepareStatement("SELECT count(*) FROM userreview"
+                    + " INNER JOIN userrating ON userrating.UserID = userreview.UserID"
+                    + " WHERE userrating.MovieID = ? AND userreview.MovieID = ?");
+            getCount.setInt(1, movieID);
+            getCount.setInt(2, movieID);
+            res = getCount.executeQuery();
+            res.next();
+            count = res.getInt("COUNT(*)");
+            
+
+            //set review,rate,count and currentRevPage
+            jTextAreaReview.setText(review);
+            jtextUserRate.setText(Integer.toString(rate));
+            jLabelReviewCount.setText(Integer.toString(count));
+            currentRevPage =1;
+            jLabeCurrentReview.setText(Integer.toString(currentRevPage));
+
+            //get username from user table
+            fetchNameStatement = con.prepareStatement("SELECT name FROM users WHERE id = ?");
+            fetchNameStatement.setInt(1, uID);
+            resName = fetchNameStatement.executeQuery();
+
+            //set name of user
+            resName.next();
+            name = resName.getString("name");
+            jtextUserName.setText(name);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButtonViewReviewsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,9 +354,13 @@ public class UserRevRateView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonNextReview;
+    private javax.swing.JButton jButtonViewReviews;
+    private javax.swing.JLabel jLabeCurrentReview;
+    private javax.swing.JLabel jLabeSlash;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabelRate;
     private javax.swing.JLabel jLabelReview;
+    private javax.swing.JLabel jLabelReviewCount;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator5;
