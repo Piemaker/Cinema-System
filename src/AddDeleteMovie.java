@@ -20,14 +20,21 @@ import javax.swing.JOptionPane;
  *
  * @author OSM
  */
-public class addDelete extends javax.swing.JFrame {
+public class AddDeleteMovie extends javax.swing.JFrame {
 
     Connection con;
     Statement stat;
     ResultSet res;
 
-    public addDelete() {
+    public AddDeleteMovie() {
         initComponents();
+        jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));
+
+        jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));
+
+        jtextid.setBackground(new java.awt.Color(0, 0, 0, 1));
+
         getConnection();
     }
 
@@ -56,7 +63,11 @@ public class addDelete extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jback = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jSeparator5 = new javax.swing.JSeparator();
+        jSeparator6 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
         jtextname = new javax.swing.JTextField();
         jtextrating = new javax.swing.JTextField();
         jtextgenre = new javax.swing.JTextField();
@@ -69,42 +80,77 @@ public class addDelete extends javax.swing.JFrame {
         jtextid = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jadd = new javax.swing.JButton();
+        jback = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jback.setText("Back");
-        jback.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbackActionPerformed(evt);
-            }
-        });
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jSeparator5.setBackground(new java.awt.Color(200, 200, 200));
+        jPanel2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 320, 10));
+
+        jSeparator6.setBackground(new java.awt.Color(200, 200, 200));
+        jPanel2.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 320, 10));
+
+        jSeparator4.setBackground(new java.awt.Color(200, 200, 200));
+        jSeparator4.setForeground(new java.awt.Color(204, 204, 204));
+        jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 320, -1));
+
+        jSeparator3.setBackground(new java.awt.Color(200, 200, 200));
+        jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 320, -1));
+
+        jtextname.setForeground(new java.awt.Color(255, 255, 255));
+        jtextname.setBorder(null);
+        jtextname.setOpaque(false);
+        jPanel2.add(jtextname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 320, 20));
+
+        jtextrating.setForeground(new java.awt.Color(255, 255, 255));
+        jtextrating.setBorder(null);
+        jtextrating.setOpaque(false);
         jtextrating.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtextratingActionPerformed(evt);
             }
         });
+        jPanel2.add(jtextrating, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 320, 20));
 
+        jtextgenre.setForeground(new java.awt.Color(255, 255, 255));
+        jtextgenre.setBorder(null);
+        jtextgenre.setOpaque(false);
         jtextgenre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtextgenreActionPerformed(evt);
             }
         });
+        jPanel2.add(jtextgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 320, 20));
 
+        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("Genre");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 92, -1));
 
+        jLabel2.setBackground(new java.awt.Color(204, 204, 204));
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
         jLabel2.setText("Rating");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 92, -1));
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(204, 204, 204));
         jLabel3.setText("Name");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 92, -1));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel4.setText("DELETE Movie");
+        jLabel4.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel4.setText("Delete Movie");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, 48));
 
+        jdelete.setBackground(new java.awt.Color(115, 0, 0));
         jdelete.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jdelete.setForeground(new java.awt.Color(200, 200, 200));
         jdelete.setText("DELETE");
         jdelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jdelete.addActionListener(new java.awt.event.ActionListener() {
@@ -112,101 +158,57 @@ public class addDelete extends javax.swing.JFrame {
                 jdeleteActionPerformed(evt);
             }
         });
+        jPanel2.add(jdelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 470, 180, 40));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel5.setText("ADD Movie");
+        jLabel5.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel5.setText("Add Movie");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 16, 138, 73));
+
+        jtextid.setForeground(new java.awt.Color(255, 255, 255));
+        jtextid.setBorder(null);
+        jtextid.setOpaque(false);
+        jPanel2.add(jtextid, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 320, 20));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(204, 204, 204));
         jLabel6.setText("ID");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 92, -1));
 
+        jadd.setBackground(new java.awt.Color(115, 0, 0));
         jadd.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jadd.setForeground(new java.awt.Color(200, 200, 200));
         jadd.setText("ADD");
         jadd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jaddActionPerformed(evt);
             }
         });
+        jPanel2.add(jadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, 180, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtextname)
-                                    .addComponent(jtextgenre)
-                                    .addComponent(jtextrating, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtextid, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(jdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jback, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(37, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(186, Short.MAX_VALUE)
-                    .addComponent(jadd, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(132, 132, 132)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtextname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtextgenre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtextrating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(72, 72, 72)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtextid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(78, 78, 78))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jback, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(249, Short.MAX_VALUE)
-                    .addComponent(jadd, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(217, 217, 217)))
-        );
+        jback.setBackground(new java.awt.Color(115, 0, 0));
+        jback.setForeground(new java.awt.Color(200, 200, 200));
+        jback.setText("Back");
+        jback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbackActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jback, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 510, 90, 40));
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png")); // NOI18N
+        jLabel7.setToolTipText("");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 580));
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbackActionPerformed
         close();
-        GUI tableWindow = new GUI();
+        MovieTable tableWindow = new MovieTable();
         tableWindow.setVisible(true);
     }//GEN-LAST:event_jbackActionPerformed
 
@@ -288,7 +290,7 @@ public class addDelete extends javax.swing.JFrame {
                     "Rating error",
                     JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(addDelete.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddDeleteMovie.class.getName()).log(Level.SEVERE, null, ex);
 
             JOptionPane.showMessageDialog(null,
                     "Unable to delete",
@@ -314,20 +316,21 @@ public class addDelete extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addDelete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new addDelete().setVisible(true);
+                new AddDeleteMovie().setVisible(true);
             }
         });
     }
@@ -339,6 +342,12 @@ public class addDelete extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JButton jadd;
     private javax.swing.JButton jback;
     private javax.swing.JButton jdelete;

@@ -30,7 +30,7 @@ CREATE TABLE `movies` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `movies` (
 
 LOCK TABLES `movies` WRITE;
 /*!40000 ALTER TABLE `movies` DISABLE KEYS */;
-INSERT INTO `movies` VALUES (1,'Batman','Action',8),(2,'Spiderman','Action',7.5),(3,'Shrek','Comedy',7.5),(4,'The Lord of the Rings 1','Fantasy',9.3),(12,'The Matrix 2','Action',7.3),(13,'Parasite','Drama',8.3),(14,'Sonic','Adventure',7.5);
+INSERT INTO `movies` VALUES (1,'Batman','Action',8),(2,'Spiderman','Action',7.5),(3,'Shrek','Comedy',7.5),(4,'The Lord of the Rings 1','Fantasy',9.3),(12,'The Matrix 2','Action',7.3),(13,'Parasite','Drama',8.3),(14,'Sonic','Adventure',7.5),(15,'Yes Man!','Comedy',8);
 /*!40000 ALTER TABLE `movies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,11 +51,16 @@ DROP TABLE IF EXISTS `userrating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `userrating` (
+  `ID` int NOT NULL AUTO_INCREMENT,
   `MovieID` int NOT NULL,
-  `UserRating` double DEFAULT NULL,
+  `UserID` int NOT NULL,
+  `UserRating` int DEFAULT NULL,
+  PRIMARY KEY (`ID`),
   KEY `MovieID` (`MovieID`),
+  KEY `fk_useriduserreview` (`UserID`),
+  CONSTRAINT `fk_useriduserreview` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `userrating_ibfk_1` FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,6 +69,7 @@ CREATE TABLE `userrating` (
 
 LOCK TABLES `userrating` WRITE;
 /*!40000 ALTER TABLE `userrating` DISABLE KEYS */;
+INSERT INTO `userrating` VALUES (3,3,1,9),(4,3,9,7),(6,3,10,7),(7,1,10,10),(8,1,1,9),(11,1,16,8);
 /*!40000 ALTER TABLE `userrating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,11 +81,16 @@ DROP TABLE IF EXISTS `userreview`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `userreview` (
+  `ID` int NOT NULL AUTO_INCREMENT,
   `MovieID` int NOT NULL,
-  `Review` varchar(300) DEFAULT NULL,
+  `UserID` int NOT NULL,
+  `Review` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
   KEY `MovieID` (`MovieID`),
+  KEY `fk_user_id` (`UserID`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `userreview_ibfk_1` FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,6 +99,7 @@ CREATE TABLE `userreview` (
 
 LOCK TABLES `userreview` WRITE;
 /*!40000 ALTER TABLE `userreview` DISABLE KEYS */;
+INSERT INTO `userreview` VALUES (3,3,1,'Awesome!'),(4,3,9,'Good movie.'),(5,3,10,'Good.'),(6,1,10,'The best in the series!!!!'),(7,1,1,'The story and action are great.'),(8,1,16,':)');
 /*!40000 ALTER TABLE `userreview` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,4 +139,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-02 19:27:31
+-- Dump completed on 2020-06-06 17:38:15

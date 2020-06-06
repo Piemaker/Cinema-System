@@ -19,12 +19,12 @@ import javax.swing.JOptionPane;
  *
  * @author OSM
  */
-public class register extends javax.swing.JFrame {
+public class Registration extends javax.swing.JFrame {
 
     /**
      * Creates new form register
      */
-    public register() {
+    public Registration() {
         initComponents();
         getConnection();
         jPasswordFeild.setBackground(new java.awt.Color(0, 0, 0, 1));
@@ -66,32 +66,33 @@ public class register extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabelRegister = new javax.swing.JLabel();
+        jLabelUserName = new javax.swing.JLabel();
         jTextName = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        loginButton = new javax.swing.JButton();
-        registerButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jButtonLogin = new javax.swing.JButton();
+        jButtonRegiset = new javax.swing.JButton();
+        jLabelPassword = new javax.swing.JLabel();
         jPasswordFeild = new javax.swing.JPasswordField();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Register:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        jLabelRegister.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+        jLabelRegister.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelRegister.setText("Register:");
+        jPanel1.add(jLabelRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("User Name");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
+        jLabelUserName.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabelUserName.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelUserName.setText("User Name");
+        jPanel1.add(jLabelUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
 
         jTextName.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
         jTextName.setForeground(new java.awt.Color(200, 200, 200));
@@ -116,40 +117,40 @@ public class register extends javax.swing.JFrame {
         jSeparator3.setBackground(new java.awt.Color(200, 200, 200));
         jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 290, 30));
 
-        loginButton.setBackground(new java.awt.Color(115, 0, 0));
-        loginButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        loginButton.setForeground(new java.awt.Color(200, 200, 200));
-        loginButton.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\login.png")); // NOI18N
-        loginButton.setText("Login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLogin.setBackground(new java.awt.Color(115, 0, 0));
+        jButtonLogin.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButtonLogin.setForeground(new java.awt.Color(200, 200, 200));
+        jButtonLogin.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\login.png")); // NOI18N
+        jButtonLogin.setText("Login");
+        jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
+                jButtonLoginActionPerformed(evt);
             }
         });
-        jPanel1.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, 180, 40));
-        registerButton.setContentAreaFilled(true);
-        registerButton.setFocusPainted(false);
-        registerButton.setBorderPainted(false);
+        jPanel1.add(jButtonLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, 180, 40));
+        jButtonRegiset.setContentAreaFilled(true);
+        jButtonRegiset.setFocusPainted(false);
+        jButtonRegiset.setBorderPainted(false);
 
-        registerButton.setBackground(new java.awt.Color(115, 0, 0));
-        registerButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        registerButton.setForeground(new java.awt.Color(200, 200, 200));
-        registerButton.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\Register.png")); // NOI18N
-        registerButton.setText("Register");
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRegiset.setBackground(new java.awt.Color(115, 0, 0));
+        jButtonRegiset.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButtonRegiset.setForeground(new java.awt.Color(200, 200, 200));
+        jButtonRegiset.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\Register.png")); // NOI18N
+        jButtonRegiset.setText("Register");
+        jButtonRegiset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
+                jButtonRegisetActionPerformed(evt);
             }
         });
-        jPanel1.add(registerButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 450, 180, 40));
-        registerButton.setContentAreaFilled(true);
-        registerButton.setFocusPainted(false);
-        registerButton.setBorderPainted(false);
+        jPanel1.add(jButtonRegiset, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 450, 180, 40));
+        jButtonRegiset.setContentAreaFilled(true);
+        jButtonRegiset.setFocusPainted(false);
+        jButtonRegiset.setBorderPainted(false);
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Password");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, -1));
+        jLabelPassword.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPassword.setText("Password");
+        jPanel1.add(jLabelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, -1));
 
         jPasswordFeild.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
         jPasswordFeild.setForeground(new java.awt.Color(200, 200, 200));
@@ -198,13 +199,13 @@ public class register extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordFeildActionPerformed
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         close();
-        registerLogin registerLoginWindow = new registerLogin();
+        RegisterLoginWindow registerLoginWindow = new RegisterLoginWindow();
         registerLoginWindow.setVisible(true);
-    }//GEN-LAST:event_loginButtonActionPerformed
+    }//GEN-LAST:event_jButtonLoginActionPerformed
 
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+    private void jButtonRegisetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisetActionPerformed
 
         try {
 
@@ -242,7 +243,7 @@ public class register extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
 
-    }//GEN-LAST:event_registerButtonActionPerformed
+    }//GEN-LAST:event_jButtonRegisetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,36 +262,37 @@ public class register extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new register().setVisible(true);
+                new Registration().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButtonLogin;
+    private javax.swing.JButton jButtonRegiset;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelPassword;
+    private javax.swing.JLabel jLabelRegister;
+    private javax.swing.JLabel jLabelUserName;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordFeild;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTextField jTextName;
-    private javax.swing.JButton loginButton;
-    private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
 }
