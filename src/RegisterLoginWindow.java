@@ -89,6 +89,11 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         }
         return userType;
     }
+
+    public int getUserId()
+    {
+        return this.userId;
+    }
        
     /**
      * This method is called from within the constructor to initialize the form.
@@ -333,7 +338,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         });
     }
     
-    public int userId;
+    private int userId;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLogin;
