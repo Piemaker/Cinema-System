@@ -229,7 +229,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="G:\My Documents\NetBeansProjects\Cinema\Icons\gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"/>
+              <Image iconType="3" name="/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>

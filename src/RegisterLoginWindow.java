@@ -177,11 +177,11 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jButtonLogin.setBorderPainted(false);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\solid_color_bright_lines_18572_1920x1080.jpg")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/solid_color_bright_lines_18572_1920x1080.jpg"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 380, 560));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\popcorn_jxPqo7aS.jpg")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/popcorn_jxPqo7aS.jpg"))); // NOI18N
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 560));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
