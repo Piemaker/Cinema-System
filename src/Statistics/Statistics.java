@@ -27,6 +27,7 @@ public class Statistics {
         calc();
     }
 
+
     private void calc() {
         try {
             /* scan Genres */
@@ -38,24 +39,20 @@ public class Statistics {
                     Genres.put(xt.genre, (int) Genres.get(xt.genre) + 1);
                 }
             }
-            
+                GenreReport();
+            Genre_counter=Genres.size();
         } catch (SQLException ex) {
             Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-public Report GenreReport(){
+  
+public void GenreReport(){
 /*   report will be a separete function   */
-            Enumeration names = Genres.keys();
-            System.out.println("Geners : " + Genres.size());
-
-            String str;
-            while (names.hasMoreElements()) {
-                str = (String) names.nextElement();
+            
+            System.out.println("Number of Geners : " + Genres.size());
+            Genres.keySet().forEach((str) -> {
                 System.out.println(str + ": " + Genres.get(str));
-            }
-
-
+        });
 }
-    
     
 }

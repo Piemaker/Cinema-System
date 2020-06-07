@@ -28,7 +28,7 @@ public class Statistics_flow {
                 e.printStackTrace();
             }
             try {
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root","root");
+                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root","miko2099");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
