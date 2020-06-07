@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,8 +29,8 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         initComponents();
           getConnection();
         // make background transparent
-        jPasswordFeild.setBackground(new java.awt.Color(0,0,0,1));
-        jTextName.setBackground(new java.awt.Color(0,0,0,1));
+        userNameTf.setBackground(new java.awt.Color(0,0,0,1));
+        passTf.setBackground(new java.awt.Color(0,0,0,1));
     }
   Connection con;
     Statement stat;
@@ -41,7 +44,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,6 +57,38 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
 
     }
+       
+       
+       
+       
+       int verifyUser(String username, String password)
+    {
+        int userType = 1;
+        
+        try 
+        {
+           
+            stat = con.createStatement();
+             res = stat.executeQuery("SELECT Name,password FROM users");
+            while(res.next())
+            {
+                if((username.equals(res.getString("Name"))) && (password.equals("admin")))  
+                {
+                    userType = 100;  // 50 refers to regular user
+                }
+                else if((username.equals(res.getString("Name"))) && (password.equals(res.getString("password"))))
+                {
+                    userType = 50;   // 100 refers to admin user
+                }
+            }
+        }
+        catch(SQLException ex) 
+        {
+            Logger.getLogger(RegisterLoginWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userType;
+    }
+       
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -72,8 +107,8 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
-        jPasswordFeild = new javax.swing.JPasswordField();
-        jTextName = new javax.swing.JTextField();
+        userNameTf = new javax.swing.JTextField();
+        passTf = new javax.swing.JTextField();
         jButtonRegister = new javax.swing.JButton();
         jButtonLogin = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -117,41 +152,40 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jSeparator4.setBackground(new java.awt.Color(200, 200, 200));
         jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 290, -1));
 
-        jPasswordFeild.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
-        jPasswordFeild.setForeground(new java.awt.Color(200, 200, 200));
-        jPasswordFeild.setText("dafdaadafadfafa");
-        jPasswordFeild.setBorder(null);
-        jPasswordFeild.setOpaque(false);
-        jPasswordFeild.addFocusListener(new java.awt.event.FocusAdapter() {
+        userNameTf.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
+        userNameTf.setForeground(new java.awt.Color(200, 200, 200));
+        userNameTf.setText("Enter User Name");
+        userNameTf.setBorder(null);
+        userNameTf.setOpaque(false);
+        userNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jPasswordFeildFocusGained(evt);
+                userNameTfFocusGained(evt);
             }
         });
-        jPasswordFeild.addActionListener(new java.awt.event.ActionListener() {
+        userNameTf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordFeildActionPerformed(evt);
+                userNameTfActionPerformed(evt);
             }
         });
-        jPanel2.add(jPasswordFeild, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 260, 20));
+        jPanel2.add(userNameTf, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 260, 20));
 
-        jTextName.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
-        jTextName.setForeground(new java.awt.Color(200, 200, 200));
-        jTextName.setText("Enter User Name");
-        jTextName.setBorder(null);
-        jTextName.setOpaque(false);
-        jTextName.addFocusListener(new java.awt.event.FocusAdapter() {
+        passTf.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
+        passTf.setForeground(new java.awt.Color(200, 200, 200));
+        passTf.setText("Enter Password");
+        passTf.setBorder(null);
+        passTf.setOpaque(false);
+        passTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextNameFocusGained(evt);
+                passTfFocusGained(evt);
             }
         });
-        jTextName.addActionListener(new java.awt.event.ActionListener() {
+        passTf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextNameActionPerformed(evt);
+                passTfActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextName, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 260, 20));
+        jPanel2.add(passTf, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 260, 20));
 
-        jButtonRegister.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\Register.png")); // NOI18N
         jButtonRegister.setBorder(null);
         jButtonRegister.setContentAreaFilled(false);
         jButtonRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -164,7 +198,6 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jButtonLogin.setBackground(new java.awt.Color(255, 102, 0));
         jButtonLogin.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButtonLogin.setForeground(new java.awt.Color(200, 200, 200));
-        jButtonLogin.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\login.png")); // NOI18N
         jButtonLogin.setText("Login");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,11 +210,11 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jButtonLogin.setBorderPainted(false);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\solid_color_bright_lines_18572_1920x1080.jpg")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/167.jpg"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 380, 560));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\popcorn_jxPqo7aS.jpg")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/popcorn_jxPqo7aS.jpg"))); // NOI18N
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 560));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,30 +233,53 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
-        // TODO add your handling code here:
+        int verifiedUserType = 0;
+        String user,pass;
+        user = userNameTf.getText();
+        pass = passTf.getText();
+        verifiedUserType = verifyUser(user, pass);
+         if(verifiedUserType== 50)
+        {
+            FrameUI profile = new FrameUI();
+            profile.LoadControlPanel(profile.UserPanel, user, 50);
+            this.setVisible(false);
+            profile.setVisible(true);
+        }
+        else if(verifiedUserType == 100)
+        {
+            FrameUI profile = new FrameUI();
+            profile.LoadControlPanel(profile.adminPanel, user, 100);
+            this.setVisible(false);
+            profile.setVisible(true);
+        }
+         else
+        {
+            JOptionPane.showMessageDialog(null, "Wrong Username/Password", "Invalid Info", JOptionPane.ERROR_MESSAGE);
+        } 
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
-    private void jPasswordFeildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFeildActionPerformed
+    private void passTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passTfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordFeildActionPerformed
+    }//GEN-LAST:event_passTfActionPerformed
 
-    private void jTextNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextNameActionPerformed
-
-    private void jTextNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextNameFocusGained
-        jTextName.setText("");
-    }//GEN-LAST:event_jTextNameFocusGained
-
-    private void jPasswordFeildFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFeildFocusGained
-        jPasswordFeild.setText("");
-    }//GEN-LAST:event_jPasswordFeildFocusGained
+    private void passTfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passTfFocusGained
+        passTf.setText("");
+    }//GEN-LAST:event_passTfFocusGained
 
     private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisterActionPerformed
         close();
         Registration tableWindow = new Registration();
         tableWindow.setVisible(true);
+
     }//GEN-LAST:event_jButtonRegisterActionPerformed
+
+    private void userNameTfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userNameTfFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userNameTfFocusGained
+
+    private void userNameTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userNameTfActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,11 +327,11 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordFeild;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTextField jTextName;
+    private javax.swing.JTextField passTf;
+    private javax.swing.JTextField userNameTf;
     // End of variables declaration//GEN-END:variables
 }
