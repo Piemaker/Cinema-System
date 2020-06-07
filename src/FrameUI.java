@@ -1,6 +1,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -66,8 +69,43 @@ void getConnection() {
         }
        
         
-    }    
-    
+    }
+ 
+ 
+public void LoadPanel(JPanel panel)
+    {
+        contentBase.removeAll();
+        contentBase.add(panel);
+        contentBase.repaint();
+        contentBase.revalidate();
+    }         
+
+public void removePanels()
+{
+    contentBase.removeAll();
+}
+ public class costumPanel extends JPanel
+    {
+        private BufferedImage image;
+
+        public costumPanel() {
+            try 
+            {                
+                image = ImageIO.read(getClass().getResourceAsStream("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"));
+            } 
+            catch (Exception ex) 
+            {
+                System.out.println(ex.toString());
+            }
+    }
+        @Override
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, this);
+            
+        }
+    }
     
     
     /**
@@ -86,13 +124,24 @@ void getConnection() {
         Statistics = new javax.swing.JButton();
         signOutButton = new javax.swing.JButton();
         adminNameL = new javax.swing.JLabel();
+        AddDeleteMovieB = new javax.swing.JButton();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
         movieTableButton = new javax.swing.JButton();
         signOutButton1 = new javax.swing.JButton();
         userNameL = new javax.swing.JLabel();
+        revRateViewB = new javax.swing.JButton();
+        revRateSubmitB = new javax.swing.JButton();
         secondaryPanel = new javax.swing.JPanel();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
+        contentBase = new javax.swing.JLayeredPane();
+        backGroundP = new javax.swing.JPanel();
+        addDeleteMovieP = new costumPanel();
+        backGroundPa = new javax.swing.JPanel();
+        movieTableP = new javax.swing.JPanel();
+        backGroundP1 = new javax.swing.JPanel();
+        reviewRatingSubmitP = new costumPanel();
+        backGroundP2 = new javax.swing.JPanel();
+        reviewRatingViewP = new costumPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,6 +173,14 @@ void getConnection() {
         adminNameL.setForeground(new java.awt.Color(255, 255, 255));
         adminNameL.setText("Admin name");
 
+        AddDeleteMovieB.setBackground(new java.awt.Color(255, 153, 0));
+        AddDeleteMovieB.setText("Add/Delete Movie");
+        AddDeleteMovieB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddDeleteMovieBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
         adminPanel.setLayout(adminPanelLayout);
         adminPanelLayout.setHorizontalGroup(
@@ -138,7 +195,8 @@ void getConnection() {
                         .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Statistics, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddDeleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         adminPanelLayout.setVerticalGroup(
@@ -148,11 +206,13 @@ void getConnection() {
                 .addComponent(adminIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addGap(48, 48, 48)
+                .addComponent(AddDeleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(Statistics, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(211, Short.MAX_VALUE))
         );
 
         base1.add(adminPanel, "card3");
@@ -181,6 +241,22 @@ void getConnection() {
         userNameL.setForeground(new java.awt.Color(255, 255, 255));
         userNameL.setText("Username");
 
+        revRateViewB.setBackground(new java.awt.Color(255, 153, 0));
+        revRateViewB.setText("Review/Rating view");
+        revRateViewB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revRateViewBActionPerformed(evt);
+            }
+        });
+
+        revRateSubmitB.setBackground(new java.awt.Color(255, 153, 0));
+        revRateSubmitB.setText("Review/Rating submit");
+        revRateSubmitB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revRateSubmitBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout UserPanelLayout = new javax.swing.GroupLayout(UserPanel);
         UserPanel.setLayout(UserPanelLayout);
         UserPanelLayout.setHorizontalGroup(
@@ -192,6 +268,8 @@ void getConnection() {
             .addGroup(UserPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(movieTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -206,26 +284,156 @@ void getConnection() {
                 .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addComponent(movieTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(11, 11, 11)
+                .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addContainerGap(174, Short.MAX_VALUE))
         );
 
         base1.add(UserPanel, "card2");
 
         secondaryPanel.setBackground(new java.awt.Color(255, 255, 0));
 
-        jLayeredPane1.setLayout(new java.awt.CardLayout());
+        contentBase.setLayout(new java.awt.CardLayout());
+
+        backGroundP.setBackground(new java.awt.Color(51, 255, 204));
+
+        javax.swing.GroupLayout addDeleteMoviePLayout = new javax.swing.GroupLayout(addDeleteMovieP);
+        addDeleteMovieP.setLayout(addDeleteMoviePLayout);
+        addDeleteMoviePLayout.setHorizontalGroup(
+            addDeleteMoviePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        addDeleteMoviePLayout.setVerticalGroup(
+            addDeleteMoviePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 580, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout backGroundPLayout = new javax.swing.GroupLayout(backGroundP);
+        backGroundP.setLayout(backGroundPLayout);
+        backGroundPLayout.setHorizontalGroup(
+            backGroundPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundPLayout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(addDeleteMovieP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(101, Short.MAX_VALUE))
+        );
+        backGroundPLayout.setVerticalGroup(
+            backGroundPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundPLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addDeleteMovieP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        contentBase.add(backGroundP, "card2");
+
+        backGroundPa.setBackground(new java.awt.Color(153, 153, 0));
+
+        javax.swing.GroupLayout movieTablePLayout = new javax.swing.GroupLayout(movieTableP);
+        movieTableP.setLayout(movieTablePLayout);
+        movieTablePLayout.setHorizontalGroup(
+            movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 570, Short.MAX_VALUE)
+        );
+        movieTablePLayout.setVerticalGroup(
+            movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 564, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout backGroundPaLayout = new javax.swing.GroupLayout(backGroundPa);
+        backGroundPa.setLayout(backGroundPaLayout);
+        backGroundPaLayout.setHorizontalGroup(
+            backGroundPaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundPaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(movieTableP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        backGroundPaLayout.setVerticalGroup(
+            backGroundPaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundPaLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(movieTableP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        contentBase.add(backGroundPa, "card3");
+
+        javax.swing.GroupLayout reviewRatingSubmitPLayout = new javax.swing.GroupLayout(reviewRatingSubmitP);
+        reviewRatingSubmitP.setLayout(reviewRatingSubmitPLayout);
+        reviewRatingSubmitPLayout.setHorizontalGroup(
+            reviewRatingSubmitPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        reviewRatingSubmitPLayout.setVerticalGroup(
+            reviewRatingSubmitPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 580, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout backGroundP1Layout = new javax.swing.GroupLayout(backGroundP1);
+        backGroundP1.setLayout(backGroundP1Layout);
+        backGroundP1Layout.setHorizontalGroup(
+            backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundP1Layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(97, Short.MAX_VALUE))
+        );
+        backGroundP1Layout.setVerticalGroup(
+            backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundP1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        contentBase.add(backGroundP1, "card4");
+
+        backGroundP2.setBackground(new java.awt.Color(204, 204, 255));
+
+        javax.swing.GroupLayout reviewRatingViewPLayout = new javax.swing.GroupLayout(reviewRatingViewP);
+        reviewRatingViewP.setLayout(reviewRatingViewPLayout);
+        reviewRatingViewPLayout.setHorizontalGroup(
+            reviewRatingViewPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        reviewRatingViewPLayout.setVerticalGroup(
+            reviewRatingViewPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 580, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout backGroundP2Layout = new javax.swing.GroupLayout(backGroundP2);
+        backGroundP2.setLayout(backGroundP2Layout);
+        backGroundP2Layout.setHorizontalGroup(
+            backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundP2Layout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(96, Short.MAX_VALUE))
+        );
+        backGroundP2Layout.setVerticalGroup(
+            backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundP2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        contentBase.add(backGroundP2, "card5");
 
         javax.swing.GroupLayout secondaryPanelLayout = new javax.swing.GroupLayout(secondaryPanel);
         secondaryPanel.setLayout(secondaryPanelLayout);
         secondaryPanelLayout.setHorizontalGroup(
             secondaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+            .addComponent(contentBase, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         secondaryPanelLayout.setVerticalGroup(
             secondaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1)
+            .addComponent(contentBase)
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -258,7 +466,7 @@ void getConnection() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void movieTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieTableButtonActionPerformed
-        // TODO add your handling code here:
+        this.LoadPanel(backGroundPa);
     }//GEN-LAST:event_movieTableButtonActionPerformed
 
     private void StatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatisticsActionPerformed
@@ -276,6 +484,18 @@ void getConnection() {
         this.setVisible(false);
         loginFrame.setVisible(true);
     }//GEN-LAST:event_signOutButton1ActionPerformed
+
+    private void AddDeleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDeleteMovieBActionPerformed
+        this.LoadPanel(backGroundP);
+    }//GEN-LAST:event_AddDeleteMovieBActionPerformed
+
+    private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
+        this.LoadPanel(backGroundP2);
+    }//GEN-LAST:event_revRateViewBActionPerformed
+
+    private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
+       this.LoadPanel(backGroundP1);
+    }//GEN-LAST:event_revRateSubmitBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,15 +533,26 @@ void getConnection() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddDeleteMovieB;
     private javax.swing.JButton Statistics;
     public javax.swing.JPanel UserPanel;
+    private javax.swing.JPanel addDeleteMovieP;
     private javax.swing.JLabel adminIcon;
     private javax.swing.JLabel adminNameL;
     public javax.swing.JPanel adminPanel;
+    public javax.swing.JPanel backGroundP;
+    private javax.swing.JPanel backGroundP1;
+    private javax.swing.JPanel backGroundP2;
+    public javax.swing.JPanel backGroundPa;
     private javax.swing.JLayeredPane base1;
-    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JLayeredPane contentBase;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton movieTableButton;
+    private javax.swing.JPanel movieTableP;
+    private javax.swing.JButton revRateSubmitB;
+    private javax.swing.JButton revRateViewB;
+    private javax.swing.JPanel reviewRatingSubmitP;
+    private javax.swing.JPanel reviewRatingViewP;
     private javax.swing.JPanel secondaryPanel;
     private javax.swing.JButton signOutButton;
     private javax.swing.JButton signOutButton1;

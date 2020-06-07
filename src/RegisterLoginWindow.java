@@ -30,7 +30,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
           getConnection();
         // make background transparent
         userNameTf.setBackground(new java.awt.Color(0,0,0,1));
-        passTf.setBackground(new java.awt.Color(0,0,0,1));
+        passPf.setBackground(new java.awt.Color(0,0,0,1));
     }
   Connection con;
     Statement stat;
@@ -69,16 +69,17 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         {
            
             stat = con.createStatement();
-             res = stat.executeQuery("SELECT Name,password FROM users");
+             res = stat.executeQuery("SELECT ID, Name, password FROM users");
             while(res.next())
             {
                 if((username.equals(res.getString("Name"))) && (password.equals("admin")))  
                 {
-                    userType = 100;  // 50 refers to regular user
+                    userType = 100;  // 100 refers to regular user
                 }
                 else if((username.equals(res.getString("Name"))) && (password.equals(res.getString("password"))))
                 {
-                    userType = 50;   // 100 refers to admin user
+                    userType = 50;   // 50 refers to admin user
+                    userId = res.getInt("ID");
                 }
             }
         }
@@ -108,7 +109,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         userNameTf = new javax.swing.JTextField();
-        passTf = new javax.swing.JTextField();
+        passPf = new javax.swing.JPasswordField();
         jButtonRegister = new javax.swing.JButton();
         jButtonLogin = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -133,6 +134,11 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jLabelRegister.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabelRegister.setForeground(new java.awt.Color(255, 255, 255));
         jLabelRegister.setText("Don't have an account? register here.");
+        jLabelRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelRegisterMouseClicked(evt);
+            }
+        });
         jPanel2.add(jLabelRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, -1, -1));
 
         jLabelUserName.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
@@ -155,6 +161,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         userNameTf.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
         userNameTf.setForeground(new java.awt.Color(200, 200, 200));
         userNameTf.setText("Enter User Name");
+        userNameTf.setToolTipText("Enter Username");
         userNameTf.setBorder(null);
         userNameTf.setOpaque(false);
         userNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -169,22 +176,23 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         });
         jPanel2.add(userNameTf, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 260, 20));
 
-        passTf.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
-        passTf.setForeground(new java.awt.Color(200, 200, 200));
-        passTf.setText("Enter Password");
-        passTf.setBorder(null);
-        passTf.setOpaque(false);
-        passTf.addFocusListener(new java.awt.event.FocusAdapter() {
+        passPf.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
+        passPf.setForeground(new java.awt.Color(200, 200, 200));
+        passPf.setText("dafdaadafadfafa");
+        passPf.setToolTipText("Enter Password");
+        passPf.setBorder(null);
+        passPf.setOpaque(false);
+        passPf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                passTfFocusGained(evt);
+                passPfFocusGained(evt);
             }
         });
-        passTf.addActionListener(new java.awt.event.ActionListener() {
+        passPf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passTfActionPerformed(evt);
+                passPfActionPerformed(evt);
             }
         });
-        jPanel2.add(passTf, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 260, 20));
+        jPanel2.add(passPf, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 260, 20));
 
         jButtonRegister.setBorder(null);
         jButtonRegister.setContentAreaFilled(false);
@@ -236,12 +244,13 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         int verifiedUserType = 0;
         String user,pass;
         user = userNameTf.getText();
-        pass = passTf.getText();
+        pass = passPf.getText();
         verifiedUserType = verifyUser(user, pass);
          if(verifiedUserType== 50)
         {
             FrameUI profile = new FrameUI();
             profile.LoadControlPanel(profile.UserPanel, user, 50);
+            profile.removePanels();
             this.setVisible(false);
             profile.setVisible(true);
         }
@@ -249,6 +258,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         {
             FrameUI profile = new FrameUI();
             profile.LoadControlPanel(profile.adminPanel, user, 100);
+            profile.removePanels();
             this.setVisible(false);
             profile.setVisible(true);
         }
@@ -258,14 +268,6 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
-    private void passTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passTfActionPerformed
-
-    private void passTfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passTfFocusGained
-        passTf.setText("");
-    }//GEN-LAST:event_passTfFocusGained
-
     private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisterActionPerformed
         close();
         Registration tableWindow = new Registration();
@@ -274,12 +276,26 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRegisterActionPerformed
 
     private void userNameTfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userNameTfFocusGained
-        // TODO add your handling code here:
+        userNameTf.setText("");
     }//GEN-LAST:event_userNameTfFocusGained
 
     private void userNameTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userNameTfActionPerformed
+
+    private void passPfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passPfFocusGained
+        passPf.setText("");
+    }//GEN-LAST:event_passPfFocusGained
+
+    private void passPfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passPfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passPfActionPerformed
+
+    private void jLabelRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRegisterMouseClicked
+        Registration r = new Registration();
+        this.setVisible(false);
+        r.setVisible(true);
+    }//GEN-LAST:event_jLabelRegisterMouseClicked
 
     /**
      * @param args the command line arguments
@@ -316,6 +332,8 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
             }
         });
     }
+    
+    public int userId;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLogin;
@@ -331,7 +349,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTextField passTf;
+    private javax.swing.JPasswordField passPf;
     private javax.swing.JTextField userNameTf;
     // End of variables declaration//GEN-END:variables
 }

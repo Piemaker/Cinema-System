@@ -197,7 +197,7 @@ public class AddDeleteMovie extends javax.swing.JFrame {
         jPanel2.add(jback, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 510, 90, 40));
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png")); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel7.setToolTipText("");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 580));
 

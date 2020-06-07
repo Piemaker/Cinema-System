@@ -42,7 +42,7 @@ public class Registration extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -173,7 +173,7 @@ public class Registration extends javax.swing.JFrame {
         jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 290, -1));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel2.setToolTipText("");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 560));
 
@@ -233,7 +233,7 @@ public class Registration extends javax.swing.JFrame {
                         "Successfully Registerd!",
                         "Success",
                         JOptionPane.DEFAULT_OPTION);
-
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
