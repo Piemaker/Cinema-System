@@ -16,7 +16,7 @@ import java.sql.*;
                 e.printStackTrace();
             }
             try {
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root","root");
+                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

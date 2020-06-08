@@ -42,7 +42,7 @@ public class Registration extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -233,7 +233,7 @@ public class Registration extends javax.swing.JFrame {
                         "Successfully Registerd!",
                         "Success",
                         JOptionPane.DEFAULT_OPTION);
-
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
