@@ -109,15 +109,19 @@ final void initializations()
         base1.add(panel);
         base1.repaint();
         base1.revalidate();
-        if(userType == 50)
+        if(userType == 50)  // 50 refers to regular user
         {
             userNameL.setText("Username: "+username);
             userIdL.setText("User ID: "+id);
+            addDeleteB.setVisible(false);
+            deleteMovieB.setVisible(false);
         }
-        else if(userType == 100)
+        else if(userType == 100) // 100 refers to admin user
         {
-             adminNameL.setText("Adminname: "+username);
-              adminIdL.setText("Admin ID: "+id);
+            adminNameL.setText("Adminname: "+username);
+            adminIdL.setText("Admin ID: "+id);
+            revRateSubmitB.setVisible(false);
+            revRateViewB.setVisible(false);
         }
        
         
@@ -181,14 +185,13 @@ public void removePanels()
         base1 = new javax.swing.JLayeredPane();
         adminPanel = new javax.swing.JPanel();
         adminIcon = new javax.swing.JLabel();
-        Statistics = new javax.swing.JButton();
+        moviesTableBa = new javax.swing.JButton();
         signOutButton = new javax.swing.JButton();
         adminNameL = new javax.swing.JLabel();
-        AddDeleteMovieB = new javax.swing.JButton();
         adminIdL = new javax.swing.JLabel();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
-        movieTableButton = new javax.swing.JButton();
+        moviesTableB = new javax.swing.JButton();
         signOutButton1 = new javax.swing.JButton();
         userNameL = new javax.swing.JLabel();
         userIdL = new javax.swing.JLabel();
@@ -199,8 +202,8 @@ public void removePanels()
         jScrollPane3 = new javax.swing.JScrollPane();
         jmovieTable = new javax.swing.JTable();
         jaddDelete = new javax.swing.JButton();
-        jrefresh1 = new javax.swing.JButton();
-        jdelete1 = new javax.swing.JButton();
+        addDeleteB = new javax.swing.JButton();
+        deleteMovieB = new javax.swing.JButton();
         jTextSearch = new javax.swing.JTextField();
         jSearch = new javax.swing.JButton();
         revRateViewB = new javax.swing.JButton();
@@ -265,11 +268,11 @@ public void removePanels()
 
         adminIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin.png"))); // NOI18N
 
-        Statistics.setBackground(new java.awt.Color(255, 153, 0));
-        Statistics.setText("Statistics");
-        Statistics.addActionListener(new java.awt.event.ActionListener() {
+        moviesTableBa.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableBa.setText("Movies Table");
+        moviesTableBa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StatisticsActionPerformed(evt);
+                moviesTableBaActionPerformed(evt);
             }
         });
 
@@ -284,14 +287,6 @@ public void removePanels()
         adminNameL.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         adminNameL.setForeground(new java.awt.Color(255, 255, 255));
         adminNameL.setText("Admin name");
-
-        AddDeleteMovieB.setBackground(new java.awt.Color(255, 153, 0));
-        AddDeleteMovieB.setText("Add/Delete Movie");
-        AddDeleteMovieB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddDeleteMovieBActionPerformed(evt);
-            }
-        });
 
         adminIdL.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         adminIdL.setForeground(new java.awt.Color(255, 255, 255));
@@ -310,8 +305,7 @@ public void removePanels()
                         .addGap(23, 23, 23)
                         .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Statistics, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AddDeleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(adminPanelLayout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -328,10 +322,8 @@ public void removePanels()
                 .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(AddDeleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Statistics, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(211, Short.MAX_VALUE))
@@ -343,11 +335,11 @@ public void removePanels()
 
         userIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Userm.png"))); // NOI18N
 
-        movieTableButton.setBackground(new java.awt.Color(255, 153, 0));
-        movieTableButton.setText("Movies Table");
-        movieTableButton.addActionListener(new java.awt.event.ActionListener() {
+        moviesTableB.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableB.setText("Movies Table");
+        moviesTableB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                movieTableButtonActionPerformed(evt);
+                moviesTableBActionPerformed(evt);
             }
         });
 
@@ -379,7 +371,7 @@ public void removePanels()
                 .addGap(23, 23, 23)
                 .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(movieTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(UserPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,7 +389,7 @@ public void removePanels()
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
-                .addComponent(movieTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(99, 99, 99)
                 .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(174, Short.MAX_VALUE))
@@ -456,22 +448,22 @@ public void removePanels()
             }
         });
 
-        jrefresh1.setBackground(new java.awt.Color(75, 75, 75));
-        jrefresh1.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jrefresh1.setForeground(new java.awt.Color(200, 200, 200));
-        jrefresh1.setText("Add/Delete Movie");
-        jrefresh1.addActionListener(new java.awt.event.ActionListener() {
+        addDeleteB.setBackground(new java.awt.Color(75, 75, 75));
+        addDeleteB.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        addDeleteB.setForeground(new java.awt.Color(200, 200, 200));
+        addDeleteB.setText("Add/Delete Movie");
+        addDeleteB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrefresh1ActionPerformed(evt);
+                addDeleteBActionPerformed(evt);
             }
         });
 
-        jdelete1.setBackground(new java.awt.Color(75, 75, 75));
-        jdelete1.setForeground(new java.awt.Color(200, 200, 200));
-        jdelete1.setText("Delete Selected");
-        jdelete1.addActionListener(new java.awt.event.ActionListener() {
+        deleteMovieB.setBackground(new java.awt.Color(75, 75, 75));
+        deleteMovieB.setForeground(new java.awt.Color(200, 200, 200));
+        deleteMovieB.setText("Delete Selected");
+        deleteMovieB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jdelete1ActionPerformed(evt);
+                deleteMovieBActionPerformed(evt);
             }
         });
 
@@ -521,9 +513,9 @@ public void removePanels()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jaddDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jrefresh1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addDeleteB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(revRateViewB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jdelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         movieTablePLayout.setVerticalGroup(
@@ -545,9 +537,9 @@ public void removePanels()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jrefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addDeleteB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jdelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
@@ -927,13 +919,13 @@ public void removePanels()
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void movieTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieTableButtonActionPerformed
+    private void moviesTableBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBActionPerformed
         this.LoadPanel(backGroundP);
-    }//GEN-LAST:event_movieTableButtonActionPerformed
+    }//GEN-LAST:event_moviesTableBActionPerformed
 
-    private void StatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatisticsActionPerformed
-
-    }//GEN-LAST:event_StatisticsActionPerformed
+    private void moviesTableBaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBaActionPerformed
+        this.LoadPanel(backGroundP);
+    }//GEN-LAST:event_moviesTableBaActionPerformed
 
     private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
         RegisterLoginWindow loginFrame = new RegisterLoginWindow();
@@ -946,10 +938,6 @@ public void removePanels()
         this.setVisible(false);
         loginFrame.setVisible(true);
     }//GEN-LAST:event_signOutButton1ActionPerformed
-
-    private void AddDeleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDeleteMovieBActionPerformed
-        this.LoadPanel(backGroundPa);
-    }//GEN-LAST:event_AddDeleteMovieBActionPerformed
 
     private void jtextratingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextratingActionPerformed
         // TODO add your handling code here:
@@ -1079,13 +1067,11 @@ public void removePanels()
 
     }//GEN-LAST:event_jaddDeleteActionPerformed
 
-    private void jrefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrefresh1ActionPerformed
-        close();
-        AddDeleteMovie addDeleteWindow = new AddDeleteMovie();
-        addDeleteWindow.setVisible(true);
-    }//GEN-LAST:event_jrefresh1ActionPerformed
+    private void addDeleteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDeleteBActionPerformed
+        this.LoadPanel(backGroundPa);
+    }//GEN-LAST:event_addDeleteBActionPerformed
 
-    private void jdelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdelete1ActionPerformed
+    private void deleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMovieBActionPerformed
         //button to delete selected row without entering id works for id set to column 0
 
         //geting selected id value
@@ -1121,7 +1107,7 @@ public void removePanels()
                 JOptionPane.ERROR_MESSAGE);
         }
 
-    }//GEN-LAST:event_jdelete1ActionPerformed
+    }//GEN-LAST:event_deleteMovieBActionPerformed
 
     private void jTextSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSearchActionPerformed
         // TODO add your handling code here:
@@ -1174,11 +1160,11 @@ public void removePanels()
     }//GEN-LAST:event_jSearchActionPerformed
 
     private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
-        // TODO add your handling code here:
+        this.LoadPanel(backGroundP2);
     }//GEN-LAST:event_revRateViewBActionPerformed
 
     private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
-        // TODO add your handling code here:
+        this.LoadPanel(backGroundP1);
     }//GEN-LAST:event_revRateSubmitBActionPerformed
 
     /**
@@ -1217,9 +1203,8 @@ public void removePanels()
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddDeleteMovieB;
-    private javax.swing.JButton Statistics;
     public javax.swing.JPanel UserPanel;
+    private javax.swing.JButton addDeleteB;
     private javax.swing.JPanel addDeleteMoviesP;
     private javax.swing.JLabel adminIcon;
     private javax.swing.JLabel adminIdL;
@@ -1231,6 +1216,7 @@ public void removePanels()
     public javax.swing.JPanel backGroundPa;
     private javax.swing.JLayeredPane base1;
     private javax.swing.JLayeredPane contentBase;
+    private javax.swing.JButton deleteMovieB;
     private javax.swing.JButton jButtonNextReview;
     private javax.swing.JButton jButtonSubmit;
     private javax.swing.JButton jButtonViewReviews;
@@ -1272,9 +1258,7 @@ public void removePanels()
     private javax.swing.JButton jadd;
     private javax.swing.JButton jaddDelete;
     private javax.swing.JButton jdelete;
-    private javax.swing.JButton jdelete1;
     private javax.swing.JTable jmovieTable;
-    private javax.swing.JButton jrefresh1;
     private javax.swing.JTextField jtextUserName;
     private javax.swing.JTextField jtextUserRate;
     private javax.swing.JTextField jtextgenre;
@@ -1282,8 +1266,9 @@ public void removePanels()
     private javax.swing.JTextField jtextname;
     private javax.swing.JTextField jtextrating;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton movieTableButton;
     private javax.swing.JPanel movieTableP;
+    private javax.swing.JButton moviesTableB;
+    private javax.swing.JButton moviesTableBa;
     private javax.swing.JButton revRateSubmitB;
     private javax.swing.JButton revRateViewB;
     private javax.swing.JPanel reviewRatingSubmitP;
