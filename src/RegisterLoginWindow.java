@@ -63,22 +63,17 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
        
        int verifyUser(String username, String password)
     {
-        int userType = 1;
+        int userId = 0 ;
         
         try 
         {
            
-            stat = con.createStatement();
+             stat = con.createStatement();
              res = stat.executeQuery("SELECT ID, Name, password FROM users");
             while(res.next())
             {
-                if((username.equals(res.getString("Name"))) && (password.equals("admin")))  
+                if((username.equals(res.getString("Name"))) && (password.equals(res.getString("password"))))  
                 {
-                    userType = 100;  // 100 refers to regular user
-                }
-                else if((username.equals(res.getString("Name"))) && (password.equals(res.getString("password"))))
-                {
-                    userType = 50;   // 50 refers to admin user
                     userId = res.getInt("ID");
                 }
             }
@@ -87,13 +82,34 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         {
             Logger.getLogger(RegisterLoginWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return userType;
+        return userId;
     }
-
-    public int getUserId()
+       
+    public int verifyAdmin(String adminName, String password)
     {
-        return this.userId;
-    }
+        String fullAdminName, firstNamePart = "admin_";
+        int adminId = 0;
+         try 
+        {
+            
+            stat = con.createStatement();
+            res = stat.executeQuery("SELECT adminID, admin_name, password FROM admins");
+            while(res.next())
+            {
+                fullAdminName = firstNamePart + res.getString("Admin_name");
+                if( (adminName.equals(fullAdminName)) && (password.equals(res.getString("password"))) )
+                {
+                  adminId = res.getInt("adminID");  
+                }
+            }
+        }
+        catch(SQLException ex) 
+        {
+            Logger.getLogger(RegisterLoginWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return adminId;
+    }   
+
        
     /**
      * This method is called from within the constructor to initialize the form.
@@ -246,23 +262,26 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
-        int verifiedUserType = 0;
+        int verifiedUserId, verifiedadminId;
+        
         String user,pass;
         user = userNameTf.getText();
         pass = passPf.getText();
-        verifiedUserType = verifyUser(user, pass);
-         if(verifiedUserType== 50)
+        verifiedUserId = verifyUser(user, pass);
+        verifiedadminId = verifyAdmin(user, pass);
+         if(verifiedadminId > 0)
         {
+            user = user.substring(6);
             FrameUI profile = new FrameUI();
-            profile.LoadControlPanel(profile.UserPanel, user, 50);
+            profile.LoadControlPanel(profile.adminPanel, user, verifiedadminId, 100);
             profile.removePanels();
             this.setVisible(false);
             profile.setVisible(true);
         }
-        else if(verifiedUserType == 100)
+        else if(verifiedUserId > 0)
         {
             FrameUI profile = new FrameUI();
-            profile.LoadControlPanel(profile.adminPanel, user, 100);
+            profile.LoadControlPanel(profile.UserPanel, user, verifiedUserId,50);
             profile.removePanels();
             this.setVisible(false);
             profile.setVisible(true);
@@ -338,7 +357,6 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         });
     }
     
-    private int userId;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLogin;
