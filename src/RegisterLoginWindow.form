@@ -253,7 +253,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/167.jpg"/>
+              <Image iconType="3" name="/Images/solid_color_bright_lines_18572_1920x1080.jpg"/>
             </Property>
           </Properties>
           <Constraints>
@@ -266,7 +266,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/popcorn_jxPqo7aS.jpg"/>
+              <Image iconType="3" name="/Images/popcorn_jxPqo7aS.jpg"/>
             </Property>
           </Properties>
           <Constraints>
