@@ -1,12 +1,14 @@
 package Statistics;
 
 
-
+import Statistics.Report.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,39 +21,16 @@ import java.sql.Statement;
  * @author Michael Samir
  */
 public class Statistics_flow {
-    
-        static private Connection con;
-        static   void getConnection(){
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root","root");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println("connected");
-        }
+    public static String getDate(Date date) {
+        SimpleDateFormat sdf =  new SimpleDateFormat ("yyyy-MM-dd HH:MM:SS");
+        return sdf.format(date);
+    }
+ 
        public static void main(String args[]) {
 
-try{
-            getConnection();
-            Statement stat= con.createStatement();
-            ResultSet res= stat.executeQuery("SELECT * FROM movies");
-            /*  
-            while(res.next()){
-                  Movie a= new Movie(res);
-                  
-                   System.out.println(a.row());
-               }
-            */
-            Statistics a= new Statistics(res);
-}catch (Exception e){
-    e.printStackTrace();
-}
-
-        }
+Statistics a = new Statistics();
+a.orderReport(1, 0);
+        
+       }
 
 }
