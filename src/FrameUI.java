@@ -233,6 +233,7 @@ public void removePanels()
         reviewRatingSubmitP = new javax.swing.JPanel();
         jLabelReview = new javax.swing.JLabel();
         jLabelRate = new javax.swing.JLabel();
+        movieIdL = new javax.swing.JLabel();
         jComboBoxRate = new javax.swing.JComboBox<>();
         jSeparator8 = new javax.swing.JSeparator();
         jSeparator6 = new javax.swing.JSeparator();
@@ -700,9 +701,17 @@ public void removePanels()
         jLabelRate.setText("Rating:");
         reviewRatingSubmitP.add(jLabelRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 140, 40));
 
+        movieIdL.setText("ID");
+        reviewRatingSubmitP.add(movieIdL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
         jComboBoxRate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jComboBoxRate.setForeground(new java.awt.Color(255, 255, 255));
         jComboBoxRate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "(1) Appalling", "(2) Horrible", "(3) Very Bad", "(4) Bad", "(5) Average", "(6) Fine", "(7) Good", "(8) Very Good", "(9) Great", "(10) Masterpiece" }));
+        jComboBoxRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxRateActionPerformed(evt);
+            }
+        });
         reviewRatingSubmitP.add(jComboBoxRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 170, -1));
 
         jSeparator8.setBackground(new java.awt.Color(200, 200, 200));
@@ -722,6 +731,11 @@ public void removePanels()
         jButtonSubmit.setForeground(new java.awt.Color(200, 200, 200));
         jButtonSubmit.setText("Submit");
         jButtonSubmit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSubmitActionPerformed(evt);
+            }
+        });
         reviewRatingSubmitP.add(jButtonSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 520, 180, 40));
 
         jScrollPane1.setFocusable(false);
@@ -749,21 +763,17 @@ public void removePanels()
         backGroundP1.setLayout(backGroundP1Layout);
         backGroundP1Layout.setHorizontalGroup(
             backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
-            .addGroup(backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP1Layout.createSequentialGroup()
+                .addGap(0, 95, Short.MAX_VALUE)
+                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 95, Short.MAX_VALUE))
         );
         backGroundP1Layout.setVerticalGroup(
             backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-            .addGroup(backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP1Layout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
+                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         contentBase.add(backGroundP1, "card4");
@@ -1215,8 +1225,87 @@ public void removePanels()
     }//GEN-LAST:event_revRateViewBActionPerformed
 
     private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
+        //movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
         this.LoadPanel(backGroundP1);
     }//GEN-LAST:event_revRateSubmitBActionPerformed
+
+    private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
+        
+        PreparedStatement mystatement;
+        String userReview, username;
+        int movieId, userId, userRating;
+        
+        try
+        {
+            movieId = Integer.parseInt(movieIdL.getText());
+            userId = Integer.parseInt(userIdL.getText().substring(9));
+            username = userNameL.getText().substring(10); 
+            userRating = ((int)jComboBoxRate.getSelectedIndex());
+            userReview = jTextAreaReview.getText();
+            // insert user ratring
+            if(userRating > 0)
+            {
+                mystatement = con.prepareStatement("INSERT INTO userrating (ID, MovieID, UserID, UserRating) VALUES (DEFAULT, ?, ?, ?)");
+                mystatement.setInt(1, movieId);
+                mystatement.setInt(2, userId);
+                mystatement.setInt(3, userRating);
+                mystatement.execute();
+                
+                // code for system logs
+                String logMessage = "User: "+ username +" with User ID = " + userId + " has added rating for a movie with movieId = " + movieId;
+                mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                mystatement.setNull(1, userId);
+                mystatement.setInt(2, java.sql.Types.INTEGER);
+                mystatement.setInt(3, movieId);
+                mystatement.setString(4, getDateTime());
+                mystatement.setString(5, "Add Rating");
+                mystatement.setString(6, logMessage);
+                mystatement.execute();
+                
+                 // insert user review
+            if(!(userReview.equals("")))
+            {
+                mystatement = con.prepareStatement("INSERT INTO userreview (ID, MovieID, UserID, Review) VALUES (DEFAULT, ?, ?, ?)");
+                mystatement.setInt(1, movieId);
+                mystatement.setInt(2, userId);
+                mystatement.setInt(3, userRating);
+                mystatement.execute();
+                
+                // code for system logs
+                logMessage = "User: "+ username +" with User ID = " + userId + " has added review for a movie with movieId = " + movieId;
+                mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                mystatement.setNull(1, userId);
+                mystatement.setInt(2, java.sql.Types.INTEGER);
+                mystatement.setInt(3, movieId);
+                mystatement.setString(4, getDateTime());
+                mystatement.setString(5, "Add Review");
+                mystatement.setString(6, logMessage);
+                mystatement.execute();
+            }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,
+                "You must Rate the movie before you can submit",
+                "No Rate specified",
+                JOptionPane.ERROR_MESSAGE);
+            }
+            
+            
+           
+            
+            
+        }catch(Exception e)
+        {
+            
+        }
+       
+        
+    }//GEN-LAST:event_jButtonSubmitActionPerformed
+
+    private void jComboBoxRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxRateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1316,6 +1405,7 @@ public void removePanels()
     private javax.swing.JTextField jtextname;
     private javax.swing.JTextField jtextrating;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel movieIdL;
     private javax.swing.JPanel movieTableP;
     private javax.swing.JButton moviesTableB;
     private javax.swing.JButton moviesTableBa;
