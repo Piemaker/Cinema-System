@@ -151,7 +151,7 @@ public class AddDeleteMovie extends javax.swing.JFrame {
         jdelete.setBackground(new java.awt.Color(115, 0, 0));
         jdelete.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jdelete.setForeground(new java.awt.Color(200, 200, 200));
-        jdelete.setText("DELETE");
+        jdelete.setText("Delete");
         jdelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jdelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +178,7 @@ public class AddDeleteMovie extends javax.swing.JFrame {
         jadd.setBackground(new java.awt.Color(115, 0, 0));
         jadd.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jadd.setForeground(new java.awt.Color(200, 200, 200));
-        jadd.setText("ADD");
+        jadd.setText("Add");
         jadd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jaddActionPerformed(evt);
@@ -280,14 +280,14 @@ public class AddDeleteMovie extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null,
                     "Success",
-                    "Successfully Added",
+                    "Successfully Deleted",
                     JOptionPane.INFORMATION_MESSAGE);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,
-                    "Enter a numeric rating",
-                    "Rating error",
+                    "Enter a numeric ID",
+                    "ID error",
                     JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(AddDeleteMovie.class.getName()).log(Level.SEVERE, null, ex);
