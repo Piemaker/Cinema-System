@@ -44,7 +44,8 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -154,6 +155,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
 
         jLabelRegister.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabelRegister.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelRegister.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Register.png"))); // NOI18N
         jLabelRegister.setText("Don't have an account? register here.");
         jLabelRegister.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -227,13 +229,14 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jButtonLogin.setBackground(new java.awt.Color(255, 102, 0));
         jButtonLogin.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButtonLogin.setForeground(new java.awt.Color(200, 200, 200));
+        jButtonLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/login.png"))); // NOI18N
         jButtonLogin.setText("Login");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLoginActionPerformed(evt);
             }
         });
-        jPanel2.add(jButtonLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 340, 180, 40));
+        jPanel2.add(jButtonLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 340, 180, 40));
         jButtonLogin.setContentAreaFilled(true);
         jButtonLogin.setFocusPainted(false);
         jButtonLogin.setBorderPainted(false);
