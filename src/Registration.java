@@ -94,8 +94,8 @@ public class Registration extends javax.swing.JFrame {
         jLabelUserName.setText("User Name");
         jPanel1.add(jLabelUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
 
-        jTextName.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
-        jTextName.setForeground(new java.awt.Color(200, 200, 200));
+        jTextName.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jTextName.setForeground(new java.awt.Color(255, 255, 255));
         jTextName.setText("Enter User Name");
         jTextName.setBorder(null);
         jTextName.setOpaque(false);
@@ -118,10 +118,9 @@ public class Registration extends javax.swing.JFrame {
         jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 290, 30));
 
         jButtonLogin.setBackground(new java.awt.Color(115, 0, 0));
-        jButtonLogin.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButtonLogin.setForeground(new java.awt.Color(200, 200, 200));
-        jButtonLogin.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\login.png")); // NOI18N
-        jButtonLogin.setText("Login");
+        jButtonLogin.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButtonLogin.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonLogin.setText("Back");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLoginActionPerformed(evt);
@@ -133,9 +132,8 @@ public class Registration extends javax.swing.JFrame {
         jButtonRegiset.setBorderPainted(false);
 
         jButtonRegiset.setBackground(new java.awt.Color(115, 0, 0));
-        jButtonRegiset.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButtonRegiset.setForeground(new java.awt.Color(200, 200, 200));
-        jButtonRegiset.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\Register.png")); // NOI18N
+        jButtonRegiset.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButtonRegiset.setForeground(new java.awt.Color(255, 255, 255));
         jButtonRegiset.setText("Register");
         jButtonRegiset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +151,7 @@ public class Registration extends javax.swing.JFrame {
         jPanel1.add(jLabelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, -1));
 
         jPasswordFeild.setFont(new java.awt.Font("SansSerif", 3, 16)); // NOI18N
-        jPasswordFeild.setForeground(new java.awt.Color(200, 200, 200));
+        jPasswordFeild.setForeground(new java.awt.Color(255, 255, 255));
         jPasswordFeild.setText("dafdaadafadfafa");
         jPasswordFeild.setBorder(null);
         jPasswordFeild.setOpaque(false);

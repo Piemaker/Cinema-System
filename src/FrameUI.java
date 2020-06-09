@@ -111,8 +111,6 @@ public class FrameUI extends javax.swing.JFrame {
 
         jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));
 
-        
-
 //for moviesTable
         JTableHeader anHeader = jmovieTable.getTableHeader();
         anHeader.setForeground(new java.awt.Color(75, 75, 75));
@@ -178,8 +176,6 @@ public class FrameUI extends javax.swing.JFrame {
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -249,7 +245,7 @@ public class FrameUI extends javax.swing.JFrame {
         reviewRatingViewP = new javax.swing.JPanel();
         jLabelReview1 = new javax.swing.JLabel();
         jLabelReviewCount = new javax.swing.JLabel();
-        jLabeCurrentReview = new javax.swing.JLabel();
+        jLabelCurrentReview = new javax.swing.JLabel();
         jLabeSlash = new javax.swing.JLabel();
         jLabelRate1 = new javax.swing.JLabel();
         jSeparator9 = new javax.swing.JSeparator();
@@ -340,6 +336,8 @@ public class FrameUI extends javax.swing.JFrame {
         userIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Userm.png"))); // NOI18N
 
         moviesTableB.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableB.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        moviesTableB.setForeground(new java.awt.Color(255, 255, 255));
         moviesTableB.setText("Movies Table");
         moviesTableB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,6 +346,8 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         signOutButton1.setBackground(new java.awt.Color(255, 153, 0));
+        signOutButton1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        signOutButton1.setForeground(new java.awt.Color(255, 255, 255));
         signOutButton1.setText("Sign Out");
         signOutButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -411,8 +411,8 @@ public class FrameUI extends javax.swing.JFrame {
 
         jmovieTable.setBackground(new java.awt.Color(75, 75, 75));
         jmovieTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jmovieTable.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jmovieTable.setForeground(new java.awt.Color(200, 200, 200));
+        jmovieTable.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jmovieTable.setForeground(new java.awt.Color(255, 255, 255));
         jmovieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -442,8 +442,8 @@ public class FrameUI extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jmovieTable);
 
         refreshB.setBackground(new java.awt.Color(75, 75, 75));
-        refreshB.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        refreshB.setForeground(new java.awt.Color(200, 200, 200));
+        refreshB.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        refreshB.setForeground(new java.awt.Color(255, 255, 255));
         refreshB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-find-and-replace-64.png"))); // NOI18N
         refreshB.setText("Refresh          ");
         refreshB.setActionCommand("");
@@ -454,7 +454,8 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         addDeleteB.setBackground(new java.awt.Color(75, 75, 75));
-        addDeleteB.setForeground(new java.awt.Color(200, 200, 200));
+        addDeleteB.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        addDeleteB.setForeground(new java.awt.Color(255, 255, 255));
         addDeleteB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-plus-64.png"))); // NOI18N
         addDeleteB.setText("      Add Movie      ");
         addDeleteB.addActionListener(new java.awt.event.ActionListener() {
@@ -464,7 +465,8 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         deleteMovieB.setBackground(new java.awt.Color(75, 75, 75));
-        deleteMovieB.setForeground(new java.awt.Color(200, 200, 200));
+        deleteMovieB.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        deleteMovieB.setForeground(new java.awt.Color(255, 255, 255));
         deleteMovieB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-delete-64.png"))); // NOI18N
         deleteMovieB.setText("Delete Selected   ");
         deleteMovieB.addActionListener(new java.awt.event.ActionListener() {
@@ -488,7 +490,8 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         revRateViewB.setBackground(new java.awt.Color(75, 75, 75));
-        revRateViewB.setForeground(new java.awt.Color(200, 200, 200));
+        revRateViewB.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        revRateViewB.setForeground(new java.awt.Color(255, 255, 255));
         revRateViewB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-view-64.png"))); // NOI18N
         revRateViewB.setText("View  User Review");
         revRateViewB.addActionListener(new java.awt.event.ActionListener() {
@@ -498,7 +501,8 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         revRateSubmitB.setBackground(new java.awt.Color(75, 75, 75));
-        revRateSubmitB.setForeground(new java.awt.Color(200, 200, 200));
+        revRateSubmitB.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        revRateSubmitB.setForeground(new java.awt.Color(255, 255, 255));
         revRateSubmitB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/submit.png"))); // NOI18N
         revRateSubmitB.setText("Submit a Review     ");
         revRateSubmitB.addActionListener(new java.awt.event.ActionListener() {
@@ -512,7 +516,7 @@ public class FrameUI extends javax.swing.JFrame {
         movieTablePLayout.setHorizontalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(movieTablePLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(revRateSubmitB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -524,7 +528,7 @@ public class FrameUI extends javax.swing.JFrame {
                     .addComponent(addDeleteB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(revRateViewB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(deleteMovieB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         movieTablePLayout.setVerticalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,14 +582,33 @@ public class FrameUI extends javax.swing.JFrame {
         jSeparator3.setBackground(new java.awt.Color(200, 200, 200));
         addDeleteMoviesP.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 360, -1));
 
+        jtextname.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         jtextname.setForeground(new java.awt.Color(255, 255, 255));
+        jtextname.setText("eg: spiderman");
         jtextname.setBorder(null);
         jtextname.setOpaque(false);
+        jtextname.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtextnameFocusGained(evt);
+            }
+        });
+        jtextname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtextnameActionPerformed(evt);
+            }
+        });
         addDeleteMoviesP.add(jtextname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 360, 20));
 
+        jtextrating.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         jtextrating.setForeground(new java.awt.Color(255, 255, 255));
+        jtextrating.setText("eg: 10, 3.5 , 6");
         jtextrating.setBorder(null);
         jtextrating.setOpaque(false);
+        jtextrating.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtextratingFocusGained(evt);
+            }
+        });
         jtextrating.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtextratingActionPerformed(evt);
@@ -593,9 +616,16 @@ public class FrameUI extends javax.swing.JFrame {
         });
         addDeleteMoviesP.add(jtextrating, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 360, 20));
 
+        jtextgenre.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         jtextgenre.setForeground(new java.awt.Color(255, 255, 255));
+        jtextgenre.setText("eg: action/comedy/adventure");
         jtextgenre.setBorder(null);
         jtextgenre.setOpaque(false);
+        jtextgenre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtextgenreFocusGained(evt);
+            }
+        });
         jtextgenre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtextgenreActionPerformed(evt);
@@ -626,8 +656,8 @@ public class FrameUI extends javax.swing.JFrame {
         addDeleteMoviesP.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 138, 73));
 
         jadd.setBackground(new java.awt.Color(115, 0, 0));
-        jadd.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jadd.setForeground(new java.awt.Color(200, 200, 200));
+        jadd.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jadd.setForeground(new java.awt.Color(255, 255, 255));
         jadd.setText("Add");
         jadd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -770,10 +800,10 @@ public class FrameUI extends javax.swing.JFrame {
         jLabelReviewCount.setText("Max");
         reviewRatingViewP.add(jLabelReviewCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 540, -1, 40));
 
-        jLabeCurrentReview.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabeCurrentReview.setForeground(new java.awt.Color(255, 255, 255));
-        jLabeCurrentReview.setText("1");
-        reviewRatingViewP.add(jLabeCurrentReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 540, -1, 40));
+        jLabelCurrentReview.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabelCurrentReview.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelCurrentReview.setText("1");
+        reviewRatingViewP.add(jLabelCurrentReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 540, -1, 40));
 
         jLabeSlash.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabeSlash.setForeground(new java.awt.Color(255, 255, 255));
@@ -809,7 +839,7 @@ public class FrameUI extends javax.swing.JFrame {
         jtextUserName.setEditable(false);
         jtextUserName.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jtextUserName.setForeground(new java.awt.Color(255, 255, 255));
-        jtextUserName.setText("User Name");
+        jtextUserName.setText("User XXXX");
         jtextUserName.setBorder(null);
         jtextUserName.setOpaque(false);
         reviewRatingViewP.add(jtextUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 370, 30));
@@ -817,7 +847,7 @@ public class FrameUI extends javax.swing.JFrame {
         jtextUserRate.setEditable(false);
         jtextUserRate.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jtextUserRate.setForeground(new java.awt.Color(255, 255, 255));
-        jtextUserRate.setText("10");
+        jtextUserRate.setText("x");
         jtextUserRate.setBorder(null);
         jtextUserRate.setOpaque(false);
         reviewRatingViewP.add(jtextUserRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 50, 40));
@@ -831,7 +861,7 @@ public class FrameUI extends javax.swing.JFrame {
         jTextAreaViewReview.setForeground(new java.awt.Color(255, 255, 255));
         jTextAreaViewReview.setLineWrap(true);
         jTextAreaViewReview.setRows(5);
-        jTextAreaViewReview.setText("The quick brown fox jumps over the lazy dog whatever now");
+        jTextAreaViewReview.setText("No one has reviewd this movie yet, be the first to.");
         jTextAreaViewReview.setBorder(null);
         jTextAreaViewReview.setHighlighter(null);
         jTextAreaViewReview.setOpaque(false);
@@ -1150,9 +1180,9 @@ public class FrameUI extends javax.swing.JFrame {
 
     private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
         //button to view reviews of selected movie
-        //TODO get index of movie from movie table
+       
         int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
-        //TODO place this button on the movieTable
+        
 
         try {
             //join review table and rate table to get review,rate and userid
@@ -1183,7 +1213,7 @@ public class FrameUI extends javax.swing.JFrame {
             jtextUserRate.setText(Integer.toString(rate));
             jLabelReviewCount.setText(Integer.toString(count));
             currentRevPage = 1;
-            jLabeCurrentReview.setText(Integer.toString(currentRevPage));
+            jLabelCurrentReview.setText(Integer.toString(currentRevPage));
 
             //get username from user table
             fetchNameStatement = con.prepareStatement("SELECT name FROM users WHERE id = ?");
@@ -1194,13 +1224,15 @@ public class FrameUI extends javax.swing.JFrame {
             resName.next();
             name = resName.getString("name");
             jtextUserName.setText(name);
-            
-            
-            
-            
 
         } catch (SQLException e) {
             e.printStackTrace();
+            
+            jTextAreaViewReview.setText("No one has reviewd this movie yet, be the first to.");
+            jtextUserRate.setText("X");
+            jtextUserName.setText("XXXX");
+            jLabelReviewCount.setText("MAX");
+            jLabelCurrentReview.setText("1");
         }
 
         this.LoadPanel(backGroundP2);
@@ -1291,7 +1323,7 @@ public class FrameUI extends javax.swing.JFrame {
             jTextAreaViewReview.setText(review);
             jtextUserRate.setText(Integer.toString(rate));
             if ((currentRevPage + 1) <= count) {
-                jLabeCurrentReview.setText(Integer.toString(++currentRevPage));
+                jLabelCurrentReview.setText(Integer.toString(++currentRevPage));
             }
 
             //this query has to be re written beacuse it depends on the value taken from the previous query
@@ -1312,6 +1344,22 @@ public class FrameUI extends javax.swing.JFrame {
     private void jTextAreaSubmitReviewFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextAreaSubmitReviewFocusGained
         jTextAreaSubmitReview.setText("");
     }//GEN-LAST:event_jTextAreaSubmitReviewFocusGained
+
+    private void jtextnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtextnameActionPerformed
+
+    private void jtextnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextnameFocusGained
+        jtextname.setText("");
+    }//GEN-LAST:event_jtextnameFocusGained
+
+    private void jtextgenreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextgenreFocusGained
+        jtextgenre.setText("");
+    }//GEN-LAST:event_jtextgenreFocusGained
+
+    private void jtextratingFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextratingFocusGained
+        jtextrating.setText("");
+    }//GEN-LAST:event_jtextratingFocusGained
 
     /**
      * @param args the command line arguments
@@ -1366,7 +1414,6 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNextReview;
     private javax.swing.JButton jButtonSubmit;
     private javax.swing.JComboBox<String> jComboBoxRate;
-    private javax.swing.JLabel jLabeCurrentReview;
     private javax.swing.JLabel jLabeSlash;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1375,6 +1422,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelCurrentReview;
     private javax.swing.JLabel jLabelRate;
     private javax.swing.JLabel jLabelRate1;
     private javax.swing.JLabel jLabelReview;

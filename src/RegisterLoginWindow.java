@@ -227,8 +227,8 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         jPanel2.add(jButtonRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 440, -1, -1));
 
         jButtonLogin.setBackground(new java.awt.Color(255, 102, 0));
-        jButtonLogin.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButtonLogin.setForeground(new java.awt.Color(200, 200, 200));
+        jButtonLogin.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButtonLogin.setForeground(new java.awt.Color(255, 255, 255));
         jButtonLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/login.png"))); // NOI18N
         jButtonLogin.setText("Login");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
