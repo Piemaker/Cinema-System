@@ -723,6 +723,11 @@ public class FrameUI extends javax.swing.JFrame {
         jTextAreaSubmitReview.setBorder(null);
         jTextAreaSubmitReview.setHighlighter(null);
         jTextAreaSubmitReview.setOpaque(false);
+        jTextAreaSubmitReview.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextAreaSubmitReviewFocusGained(evt);
+            }
+        });
         jScrollPaneSubmit.setViewportView(jTextAreaSubmitReview);
 
         reviewRatingSubmitP.add(jScrollPaneSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
@@ -1303,6 +1308,10 @@ public class FrameUI extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButtonNextReviewActionPerformed
+
+    private void jTextAreaSubmitReviewFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextAreaSubmitReviewFocusGained
+        jTextAreaSubmitReview.setText("");
+    }//GEN-LAST:event_jTextAreaSubmitReviewFocusGained
 
     /**
      * @param args the command line arguments
