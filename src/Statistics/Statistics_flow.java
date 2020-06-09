@@ -22,7 +22,7 @@ import java.util.Date;
  */
 public class Statistics_flow {
     public static String getDate(Date date) {
-        SimpleDateFormat sdf =  new SimpleDateFormat ("yyyy-MM-dd HH:MM:SS");
+        SimpleDateFormat sdf =  new SimpleDateFormat ("yyyy-MM-dd HH:MM:SS a");
         return sdf.format(date);
     }
  
