@@ -74,6 +74,8 @@ public class MovieTable extends javax.swing.JFrame {
         jdelete = new javax.swing.JButton();
         jTextSearch = new javax.swing.JTextField();
         jSearch = new javax.swing.JButton();
+        revRateViewB = new javax.swing.JButton();
+        revRateSubmitB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -124,7 +126,6 @@ public class MovieTable extends javax.swing.JFrame {
         jaddDelete.setBackground(new java.awt.Color(75, 75, 75));
         jaddDelete.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jaddDelete.setForeground(new java.awt.Color(200, 200, 200));
-        jaddDelete.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\icons8-find-and-replace-64.png")); // NOI18N
         jaddDelete.setText("Refresh");
         jaddDelete.setActionCommand("");
         jaddDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -136,7 +137,6 @@ public class MovieTable extends javax.swing.JFrame {
         jrefresh1.setBackground(new java.awt.Color(75, 75, 75));
         jrefresh1.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jrefresh1.setForeground(new java.awt.Color(200, 200, 200));
-        jrefresh1.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\icons8-plus-64.png")); // NOI18N
         jrefresh1.setText("Add/Delete Movie");
         jrefresh1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +146,6 @@ public class MovieTable extends javax.swing.JFrame {
 
         jdelete.setBackground(new java.awt.Color(75, 75, 75));
         jdelete.setForeground(new java.awt.Color(200, 200, 200));
-        jdelete.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\icons8-delete-64.png")); // NOI18N
         jdelete.setText("Delete Selected");
         jdelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,10 +160,27 @@ public class MovieTable extends javax.swing.JFrame {
         });
 
         jSearch.setBackground(new java.awt.Color(75, 75, 75));
-        jSearch.setIcon(new javax.swing.ImageIcon("G:\\My Documents\\NetBeansProjects\\Cinema\\Icons\\icons8-search-30.png")); // NOI18N
         jSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSearchActionPerformed(evt);
+            }
+        });
+
+        revRateViewB.setBackground(new java.awt.Color(75, 75, 75));
+        revRateViewB.setForeground(new java.awt.Color(200, 200, 200));
+        revRateViewB.setText("Review/Rating view");
+        revRateViewB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revRateViewBActionPerformed(evt);
+            }
+        });
+
+        revRateSubmitB.setBackground(new java.awt.Color(75, 75, 75));
+        revRateSubmitB.setForeground(new java.awt.Color(200, 200, 200));
+        revRateSubmitB.setText("Review/Rating submit");
+        revRateSubmitB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revRateSubmitBActionPerformed(evt);
             }
         });
 
@@ -173,24 +189,31 @@ public class MovieTable extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jaddDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jrefresh1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jdelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jaddDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jrefresh1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jdelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 1, Short.MAX_VALUE))
+                    .addComponent(revRateViewB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(revRateSubmitB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextSearch)
@@ -200,8 +223,12 @@ public class MovieTable extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jrefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 6, Short.MAX_VALUE))
+                        .addComponent(jdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -357,6 +384,14 @@ public class MovieTable extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jSearchActionPerformed
 
+    private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_revRateViewBActionPerformed
+
+    private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_revRateSubmitBActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -376,6 +411,8 @@ public class MovieTable extends javax.swing.JFrame {
     private javax.swing.JButton jdelete;
     private javax.swing.JTable jmovieTable;
     private javax.swing.JButton jrefresh1;
+    private javax.swing.JButton revRateSubmitB;
+    private javax.swing.JButton revRateViewB;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -1,3 +1,5 @@
+package Statistics;
+
 import java.util.Objects;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,8 +44,14 @@ public class Movie {
     public String toString() {
         return "Movie{" + "id=" + id + ", name=" + name + ", genre=" + genre + ", rating=" + rating + '}';
     }
+ public String pretty() {
+        return "Movie" + "id=" + id + ", name=" + name + ", genre=" + genre + ", rating=" + rating ;
+    }
 
-
+ public String row() {
+        return  id + "\t" + name + "\t" + genre + "\t" + rating ;
+    }
+ 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
