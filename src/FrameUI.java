@@ -10,16 +10,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Mohab
@@ -35,121 +38,134 @@ public class FrameUI extends javax.swing.JFrame {
         initializations();
     }
 
-Connection con;
-Statement stat;
-ResultSet res;
+    Connection con;
+    Statement stat;
+    ResultSet res;
+    String[][] movieArray = new String[100][4];
+    
 
-void getConnection() {
+    void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("connected");
     }
 
-public void close() {
+    public void close() {
 
         WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
 
     }
-    
-final void initializations()
-{
+
+    final void initializations() {
 // for user review/rating view
-    jtextUserName.setBackground(new java.awt.Color(0, 0, 0, 1));
-    jtextUserRate.setBackground(new java.awt.Color(0, 0, 0, 1));
-    jScrollPane1.setOpaque(false);
-    jScrollPane1.getViewport().setOpaque(false);
-    jScrollPane1.setBorder(null);
-    jScrollPane1.setViewportBorder(null);
-    jTextAreaReview.setBorder(null);
-    jTextAreaReview.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jtextUserName.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jtextUserRate.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jScrollPaneView.setOpaque(false);
+        jScrollPaneView.getViewport().setOpaque(false);
+        jScrollPaneView.setBorder(null);
+        jScrollPaneView.setViewportBorder(null);
+        jTextAreaViewReview.setBorder(null);
+        jTextAreaViewReview.setBackground(new java.awt.Color(0, 0, 0, 1));
 
-    jTextAreaReview.setLineWrap(true); //for adding new line instead of scrolling
-    jTextAreaReview.setWrapStyleWord(true);
+        jTextAreaViewReview.setLineWrap(true); //for adding new line instead of scrolling
+        jTextAreaViewReview.setWrapStyleWord(true);
     
+
 //for user review/rating submit
-    jScrollPane1.setOpaque(false);
-    jScrollPane1.getViewport().setOpaque(false);
-    jScrollPane1.setBorder(null);
-    jScrollPane1.setViewportBorder(null);
-    jTextAreaReview.setBorder(null);
-    jTextAreaReview.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jScrollPaneSubmit.setOpaque(false);
+        jScrollPaneSubmit.getViewport().setOpaque(false);
+        jScrollPaneSubmit.setBorder(null);
+        jScrollPaneSubmit.setViewportBorder(null);
+        jTextAreaSubmitReview.setBorder(null);
+        jTextAreaSubmitReview.setBackground(new java.awt.Color(0, 0, 0, 1));
 
-    jTextAreaReview.setLineWrap(true); //for adding new line instead of scrolling
-    jTextAreaReview.setWrapStyleWord(true);
-    
+        jTextAreaSubmitReview.setLineWrap(true); //for adding new line instead of scrolling
+        jTextAreaSubmitReview.setWrapStyleWord(true);
+
 //for add/delete movies
-    jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));
-    jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));
 
-    jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));
+        jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));
 
-    jtextid.setBackground(new java.awt.Color(0, 0, 0, 1));
-}
-    
- public void LoadControlPanel(JPanel panel, String username, int userType)
-    {
+        jtextid.setBackground(new java.awt.Color(0, 0, 0, 1));
+
+//for moviesTable
+        JTableHeader anHeader = jmovieTable.getTableHeader();
+        anHeader.setForeground(new java.awt.Color(187, 187, 187));
+        anHeader.setBackground(new java.awt.Color(75, 75, 75));
+    }
+
+    public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
         base1.removeAll();
         base1.add(panel);
         base1.repaint();
         base1.revalidate();
-        if(userType == 50)
+        if (userType == 50) // 50 refers to regular user
         {
-            userNameL.setText(username);
-        }
-        else if(userType == 100)
+            userNameL.setText("Username: " + username);
+            userIdL.setText("User ID: " + id);
+            addDeleteB.setVisible(false);
+            deleteMovieB.setVisible(false);
+            System.out.println(userIdL.getText().substring(9));
+        } else if (userType == 100) // 100 refers to admin user
         {
-             adminNameL.setText(username);
+            adminNameL.setText("Adminname: " + username);
+            adminIdL.setText("Admin ID: " + id);
+            revRateSubmitB.setVisible(false);
+            revRateViewB.setVisible(false);
+            System.out.println(adminIdL.getText().substring(10));
         }
-       
-        
+
     }
- 
- 
-public void LoadPanel(JPanel panel)
-    {
+
+    public void LoadPanel(JPanel panel) {
         contentBase.removeAll();
         contentBase.add(panel);
         contentBase.repaint();
         contentBase.revalidate();
-    }         
+    }
 
-public void removePanels()
-{
-    contentBase.removeAll();
-}
- public class costumPanel extends JPanel
-    {
+    public void removePanels() {
+        contentBase.removeAll();
+    }
+
+    public class costumPanel extends JPanel {
+
         private BufferedImage image;
 
         public costumPanel() {
-            try 
-            {                
+            try {
                 image = ImageIO.read(getClass().getResourceAsStream("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"));
-            } 
-            catch (Exception ex) 
-            {
+            } catch (Exception ex) {
                 System.out.println(ex.toString());
             }
-    }
+        }
+
         @Override
-        public void paintComponent(Graphics g)
-        {
+        public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(image, 0, 0, this);
-            
+
         }
     }
-    
-    
+
+    static public String getDateTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,20 +179,29 @@ public void removePanels()
         base1 = new javax.swing.JLayeredPane();
         adminPanel = new javax.swing.JPanel();
         adminIcon = new javax.swing.JLabel();
-        Statistics = new javax.swing.JButton();
+        moviesTableBa = new javax.swing.JButton();
         signOutButton = new javax.swing.JButton();
         adminNameL = new javax.swing.JLabel();
-        AddDeleteMovieB = new javax.swing.JButton();
+        adminIdL = new javax.swing.JLabel();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
-        movieTableButton = new javax.swing.JButton();
+        moviesTableB = new javax.swing.JButton();
         signOutButton1 = new javax.swing.JButton();
         userNameL = new javax.swing.JLabel();
-        revRateViewB = new javax.swing.JButton();
-        revRateSubmitB = new javax.swing.JButton();
+        userIdL = new javax.swing.JLabel();
         secondaryPanel = new javax.swing.JPanel();
         contentBase = new javax.swing.JLayeredPane();
         backGroundP = new javax.swing.JPanel();
+        movieTableP = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jmovieTable = new javax.swing.JTable();
+        refreshB = new javax.swing.JButton();
+        addDeleteB = new javax.swing.JButton();
+        deleteMovieB = new javax.swing.JButton();
+        jTextSearch = new javax.swing.JTextField();
+        jSearch = new javax.swing.JButton();
+        revRateViewB = new javax.swing.JButton();
+        revRateSubmitB = new javax.swing.JButton();
         backGroundPa = new javax.swing.JPanel();
         addDeleteMoviesP = new javax.swing.JPanel();
         jSeparator12 = new javax.swing.JSeparator();
@@ -200,14 +225,15 @@ public void removePanels()
         reviewRatingSubmitP = new javax.swing.JPanel();
         jLabelReview = new javax.swing.JLabel();
         jLabelRate = new javax.swing.JLabel();
+        movieIdL = new javax.swing.JLabel();
         jComboBoxRate = new javax.swing.JComboBox<>();
         jSeparator8 = new javax.swing.JSeparator();
         jSeparator6 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator7 = new javax.swing.JSeparator();
         jButtonSubmit = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextAreaReview = new javax.swing.JTextArea();
+        jScrollPaneSubmit = new javax.swing.JScrollPane();
+        jTextAreaSubmitReview = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         backGroundP2 = new javax.swing.JPanel();
         reviewRatingViewP = new javax.swing.JPanel();
@@ -223,8 +249,8 @@ public void removePanels()
         jButtonNextReview = new javax.swing.JButton();
         jtextUserName = new javax.swing.JTextField();
         jtextUserRate = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextAreaReview1 = new javax.swing.JTextArea();
+        jScrollPaneView = new javax.swing.JScrollPane();
+        jTextAreaViewReview = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -237,11 +263,11 @@ public void removePanels()
 
         adminIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin.png"))); // NOI18N
 
-        Statistics.setBackground(new java.awt.Color(255, 153, 0));
-        Statistics.setText("Statistics");
-        Statistics.addActionListener(new java.awt.event.ActionListener() {
+        moviesTableBa.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableBa.setText("Movies Table");
+        moviesTableBa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StatisticsActionPerformed(evt);
+                moviesTableBaActionPerformed(evt);
             }
         });
 
@@ -257,13 +283,9 @@ public void removePanels()
         adminNameL.setForeground(new java.awt.Color(255, 255, 255));
         adminNameL.setText("Admin name");
 
-        AddDeleteMovieB.setBackground(new java.awt.Color(255, 153, 0));
-        AddDeleteMovieB.setText("Add/Delete Movie");
-        AddDeleteMovieB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddDeleteMovieBActionPerformed(evt);
-            }
-        });
+        adminIdL.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        adminIdL.setForeground(new java.awt.Color(255, 255, 255));
+        adminIdL.setText("ID");
 
         javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
         adminPanel.setLayout(adminPanelLayout);
@@ -278,9 +300,12 @@ public void removePanels()
                         .addGap(23, 23, 23)
                         .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Statistics, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AddDeleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(adminPanelLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         adminPanelLayout.setVerticalGroup(
@@ -288,12 +313,12 @@ public void removePanels()
             .addGroup(adminPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(adminIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(AddDeleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Statistics, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(211, Short.MAX_VALUE))
@@ -305,11 +330,11 @@ public void removePanels()
 
         userIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Userm.png"))); // NOI18N
 
-        movieTableButton.setBackground(new java.awt.Color(255, 153, 0));
-        movieTableButton.setText("Movies Table");
-        movieTableButton.addActionListener(new java.awt.event.ActionListener() {
+        moviesTableB.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableB.setText("Movies Table");
+        moviesTableB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                movieTableButtonActionPerformed(evt);
+                moviesTableBActionPerformed(evt);
             }
         });
 
@@ -325,21 +350,9 @@ public void removePanels()
         userNameL.setForeground(new java.awt.Color(255, 255, 255));
         userNameL.setText("Username");
 
-        revRateViewB.setBackground(new java.awt.Color(255, 153, 0));
-        revRateViewB.setText("Review/Rating view");
-        revRateViewB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                revRateViewBActionPerformed(evt);
-            }
-        });
-
-        revRateSubmitB.setBackground(new java.awt.Color(255, 153, 0));
-        revRateSubmitB.setText("Review/Rating submit");
-        revRateSubmitB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                revRateSubmitBActionPerformed(evt);
-            }
-        });
+        userIdL.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        userIdL.setForeground(new java.awt.Color(255, 255, 255));
+        userIdL.setText("ID");
 
         javax.swing.GroupLayout UserPanelLayout = new javax.swing.GroupLayout(UserPanel);
         UserPanel.setLayout(UserPanelLayout);
@@ -352,11 +365,13 @@ public void removePanels()
             .addGroup(UserPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(movieTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(UserPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         UserPanelLayout.setVerticalGroup(
@@ -364,15 +379,13 @@ public void removePanels()
             .addGroup(UserPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(userIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(movieTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(userIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(99, 99, 99)
                 .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(174, Short.MAX_VALUE))
         );
@@ -385,15 +398,159 @@ public void removePanels()
 
         backGroundP.setBackground(new java.awt.Color(51, 255, 204));
 
+        movieTableP.setBackground(new java.awt.Color(43, 43, 43));
+
+        jmovieTable.setBackground(new java.awt.Color(75, 75, 75));
+        jmovieTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jmovieTable.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jmovieTable.setForeground(new java.awt.Color(200, 200, 200));
+        jmovieTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "Genre", "Rating"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jmovieTable.setGridColor(new java.awt.Color(75, 75, 75));
+        jmovieTable.setName("Movies"); // NOI18N
+        jmovieTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jmovieTable);
+
+        refreshB.setBackground(new java.awt.Color(75, 75, 75));
+        refreshB.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        refreshB.setForeground(new java.awt.Color(200, 200, 200));
+        refreshB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-find-and-replace-64.png"))); // NOI18N
+        refreshB.setText("Refresh");
+        refreshB.setActionCommand("");
+        refreshB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBActionPerformed(evt);
+            }
+        });
+
+        addDeleteB.setBackground(new java.awt.Color(75, 75, 75));
+        addDeleteB.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        addDeleteB.setForeground(new java.awt.Color(200, 200, 200));
+        addDeleteB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-plus-64.png"))); // NOI18N
+        addDeleteB.setText("Add/Delete Movie");
+        addDeleteB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDeleteBActionPerformed(evt);
+            }
+        });
+
+        deleteMovieB.setBackground(new java.awt.Color(75, 75, 75));
+        deleteMovieB.setForeground(new java.awt.Color(200, 200, 200));
+        deleteMovieB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-delete-64.png"))); // NOI18N
+        deleteMovieB.setText("Delete Selected");
+        deleteMovieB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMovieBActionPerformed(evt);
+            }
+        });
+
+        jTextSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextSearchActionPerformed(evt);
+            }
+        });
+
+        jSearch.setBackground(new java.awt.Color(75, 75, 75));
+        jSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-search-30.png"))); // NOI18N
+        jSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchActionPerformed(evt);
+            }
+        });
+
+        revRateViewB.setBackground(new java.awt.Color(75, 75, 75));
+        revRateViewB.setForeground(new java.awt.Color(200, 200, 200));
+        revRateViewB.setText("Review/Rating view");
+        revRateViewB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revRateViewBActionPerformed(evt);
+            }
+        });
+
+        revRateSubmitB.setBackground(new java.awt.Color(75, 75, 75));
+        revRateSubmitB.setForeground(new java.awt.Color(200, 200, 200));
+        revRateSubmitB.setText("Review/Rating submit");
+        revRateSubmitB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revRateSubmitBActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout movieTablePLayout = new javax.swing.GroupLayout(movieTableP);
+        movieTableP.setLayout(movieTablePLayout);
+        movieTablePLayout.setHorizontalGroup(
+            movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(movieTablePLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(revRateSubmitB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, movieTablePLayout.createSequentialGroup()
+                            .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(refreshB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addDeleteB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(revRateViewB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+        movieTablePLayout.setVerticalGroup(
+            movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(movieTablePLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(movieTablePLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())
+                    .addGroup(movieTablePLayout.createSequentialGroup()
+                        .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextSearch)
+                            .addComponent(jSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(refreshB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addDeleteB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+
         javax.swing.GroupLayout backGroundPLayout = new javax.swing.GroupLayout(backGroundP);
         backGroundP.setLayout(backGroundPLayout);
         backGroundPLayout.setHorizontalGroup(
             backGroundPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
+            .addComponent(movieTableP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         backGroundPLayout.setVerticalGroup(
             backGroundPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addComponent(movieTableP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         contentBase.add(backGroundP, "card2");
@@ -540,9 +697,17 @@ public void removePanels()
         jLabelRate.setText("Rating:");
         reviewRatingSubmitP.add(jLabelRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 140, 40));
 
+        movieIdL.setText("ID");
+        reviewRatingSubmitP.add(movieIdL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
         jComboBoxRate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jComboBoxRate.setForeground(new java.awt.Color(255, 255, 255));
         jComboBoxRate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "(1) Appalling", "(2) Horrible", "(3) Very Bad", "(4) Bad", "(5) Average", "(6) Fine", "(7) Good", "(8) Very Good", "(9) Great", "(10) Masterpiece" }));
+        jComboBoxRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxRateActionPerformed(evt);
+            }
+        });
         reviewRatingSubmitP.add(jComboBoxRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 170, -1));
 
         jSeparator8.setBackground(new java.awt.Color(200, 200, 200));
@@ -562,23 +727,28 @@ public void removePanels()
         jButtonSubmit.setForeground(new java.awt.Color(200, 200, 200));
         jButtonSubmit.setText("Submit");
         jButtonSubmit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSubmitActionPerformed(evt);
+            }
+        });
         reviewRatingSubmitP.add(jButtonSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 520, 180, 40));
 
-        jScrollPane1.setFocusable(false);
-        jScrollPane1.setOpaque(false);
+        jScrollPaneSubmit.setFocusable(false);
+        jScrollPaneSubmit.setOpaque(false);
 
-        jTextAreaReview.setColumns(20);
-        jTextAreaReview.setFont(new java.awt.Font("Palatino Linotype", 3, 20)); // NOI18N
-        jTextAreaReview.setForeground(new java.awt.Color(255, 255, 255));
-        jTextAreaReview.setLineWrap(true);
-        jTextAreaReview.setRows(5);
-        jTextAreaReview.setText("Your review here........");
-        jTextAreaReview.setBorder(null);
-        jTextAreaReview.setHighlighter(null);
-        jTextAreaReview.setOpaque(false);
-        jScrollPane1.setViewportView(jTextAreaReview);
+        jTextAreaSubmitReview.setColumns(20);
+        jTextAreaSubmitReview.setFont(new java.awt.Font("Palatino Linotype", 3, 20)); // NOI18N
+        jTextAreaSubmitReview.setForeground(new java.awt.Color(255, 255, 255));
+        jTextAreaSubmitReview.setLineWrap(true);
+        jTextAreaSubmitReview.setRows(5);
+        jTextAreaSubmitReview.setText("Your review here........");
+        jTextAreaSubmitReview.setBorder(null);
+        jTextAreaSubmitReview.setHighlighter(null);
+        jTextAreaSubmitReview.setOpaque(false);
+        jScrollPaneSubmit.setViewportView(jTextAreaSubmitReview);
 
-        reviewRatingSubmitP.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
+        reviewRatingSubmitP.add(jScrollPaneSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
@@ -589,21 +759,17 @@ public void removePanels()
         backGroundP1.setLayout(backGroundP1Layout);
         backGroundP1Layout.setHorizontalGroup(
             backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
-            .addGroup(backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP1Layout.createSequentialGroup()
+                .addGap(0, 95, Short.MAX_VALUE)
+                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 95, Short.MAX_VALUE))
         );
         backGroundP1Layout.setVerticalGroup(
             backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-            .addGroup(backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP1Layout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
+                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         contentBase.add(backGroundP1, "card4");
@@ -651,6 +817,11 @@ public void removePanels()
         jButtonViewReviews.setForeground(new java.awt.Color(200, 200, 200));
         jButtonViewReviews.setText("View Reviews");
         jButtonViewReviews.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonViewReviews.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonViewReviewsActionPerformed(evt);
+            }
+        });
         reviewRatingViewP.add(jButtonViewReviews, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 510, 70, 40));
 
         jButtonNextReview.setBackground(new java.awt.Color(115, 0, 0));
@@ -658,6 +829,11 @@ public void removePanels()
         jButtonNextReview.setForeground(new java.awt.Color(200, 200, 200));
         jButtonNextReview.setText("Next Review");
         jButtonNextReview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonNextReview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNextReviewActionPerformed(evt);
+            }
+        });
         reviewRatingViewP.add(jButtonNextReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, 180, 40));
 
         jtextUserName.setEditable(false);
@@ -676,22 +852,22 @@ public void removePanels()
         jtextUserRate.setOpaque(false);
         reviewRatingViewP.add(jtextUserRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 50, 40));
 
-        jScrollPane2.setFocusable(false);
-        jScrollPane2.setOpaque(false);
+        jScrollPaneView.setFocusable(false);
+        jScrollPaneView.setOpaque(false);
 
-        jTextAreaReview1.setEditable(false);
-        jTextAreaReview1.setColumns(20);
-        jTextAreaReview1.setFont(new java.awt.Font("Palatino Linotype", 3, 20)); // NOI18N
-        jTextAreaReview1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextAreaReview1.setLineWrap(true);
-        jTextAreaReview1.setRows(5);
-        jTextAreaReview1.setText("The quick brown fox jumps over the lazy dog whatever now");
-        jTextAreaReview1.setBorder(null);
-        jTextAreaReview1.setHighlighter(null);
-        jTextAreaReview1.setOpaque(false);
-        jScrollPane2.setViewportView(jTextAreaReview1);
+        jTextAreaViewReview.setEditable(false);
+        jTextAreaViewReview.setColumns(20);
+        jTextAreaViewReview.setFont(new java.awt.Font("Palatino Linotype", 3, 20)); // NOI18N
+        jTextAreaViewReview.setForeground(new java.awt.Color(255, 255, 255));
+        jTextAreaViewReview.setLineWrap(true);
+        jTextAreaViewReview.setRows(5);
+        jTextAreaViewReview.setText("The quick brown fox jumps over the lazy dog whatever now");
+        jTextAreaViewReview.setBorder(null);
+        jTextAreaViewReview.setHighlighter(null);
+        jTextAreaViewReview.setOpaque(false);
+        jScrollPaneView.setViewportView(jTextAreaViewReview);
 
-        reviewRatingViewP.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
+        reviewRatingViewP.add(jScrollPaneView, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
@@ -761,13 +937,13 @@ public void removePanels()
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void movieTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieTableButtonActionPerformed
+    private void moviesTableBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBActionPerformed
         this.LoadPanel(backGroundP);
-    }//GEN-LAST:event_movieTableButtonActionPerformed
+    }//GEN-LAST:event_moviesTableBActionPerformed
 
-    private void StatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatisticsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StatisticsActionPerformed
+    private void moviesTableBaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBaActionPerformed
+        this.LoadPanel(backGroundP);
+    }//GEN-LAST:event_moviesTableBaActionPerformed
 
     private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
         RegisterLoginWindow loginFrame = new RegisterLoginWindow();
@@ -780,18 +956,6 @@ public void removePanels()
         this.setVisible(false);
         loginFrame.setVisible(true);
     }//GEN-LAST:event_signOutButton1ActionPerformed
-
-    private void AddDeleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDeleteMovieBActionPerformed
-        this.LoadPanel(backGroundPa);
-    }//GEN-LAST:event_AddDeleteMovieBActionPerformed
-
-    private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
-        this.LoadPanel(backGroundP2);
-    }//GEN-LAST:event_revRateViewBActionPerformed
-
-    private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
-       this.LoadPanel(backGroundP1);
-    }//GEN-LAST:event_revRateSubmitBActionPerformed
 
     private void jtextratingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextratingActionPerformed
         // TODO add your handling code here:
@@ -807,28 +971,39 @@ public void removePanels()
 
             int id = Integer.parseInt(idText);
             PreparedStatement mystatement = con.prepareStatement("DELETE FROM movies WHERE id = ?");
-
             mystatement.setInt(1, id);
             mystatement.execute();
 
+            //code for system_logs
+            int adminId = Integer.parseInt(adminIdL.getText().substring(10));
+            String logMessage = "Admin with adminID = " + adminId + " has added a deleted a movie with movieId = " + id;
+            mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+            mystatement.setNull(1, java.sql.Types.INTEGER);
+            mystatement.setInt(2, adminId);
+            mystatement.setInt(3, id);
+            mystatement.setString(4, getDateTime());
+            mystatement.setString(5, "Delete");
+            mystatement.setString(6, logMessage);
+            mystatement.execute();
+
             JOptionPane.showMessageDialog(null,
-                "Success",
-                "Successfully Added",
-                JOptionPane.INFORMATION_MESSAGE);
+                    "Success",
+                    "Successfully Added",
+                    JOptionPane.INFORMATION_MESSAGE);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,
-                "Enter a numeric rating",
-                "Rating error",
-                JOptionPane.ERROR_MESSAGE);
+                    "Enter a numeric rating",
+                    "Rating error",
+                    JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(AddDeleteMovie.class.getName()).log(Level.SEVERE, null, ex);
 
             JOptionPane.showMessageDialog(null,
-                "Unable to delete",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
+                    "Unable to delete",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jdeleteActionPerformed
 
@@ -842,42 +1017,293 @@ public void removePanels()
 
             //display error message
             JOptionPane.showMessageDialog(null,
-                "Values can't be set to empty or null!",
-                "Empty/Null Error!",
-                JOptionPane.ERROR_MESSAGE);
+                    "Values can't be set to empty or null!",
+                    "Empty/Null Error!",
+                    JOptionPane.ERROR_MESSAGE);
         } else {
 
             try {
-                try {
-                    stat = con.createStatement();
-                    // query to insert data into movie table
 
-                    double rate = Double.parseDouble(rating);
+                // query to insert data into movie table
+                double rate = Double.parseDouble(rating);
+                int movieId = 0;
+                int adminId = 0;
+                PreparedStatement myStatement = con.prepareStatement("INSERT INTO movies (id,name,genre,rating) VALUES(DEFAULT,?,?,?)");
+                myStatement.setString(1, name);
+                myStatement.setString(2, genre);
+                myStatement.setDouble(3, rate);
+                myStatement.execute();
+                System.out.println("done1");
 
-                    PreparedStatement myStatement = con.prepareStatement("INSERT INTO movies (id,name,genre,rating) VALUES(DEFAULT,?,?,?)");
-                    myStatement.setString(1, name);
-                    myStatement.setString(2, genre);
-                    myStatement.setDouble(3, rate);
-                    myStatement.execute();
-
-                    JOptionPane.showMessageDialog(null,
+                //code for system logs.
+                // first retrieve the id of the inserted movie.
+                stat = con.createStatement();
+                res = stat.executeQuery("SELECT ID FROM movies ORDER BY ID DESC LIMIT 1");
+                if (res.next()) {
+                    movieId = res.getInt("ID");
+                }
+                System.out.println("done2");
+                // Write the logs in the table
+                adminId = Integer.parseInt(adminIdL.getText().substring(10));
+                String logMessage = "Admin with adminID = " + adminId + " has added a movie with movieId = " + movieId;
+                myStatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                myStatement.setNull(1, java.sql.Types.INTEGER);
+                myStatement.setInt(2, adminId);
+                myStatement.setInt(3, movieId);
+                myStatement.setString(4, getDateTime());
+                myStatement.setString(5, "Add");
+                myStatement.setString(6, logMessage);
+                myStatement.execute();
+                JOptionPane.showMessageDialog(null,
                         "Success",
                         "Successfully Added",
                         JOptionPane.INFORMATION_MESSAGE);
 
-                    // res = stat.executeQuery("INSERT INTO movies (id,name,genre,rating) VALUES ( DEFAULT,'" + name + "','" + genre + "','" + rate + "') ");
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null,
+                // res = stat.executeQuery("INSERT INTO movies (id,name,genre,rating) VALUES ( DEFAULT,'" + name + "','" + genre + "','" + rate + "') ");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,
                         "Enter a numeric rating",
                         "Rating error",
                         JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
+
         }
 
     }//GEN-LAST:event_jaddActionPerformed
+
+    private void refreshBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBActionPerformed
+        try {
+            //button to refresh the data in the movie table
+
+            stat = con.createStatement();
+            // query to select table
+            res = stat.executeQuery("SELECT * FROM movies");
+
+            //model to update movie table values
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+            model.addColumn("Name");
+            model.addColumn("Genre");
+            model.addColumn("Rating");
+            int id;
+            String name;
+            String genre;
+            double rating;
+            int row = 0;
+            //loop to aquire data from the DB
+            while (res.next()) {
+                id = res.getInt("id");
+                name = res.getString("name");
+                genre = res.getString("genre");
+                rating = res.getDouble("rating");
+                movieArray[row][0] = String.valueOf(id);
+                movieArray[row][1] = String.valueOf(name);
+                movieArray[row][2] = String.valueOf(genre);
+                movieArray[row][3] = String.valueOf(rating);
+                model.addRow(movieArray[row]);
+                row++;
+            }
+            //set model to table
+            jmovieTable.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        jmovieTable.setAutoCreateRowSorter(true);
+
+    }//GEN-LAST:event_refreshBActionPerformed
+
+    private void addDeleteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDeleteBActionPerformed
+        this.LoadPanel(backGroundPa);
+    }//GEN-LAST:event_addDeleteBActionPerformed
+
+    private void deleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMovieBActionPerformed
+        //button to delete selected row without entering id works for id set to column 0
+
+        //geting selected id value
+        //you have to typecast to String in order to parse int
+        //try catch block for when no row is selected
+        try {
+
+            int id = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
+
+            PreparedStatement mystatement;
+            try {
+                mystatement = con.prepareStatement("DELETE FROM movies WHERE id = ?");
+                mystatement.setInt(1, id);
+                mystatement.execute();
+
+                // code for system logs.
+                int adminId = Integer.parseInt(adminIdL.getText().substring(10));
+                String logMessage = "Admin with adminID = " + adminId + " has added a deleted a movie with movieId = " + id;
+                mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                mystatement.setNull(1, java.sql.Types.INTEGER);
+                mystatement.setInt(2, adminId);
+                mystatement.setInt(3, id);
+                mystatement.setString(4, getDateTime());
+                mystatement.setString(5, "Delete");
+                mystatement.setString(6, logMessage);
+                mystatement.execute();
+
+                JOptionPane.showMessageDialog(null,
+                        "Success",
+                        "Successfully Deleted",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(MovieTable.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null,
+                        "Enter a numeric rating",
+                        "Rating error",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Please select a row to delete",
+                    "Selection error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_deleteMovieBActionPerformed
+
+    private void jTextSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextSearchActionPerformed
+
+    private void jSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchActionPerformed
+        String search = jTextSearch.getText();
+        PreparedStatement myStatement;
+        ResultSet res;
+
+        try {
+
+            // myStatement = con.prepareStatement("SELECT * FROM movies WHERE name LIKE ?'%'");
+            //  myStatement.setString(1, search);
+            // res=  myStatement.executeQuery();
+            stat = con.createStatement();
+            res = stat.executeQuery("SELECT * FROM movies WHERE name LIKE '" + search + "%'");
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+            model.addColumn("Name");
+            model.addColumn("Genre");
+            model.addColumn("Rating");
+            int id;
+            String name;
+            String genre;
+            double rating;
+            int row = 0;
+            //loop to aquire data from the DB
+            while (res.next()) {
+                id = res.getInt("id");
+                name = res.getString("name");
+                genre = res.getString("genre");
+                rating = res.getDouble("rating");
+                movieArray[row][0] = String.valueOf(id);
+                movieArray[row][1] = String.valueOf(name);
+                movieArray[row][2] = String.valueOf(genre);
+                movieArray[row][3] = String.valueOf(rating);
+                model.addRow(movieArray[row]);
+                row++;
+            }
+            //set model to table
+            jmovieTable.setModel(model);
+
+            jmovieTable.setAutoCreateRowSorter(true);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jSearchActionPerformed
+
+    private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
+        this.LoadPanel(backGroundP2);
+    }//GEN-LAST:event_revRateViewBActionPerformed
+
+    private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
+        //movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
+        this.LoadPanel(backGroundP1);
+    }//GEN-LAST:event_revRateSubmitBActionPerformed
+
+    private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
+
+        PreparedStatement mystatement;
+        String userReview, username;
+        int movieId, userId, userRating;
+
+        try {
+            movieId = Integer.parseInt(movieIdL.getText());
+            userId = Integer.parseInt(userIdL.getText().substring(9));
+            username = userNameL.getText().substring(10);
+            userRating = ((int) jComboBoxRate.getSelectedIndex());
+            userReview = jTextAreaSubmitReview.getText();
+            // insert user ratring
+            if (userRating > 0) {
+                mystatement = con.prepareStatement("INSERT INTO userrating (ID, MovieID, UserID, UserRating) VALUES (DEFAULT, ?, ?, ?)");
+                mystatement.setInt(1, movieId);
+                mystatement.setInt(2, userId);
+                mystatement.setInt(3, userRating);
+                mystatement.execute();
+
+                // code for system logs
+                String logMessage = "User: " + username + " with User ID = " + userId + " has added rating for a movie with movieId = " + movieId;
+                mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                mystatement.setNull(1, userId);
+                mystatement.setInt(2, java.sql.Types.INTEGER);
+                mystatement.setInt(3, movieId);
+                mystatement.setString(4, getDateTime());
+                mystatement.setString(5, "Add Rating");
+                mystatement.setString(6, logMessage);
+                mystatement.execute();
+
+                // insert user review
+                if (!(userReview.equals(""))) {
+                    mystatement = con.prepareStatement("INSERT INTO userreview (ID, MovieID, UserID, Review) VALUES (DEFAULT, ?, ?, ?)");
+                    mystatement.setInt(1, movieId);
+                    mystatement.setInt(2, userId);
+                    mystatement.setInt(3, userRating);
+                    mystatement.execute();
+
+                    // code for system logs
+                    logMessage = "User: " + username + " with User ID = " + userId + " has added review for a movie with movieId = " + movieId;
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                    mystatement.setNull(1, userId);
+                    mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(3, movieId);
+                    mystatement.setString(4, getDateTime());
+                    mystatement.setString(5, "Add Review");
+                    mystatement.setString(6, logMessage);
+                    mystatement.execute();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "You must Rate the movie before you can submit",
+                        "No Rate specified",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+
+        }
+
+
+    }//GEN-LAST:event_jButtonSubmitActionPerformed
+
+    private void jComboBoxRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxRateActionPerformed
+
+    private void jButtonNextReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextReviewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNextReviewActionPerformed
+
+    private void jButtonViewReviewsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonViewReviewsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonViewReviewsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -915,11 +1341,11 @@ public void removePanels()
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddDeleteMovieB;
-    private javax.swing.JButton Statistics;
     public javax.swing.JPanel UserPanel;
+    private javax.swing.JButton addDeleteB;
     private javax.swing.JPanel addDeleteMoviesP;
     private javax.swing.JLabel adminIcon;
+    private javax.swing.JLabel adminIdL;
     private javax.swing.JLabel adminNameL;
     public javax.swing.JPanel adminPanel;
     public javax.swing.JPanel backGroundP;
@@ -928,6 +1354,7 @@ public void removePanels()
     public javax.swing.JPanel backGroundPa;
     private javax.swing.JLayeredPane base1;
     private javax.swing.JLayeredPane contentBase;
+    private javax.swing.JButton deleteMovieB;
     private javax.swing.JButton jButtonNextReview;
     private javax.swing.JButton jButtonSubmit;
     private javax.swing.JButton jButtonViewReviews;
@@ -948,8 +1375,10 @@ public void removePanels()
     private javax.swing.JLabel jLabelReview;
     private javax.swing.JLabel jLabelReview1;
     private javax.swing.JLabel jLabelReviewCount;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPaneSubmit;
+    private javax.swing.JScrollPane jScrollPaneView;
+    private javax.swing.JButton jSearch;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
@@ -961,10 +1390,12 @@ public void removePanels()
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTextArea jTextAreaReview;
-    private javax.swing.JTextArea jTextAreaReview1;
+    private javax.swing.JTextArea jTextAreaSubmitReview;
+    private javax.swing.JTextArea jTextAreaViewReview;
+    private javax.swing.JTextField jTextSearch;
     private javax.swing.JButton jadd;
     private javax.swing.JButton jdelete;
+    private javax.swing.JTable jmovieTable;
     private javax.swing.JTextField jtextUserName;
     private javax.swing.JTextField jtextUserRate;
     private javax.swing.JTextField jtextgenre;
@@ -972,7 +1403,11 @@ public void removePanels()
     private javax.swing.JTextField jtextname;
     private javax.swing.JTextField jtextrating;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton movieTableButton;
+    private javax.swing.JLabel movieIdL;
+    private javax.swing.JPanel movieTableP;
+    private javax.swing.JButton moviesTableB;
+    private javax.swing.JButton moviesTableBa;
+    private javax.swing.JButton refreshB;
     private javax.swing.JButton revRateSubmitB;
     private javax.swing.JButton revRateViewB;
     private javax.swing.JPanel reviewRatingSubmitP;
@@ -981,6 +1416,7 @@ public void removePanels()
     private javax.swing.JButton signOutButton;
     private javax.swing.JButton signOutButton1;
     private javax.swing.JLabel userIcon;
+    private javax.swing.JLabel userIdL;
     private javax.swing.JLabel userNameL;
     // End of variables declaration//GEN-END:variables
 }
