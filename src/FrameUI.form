@@ -364,7 +364,7 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jSearch" min="-2" pref="40" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jaddDelete" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="refreshB" alignment="0" max="32767" attributes="0"/>
                                           <Component id="addDeleteB" alignment="0" max="32767" attributes="0"/>
                                           <Component id="revRateViewB" max="32767" attributes="0"/>
                                       </Group>
@@ -389,7 +389,7 @@
                                               <Component id="jSearch" alignment="0" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="jaddDelete" min="-2" pref="70" max="-2" attributes="0"/>
+                                          <Component id="refreshB" min="-2" pref="70" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="revRateSubmitB" min="-2" pref="70" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -448,7 +448,7 @@
                             </Component>
                           </SubComponents>
                         </Container>
-                        <Component class="javax.swing.JButton" name="jaddDelete">
+                        <Component class="javax.swing.JButton" name="refreshB">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="4b" green="4b" red="4b" type="rgb"/>
@@ -463,7 +463,7 @@
                             <Property name="actionCommand" type="java.lang.String" value=""/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jaddDeleteActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="addDeleteB">

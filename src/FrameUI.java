@@ -115,6 +115,7 @@ final void initializations()
             userIdL.setText("User ID: "+id);
             addDeleteB.setVisible(false);
             deleteMovieB.setVisible(false);
+            System.out.println(userIdL.getText().substring(9));
         }
         else if(userType == 100) // 100 refers to admin user
         {
@@ -122,6 +123,7 @@ final void initializations()
             adminIdL.setText("Admin ID: "+id);
             revRateSubmitB.setVisible(false);
             revRateViewB.setVisible(false);
+            System.out.println(adminIdL.getText().substring(10));
         }
        
         
@@ -201,7 +203,7 @@ public void removePanels()
         movieTableP = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jmovieTable = new javax.swing.JTable();
-        jaddDelete = new javax.swing.JButton();
+        refreshB = new javax.swing.JButton();
         addDeleteB = new javax.swing.JButton();
         deleteMovieB = new javax.swing.JButton();
         jTextSearch = new javax.swing.JTextField();
@@ -437,14 +439,14 @@ public void removePanels()
         jmovieTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(jmovieTable);
 
-        jaddDelete.setBackground(new java.awt.Color(75, 75, 75));
-        jaddDelete.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jaddDelete.setForeground(new java.awt.Color(200, 200, 200));
-        jaddDelete.setText("Refresh");
-        jaddDelete.setActionCommand("");
-        jaddDelete.addActionListener(new java.awt.event.ActionListener() {
+        refreshB.setBackground(new java.awt.Color(75, 75, 75));
+        refreshB.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        refreshB.setForeground(new java.awt.Color(200, 200, 200));
+        refreshB.setText("Refresh");
+        refreshB.setActionCommand("");
+        refreshB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jaddDeleteActionPerformed(evt);
+                refreshBActionPerformed(evt);
             }
         });
 
@@ -512,7 +514,7 @@ public void removePanels()
                             .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jaddDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addDeleteB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(revRateViewB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -531,7 +533,7 @@ public void removePanels()
                             .addComponent(jTextSearch)
                             .addComponent(jSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(jaddDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(refreshB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -953,8 +955,19 @@ public void removePanels()
 
             int id = Integer.parseInt(idText);
             PreparedStatement mystatement = con.prepareStatement("DELETE FROM movies WHERE id = ?");
-
             mystatement.setInt(1, id);
+            mystatement.execute();
+            
+            //code for system_logs
+            int adminId = Integer.parseInt(adminIdL.getText().substring(10));
+            String logMessage = "Admin with adminID = " + adminId + " has added a deleted a movie with movieId = " + id;
+            mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+            mystatement.setNull(1, java.sql.Types.INTEGER);
+            mystatement.setInt(2, adminId);
+            mystatement.setInt(3, id);
+            mystatement.setString(4, getDateTime());
+            mystatement.setString(5, "Delete");
+            mystatement.setString(6, logMessage);
             mystatement.execute();
 
             JOptionPane.showMessageDialog(null,
@@ -993,39 +1006,63 @@ public void removePanels()
                 JOptionPane.ERROR_MESSAGE);
         } else {
 
-            try {
+            
                 try {
-                    stat = con.createStatement();
+                    
                     // query to insert data into movie table
 
                     double rate = Double.parseDouble(rating);
-
+                    int movieId = 0;
+                    int adminId = 0;
                     PreparedStatement myStatement = con.prepareStatement("INSERT INTO movies (id,name,genre,rating) VALUES(DEFAULT,?,?,?)");
                     myStatement.setString(1, name);
                     myStatement.setString(2, genre);
                     myStatement.setDouble(3, rate);
                     myStatement.execute();
-
+                    System.out.println("done1");
+                    
+                    //code for system logs.
+                    // first retrieve the id of the inserted movie.
+                    stat = con.createStatement();
+                    res = stat.executeQuery("SELECT ID FROM movies ORDER BY ID DESC LIMIT 1");
+                    if(res.next())
+                    {
+                        movieId = res.getInt("ID");
+                    }
+                    System.out.println("done2");
+                    // Write the logs in the table
+                    adminId = Integer.parseInt(adminIdL.getText().substring(10));
+                    String logMessage = "Admin with adminID = " + adminId + " has added a movie with movieId = " + movieId;
+                    myStatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                    myStatement.setNull(1, java.sql.Types.INTEGER);
+                    myStatement.setInt(2, adminId);
+                    myStatement.setInt(3, movieId);
+                    myStatement.setString(4, getDateTime());
+                    myStatement.setString(5, "Add");
+                    myStatement.setString(6, logMessage);
+                    myStatement.execute();
                     JOptionPane.showMessageDialog(null,
                         "Success",
                         "Successfully Added",
                         JOptionPane.INFORMATION_MESSAGE);
 
                     // res = stat.executeQuery("INSERT INTO movies (id,name,genre,rating) VALUES ( DEFAULT,'" + name + "','" + genre + "','" + rate + "') ");
-                } catch (NumberFormatException e) {
+                } 
+                catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null,
                         "Enter a numeric rating",
                         "Rating error",
                         JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                catch (Exception e1) {
+                e1.printStackTrace();
+            } 
+            
         }
 
     }//GEN-LAST:event_jaddActionPerformed
 
-    private void jaddDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaddDeleteActionPerformed
+    private void refreshBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBActionPerformed
         /*try {
             //button to refresh the data in the movie table
 
@@ -1065,7 +1102,7 @@ public void removePanels()
         }
         jmovieTable.setAutoCreateRowSorter(true);*/
 
-    }//GEN-LAST:event_jaddDeleteActionPerformed
+    }//GEN-LAST:event_refreshBActionPerformed
 
     private void addDeleteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDeleteBActionPerformed
         this.LoadPanel(backGroundPa);
@@ -1086,9 +1123,23 @@ public void removePanels()
                 mystatement = con.prepareStatement("DELETE FROM movies WHERE id = ?");
                 mystatement.setInt(1, id);
                 mystatement.execute();
+                
+                // code for system logs.
+                int adminId = Integer.parseInt(adminIdL.getText().substring(10));
+                String logMessage = "Admin with adminID = " + adminId + " has added a deleted a movie with movieId = " + id;
+                mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                mystatement.setNull(1, java.sql.Types.INTEGER);
+                mystatement.setInt(2, adminId);
+                mystatement.setInt(3, id);
+                mystatement.setString(4, getDateTime());
+                mystatement.setString(5, "Delete");
+                mystatement.setString(6, logMessage);
+                mystatement.execute();
+                
+               
                 JOptionPane.showMessageDialog(null,
                     "Success",
-                    "Successfully Added",
+                    "Successfully Deleted",
                     JOptionPane.INFORMATION_MESSAGE);
 
             } catch (SQLException ex) {
@@ -1256,7 +1307,6 @@ public void removePanels()
     private javax.swing.JTextArea jTextAreaReview1;
     private javax.swing.JTextField jTextSearch;
     private javax.swing.JButton jadd;
-    private javax.swing.JButton jaddDelete;
     private javax.swing.JButton jdelete;
     private javax.swing.JTable jmovieTable;
     private javax.swing.JTextField jtextUserName;
@@ -1269,6 +1319,7 @@ public void removePanels()
     private javax.swing.JPanel movieTableP;
     private javax.swing.JButton moviesTableB;
     private javax.swing.JButton moviesTableBa;
+    private javax.swing.JButton refreshB;
     private javax.swing.JButton revRateSubmitB;
     private javax.swing.JButton revRateViewB;
     private javax.swing.JPanel reviewRatingSubmitP;
