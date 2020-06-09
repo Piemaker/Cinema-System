@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
+//import java.sql;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -14,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Statistics.Report.*;
+
 /**
  * Version : alpha
  *
@@ -87,13 +90,15 @@ public class Statistics {
 private Report GenreReport(int ID){
 /*   report will be a separete function   */
           String date=newDate(),data="",Type="Genre Report";
-            data+="Number of Geners : " + Genres.size()+"\n";
-           for (Object str : Genres.keySet()){
+          
+          data+="Number of Geners : " + Genres.size()+"\n";
+          for (Object str : Genres.keySet()){
                 data+=str + ": " + Genres.get(str)+"\n";
         }
-            Report R=new Report(date,getName(ID),Type,data);
-            SaveReport(R,ID);
-            ReportGUI G =new ReportGUI(R);
+          
+          Report R=new Report(date,getName(ID),Type,data);
+            R.setID(SaveReport(R,ID));
+            R.view();
             return R;
 }
 
@@ -150,8 +155,40 @@ try{
 return owner;
     
     }
-    private void SaveReport(Report R,int ID) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /* aka save report and get report id . */
+    private int SaveReport(Report R,int OwnerID) {
+       int ReportID=0;
+       String query="insert into Report ( Owner , Date , Report ) " +"values ( ? , ? , ?);";
+       // save 
+      try(
+          Connection con= Connect();
+          PreparedStatement stat= con.prepareStatement(query,
+                                      Statement.RETURN_GENERATED_KEYS);
+              ){
+          stat.setString(1,Integer.toString(OwnerID));
+          stat.setString(2,newDate());
+          stat.setString(3,"\""+R.getData()+"\"");
+          int affectedRows = stat.executeUpdate();
+          
+            if (affectedRows == 0) {
+            throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+        try (ResultSet generatedKeys = stat.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                // get id
+                ReportID=generatedKeys.getInt(1);
+            }
+            else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        }
+    }catch(Exception e){
+    e.printStackTrace();
+    }
+      
+        
+        return ReportID;
     }
 
 }
