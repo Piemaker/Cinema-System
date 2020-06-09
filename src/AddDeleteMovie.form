@@ -221,7 +221,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="c8" green="c8" red="c8" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="DELETE"/>
+            <Property name="text" type="java.lang.String" value="Delete"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
           <Events>
@@ -292,7 +292,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="c8" green="c8" red="c8" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="ADD"/>
+            <Property name="text" type="java.lang.String" value="Add"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jaddActionPerformed"/>
