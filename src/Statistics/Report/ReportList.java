@@ -16,6 +16,7 @@ public class ReportList extends javax.swing.JFrame {
     /* init */
     
     DefaultTableModel T = new DefaultTableModel(){
+        // to make all table readonly
         public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }};
@@ -114,7 +115,7 @@ public class ReportList extends javax.swing.JFrame {
         delete = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         ReportTable.setAutoCreateRowSorter(true);
         ReportTable.setModel(new javax.swing.table.DefaultTableModel(
