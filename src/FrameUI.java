@@ -1,4 +1,5 @@
 
+import Statistics.Statistics;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -218,8 +219,8 @@ public class FrameUI extends javax.swing.JFrame {
         adminNameL = new javax.swing.JLabel();
         adminIdL = new javax.swing.JLabel();
         moviesTableBa1 = new javax.swing.JButton();
-        signOutButton2 = new javax.swing.JButton();
-        signOutButton3 = new javax.swing.JButton();
+        ReportListButton = new javax.swing.JButton();
+        CreateReport = new javax.swing.JButton();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
         moviesTableB = new javax.swing.JButton();
@@ -284,7 +285,8 @@ public class FrameUI extends javax.swing.JFrame {
         jTextAreaViewReview = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         ReportTypeP = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        ReportType = new javax.swing.JComboBox<>();
+        Oreder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -328,19 +330,19 @@ public class FrameUI extends javax.swing.JFrame {
             }
         });
 
-        signOutButton2.setBackground(new java.awt.Color(255, 153, 0));
-        signOutButton2.setText("Create Report");
-        signOutButton2.addActionListener(new java.awt.event.ActionListener() {
+        ReportListButton.setBackground(new java.awt.Color(255, 153, 0));
+        ReportListButton.setText("Report List");
+        ReportListButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signOutButton2ActionPerformed(evt);
+                ReportListButtonActionPerformed(evt);
             }
         });
 
-        signOutButton3.setBackground(new java.awt.Color(255, 153, 0));
-        signOutButton3.setText("Report List");
-        signOutButton3.addActionListener(new java.awt.event.ActionListener() {
+        CreateReport.setBackground(new java.awt.Color(255, 153, 0));
+        CreateReport.setText("Create Report ");
+        CreateReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signOutButton3ActionPerformed(evt);
+                CreateReportActionPerformed(evt);
             }
         });
 
@@ -364,8 +366,8 @@ public class FrameUI extends javax.swing.JFrame {
                                     .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(signOutButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(signOutButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         adminPanelLayout.setVerticalGroup(
@@ -384,9 +386,9 @@ public class FrameUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(signOutButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(signOutButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(88, Short.MAX_VALUE))
         );
 
@@ -954,23 +956,37 @@ public class FrameUI extends javax.swing.JFrame {
 
         contentBase.add(backGroundP2, "card5");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Report 1", "Report 2" }));
+        ReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Genre Report", "Rate Report" }));
+
+        Oreder.setText("Order");
+        Oreder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OrederActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ReportTypePLayout = new javax.swing.GroupLayout(ReportTypeP);
         ReportTypeP.setLayout(ReportTypePLayout);
         ReportTypePLayout.setHorizontalGroup(
             ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReportTypePLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ReportTypePLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ReportTypePLayout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(Oreder)))
                 .addContainerGap(346, Short.MAX_VALUE))
         );
         ReportTypePLayout.setVerticalGroup(
             ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReportTypePLayout.createSequentialGroup()
                 .addGap(127, 127, 127)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(439, Short.MAX_VALUE))
+                .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(Oreder)
+                .addContainerGap(367, Short.MAX_VALUE))
         );
 
         contentBase.add(ReportTypeP, "card6");
@@ -1516,13 +1532,25 @@ public class FrameUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_moviesTableBa1ActionPerformed
 
-    private void signOutButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButton2ActionPerformed
+    private void ReportListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportListButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_signOutButton2ActionPerformed
+         Statistics.showList();
+    }//GEN-LAST:event_ReportListButtonActionPerformed
 
-    private void signOutButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButton3ActionPerformed
+    private void CreateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateReportActionPerformed
         this.LoadPanel(ReportTypeP);
-    }//GEN-LAST:event_signOutButton3ActionPerformed
+    }//GEN-LAST:event_CreateReportActionPerformed
+
+    private void OrederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrederActionPerformed
+        // TODO add your handling code here:
+                  Statistics R = new Statistics();
+                  //int ID=Integer.parseInt(adminIdL.getText().substring(10));
+                  int ID = 1;
+                  int Type=ReportType.getSelectedIndex();
+                  
+                  R.orderReport(ID, Type);
+        
+    }//GEN-LAST:event_OrederActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1560,6 +1588,10 @@ public class FrameUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CreateReport;
+    private javax.swing.JButton Oreder;
+    private javax.swing.JButton ReportListButton;
+    private javax.swing.JComboBox<String> ReportType;
     private javax.swing.JPanel ReportTypeP;
     public javax.swing.JPanel UserPanel;
     private javax.swing.JButton addDeleteB;
@@ -1577,7 +1609,6 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteMovieB;
     private javax.swing.JButton jButtonNextReview;
     private javax.swing.JButton jButtonSubmit;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxRate;
     private javax.swing.JLabel jLabeSlash;
     private javax.swing.JLabel jLabel1;
@@ -1631,8 +1662,6 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JPanel secondaryPanel;
     private javax.swing.JButton signOutButton;
     private javax.swing.JButton signOutButton1;
-    private javax.swing.JButton signOutButton2;
-    private javax.swing.JButton signOutButton3;
     private javax.swing.JLabel userIcon;
     private javax.swing.JLabel userIdL;
     private javax.swing.JLabel userNameL;

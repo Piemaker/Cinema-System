@@ -99,8 +99,8 @@
                                           </Group>
                                       </Group>
                                       <Component id="moviesTableBa1" alignment="0" min="-2" pref="255" max="-2" attributes="0"/>
-                                      <Component id="signOutButton2" alignment="0" min="-2" pref="255" max="-2" attributes="0"/>
-                                      <Component id="signOutButton3" alignment="0" min="-2" pref="255" max="-2" attributes="0"/>
+                                      <Component id="ReportListButton" alignment="0" min="-2" pref="255" max="-2" attributes="0"/>
+                                      <Component id="CreateReport" alignment="0" min="-2" pref="255" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -124,9 +124,9 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="signOutButton" min="-2" pref="34" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="signOutButton2" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="ReportListButton" min="-2" pref="34" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="signOutButton3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="CreateReport" min="-2" pref="34" max="-2" attributes="0"/>
                           <EmptySpace pref="88" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -195,18 +195,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="moviesTableBa1ActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="signOutButton2">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="99" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Create Report"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="signOutButton2ActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="signOutButton3">
+                <Component class="javax.swing.JButton" name="ReportListButton">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="99" red="ff" type="rgb"/>
@@ -214,7 +203,18 @@
                     <Property name="text" type="java.lang.String" value="Report List"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="signOutButton3ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ReportListButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="CreateReport">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="99" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Create Report "/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateReportActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -1433,9 +1433,17 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBox1" min="-2" pref="265" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="ReportType" min="-2" pref="265" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                                      <Component id="Oreder" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                               <EmptySpace pref="346" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -1444,26 +1452,36 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" min="-2" pref="36" max="-2" attributes="0"/>
-                              <EmptySpace pref="439" max="32767" attributes="0"/>
+                              <Component id="ReportType" min="-2" pref="36" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                              <Component id="Oreder" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="367" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JComboBox" name="jComboBox1">
+                    <Component class="javax.swing.JComboBox" name="ReportType">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="3">
                             <StringItem index="0" value="--"/>
-                            <StringItem index="1" value="Report 1"/>
-                            <StringItem index="2" value="Report 2"/>
+                            <StringItem index="1" value="Genre Report"/>
+                            <StringItem index="2" value="Rate Report"/>
                           </StringArray>
                         </Property>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="Oreder">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Order"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OrederActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

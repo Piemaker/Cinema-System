@@ -116,6 +116,7 @@ public class ReportList extends javax.swing.JFrame {
         refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("List of Reports");
 
         ReportTable.setAutoCreateRowSorter(true);
         ReportTable.setModel(new javax.swing.table.DefaultTableModel(
