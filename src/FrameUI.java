@@ -79,6 +79,29 @@ public class FrameUI extends javax.swing.JFrame {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
 
     }
+    
+    
+    public class reviewBackground extends JPanel
+    {
+        private BufferedImage image;
+
+        public reviewBackground() {
+            try 
+            {                
+                image = ImageIO.read(getClass().getResourceAsStream("/Images/grad.png"));
+            } 
+            catch (Exception ex) 
+            {
+                System.out.println(ex.toString());
+            }
+    }
+        @Override
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, this);
+        }
+    }
 
     final void initializations() {
 // for user review/rating view
@@ -194,6 +217,7 @@ public class FrameUI extends javax.swing.JFrame {
         signOutButton = new javax.swing.JButton();
         adminNameL = new javax.swing.JLabel();
         adminIdL = new javax.swing.JLabel();
+        moviesTableBa1 = new javax.swing.JButton();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
         moviesTableB = new javax.swing.JButton();
@@ -213,7 +237,7 @@ public class FrameUI extends javax.swing.JFrame {
         jSearch = new javax.swing.JButton();
         revRateViewB = new javax.swing.JButton();
         revRateSubmitB = new javax.swing.JButton();
-        backGroundPa = new javax.swing.JPanel();
+        backGroundPa = new reviewBackground();
         addDeleteMoviesP = new javax.swing.JPanel();
         jSeparator13 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
@@ -227,7 +251,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jadd = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        backGroundP1 = new javax.swing.JPanel();
+        backGroundP1 = new reviewBackground();
         reviewRatingSubmitP = new javax.swing.JPanel();
         jLabelReview = new javax.swing.JLabel();
         jLabelRate = new javax.swing.JLabel();
@@ -241,7 +265,7 @@ public class FrameUI extends javax.swing.JFrame {
         jScrollPaneSubmit = new javax.swing.JScrollPane();
         jTextAreaSubmitReview = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
-        backGroundP2 = new javax.swing.JPanel();
+        backGroundP2 = new reviewBackground();
         reviewRatingViewP = new javax.swing.JPanel();
         jLabelReview1 = new javax.swing.JLabel();
         jLabelReviewCount = new javax.swing.JLabel();
@@ -292,6 +316,14 @@ public class FrameUI extends javax.swing.JFrame {
         adminIdL.setForeground(new java.awt.Color(255, 255, 255));
         adminIdL.setText("ID");
 
+        moviesTableBa1.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableBa1.setText("System Logs");
+        moviesTableBa1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moviesTableBa1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
         adminPanel.setLayout(adminPanelLayout);
         adminPanelLayout.setHorizontalGroup(
@@ -310,7 +342,8 @@ public class FrameUI extends javax.swing.JFrame {
                                 .addGap(14, 14, 14)
                                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         adminPanelLayout.setVerticalGroup(
@@ -322,11 +355,13 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77)
+                .addGap(84, 84, 84)
+                .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
         base1.add(adminPanel, "card3");
@@ -516,7 +551,7 @@ public class FrameUI extends javax.swing.JFrame {
         movieTablePLayout.setHorizontalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(movieTablePLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(revRateSubmitB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -528,7 +563,7 @@ public class FrameUI extends javax.swing.JFrame {
                     .addComponent(addDeleteB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(revRateViewB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(deleteMovieB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         movieTablePLayout.setVerticalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -772,9 +807,9 @@ public class FrameUI extends javax.swing.JFrame {
         backGroundP1Layout.setHorizontalGroup(
             backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backGroundP1Layout.createSequentialGroup()
-                .addGap(0, 96, Short.MAX_VALUE)
+                .addGap(0, 119, Short.MAX_VALUE)
                 .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 96, Short.MAX_VALUE))
+                .addGap(0, 102, Short.MAX_VALUE))
         );
         backGroundP1Layout.setVerticalGroup(
             backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -878,7 +913,7 @@ public class FrameUI extends javax.swing.JFrame {
         backGroundP2.setLayout(backGroundP2Layout);
         backGroundP2Layout.setHorizontalGroup(
             backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 592, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
             .addGroup(backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(backGroundP2Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1434,6 +1469,10 @@ public class FrameUI extends javax.swing.JFrame {
         jtextrating.setText("");
     }//GEN-LAST:event_jtextratingFocusGained
 
+    private void moviesTableBa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBa1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_moviesTableBa1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1530,6 +1569,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JPanel movieTableP;
     private javax.swing.JButton moviesTableB;
     private javax.swing.JButton moviesTableBa;
+    private javax.swing.JButton moviesTableBa1;
     private javax.swing.JButton refreshB;
     private javax.swing.JButton revRateSubmitB;
     private javax.swing.JButton revRateViewB;
