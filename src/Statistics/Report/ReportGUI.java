@@ -14,21 +14,27 @@ public class ReportGUI extends javax.swing.JFrame {
     /**
      * Creates new form ReportGUI
      */
+    
     public ReportGUI() {
+      this.setDefaultCloseOperation(javax.swing.JFrame. HIDE_ON_CLOSE);
         initComponents();
+        
     }
     public ReportGUI(Report R) {
+        this.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
         
         initComponents();
-        Date.setText(R.Date.toString());
+        Date.setText(R.Date);
         Owner.setText(R.Owner);
         Type.setText(R.Type);
         Data.setText(R.Data);
         ID.setText(Integer.toString(R.ID));
         this.setVisible(true);
         this.setTitle(R.Type);
+        
     }
-
+     
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,6 +176,7 @@ public class ReportGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

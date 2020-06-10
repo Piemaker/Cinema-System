@@ -1,23 +1,103 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Statistics.Report;
 
+
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Michael Samir
  */
 public class ReportList extends javax.swing.JFrame {
+    
+    /* init */
+    
+    DefaultTableModel T = new DefaultTableModel(){
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }};
 
+      int ReportIdColumn = 0;
+    
     /**
      * Creates new form ReportList
      */
     public ReportList() {
+      
         initComponents();
+        setModel();
+        getRecords();
+        ViewModel();
+        this.setVisible(true);
     }
+    
+    private void setModel(){
+        /* future work refactor to get scheme from Report class and Scheme length*/
+     // set GUI table
+     /*
+     ReportTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
+            },
+            new String [] {
+                "Report ID", "Type", "Date", "Owner", "Owner id"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+     */
+     // data table scheme
+     
+     int c= ReportTable.getColumnCount();
+     
+     for (int i=0;i<c;i++){
+     T.addColumn(ReportTable.getColumnName(i));  
+    
+     }
+}
+    private void ViewModel(){
+    ReportTable.setModel(T);
+    
+    }
+  /// Records  
+ private void updateRecords(){
+    // setModel();
+     getRecords();
+ }   
+ private void getRecords(){
+     // clean gui table
+     while(T.getRowCount() > 0){
+     T.removeRow(0);
+ }
+     
+        try {
+            ResultSet X= Report.getReportlist();
+            while(X.next()){
+                Report xt=new Report(X);
+                T.addRow( xt.getRow());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+ }
+    // 
+ private void update(){
+ updateRecords();
+ ViewModel();
+ }
+
+   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,38 +109,54 @@ public class ReportList extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        ReportTable = new javax.swing.JTable();
+        view = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        ReportTable.setAutoCreateRowSorter(true);
+        ReportTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Report ID", "Date", "Owner", "Type"
+                "Report ID", "Type", "Date", "Owner", "Owner id"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(ReportTable);
 
         jScrollPane2.setViewportView(jScrollPane1);
 
-        jButton1.setText("view");
+        view.setText("view");
+        view.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Delete");
+        delete.setText("Delete");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Refresh");
+        refresh.setText("Refresh");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,11 +168,11 @@ public class ReportList extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jButton1)
+                .addComponent(view)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(delete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(refresh)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -84,9 +180,9 @@ public class ReportList extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(view)
+                    .addComponent(delete)
+                    .addComponent(refresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -94,6 +190,34 @@ public class ReportList extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void viewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewActionPerformed
+        // TODO add your handling code here:
+        Report.View(Integer.parseInt(ReportTable.getValueAt(ReportTable.getSelectedRow(), ReportIdColumn).toString()));
+        
+    }//GEN-LAST:event_viewActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+        if (Report.delete( Integer.parseInt(ReportTable.getValueAt(ReportTable.getSelectedRow(), ReportIdColumn).toString())) ){
+            JOptionPane.showMessageDialog(this 
+                    ,"Report Succesfuly Deleted !"
+                    , "Report Deletion"
+                    ,JOptionPane.OK_OPTION);
+        }else{
+        JOptionPane.showMessageDialog(this 
+                    ,"Deletion failed !"
+                    , "Report Deletion"
+                    ,JOptionPane.ERROR_MESSAGE);
+        }
+        update();
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        // TODO add your handling code here:
+        update();
+        
+    }//GEN-LAST:event_refreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,11 +255,11 @@ public class ReportList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JTable ReportTable;
+    private javax.swing.JButton delete;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton refresh;
+    private javax.swing.JButton view;
     // End of variables declaration//GEN-END:variables
 }
