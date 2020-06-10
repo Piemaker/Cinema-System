@@ -1,9 +1,10 @@
 
+import Statistics.Statistics;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.lang.ArrayIndexOutOfBoundsException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -86,9 +87,12 @@ public class FrameUI extends javax.swing.JFrame {
         private BufferedImage image;
 
         public reviewBackground() {
-            try {
-                image = ImageIO.read(getClass().getResourceAsStream("/Images/grad.png"));
-            } catch (Exception ex) {
+            try 
+            {                
+                image = ImageIO.read(getClass().getResourceAsStream("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"));
+            } 
+            catch (Exception ex) 
+            {
                 System.out.println(ex.toString());
             }
         }
@@ -220,15 +224,17 @@ public class FrameUI extends javax.swing.JFrame {
         adminNameL = new javax.swing.JLabel();
         adminIdL = new javax.swing.JLabel();
         moviesTableBa1 = new javax.swing.JButton();
+        ReportListButton = new javax.swing.JButton();
+        CreateReport = new javax.swing.JButton();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
         moviesTableB = new javax.swing.JButton();
         signOutButton1 = new javax.swing.JButton();
         userNameL = new javax.swing.JLabel();
         userIdL = new javax.swing.JLabel();
-        secondaryPanel = new javax.swing.JPanel();
+        secondaryPanel = new reviewBackground();
         contentBase = new javax.swing.JLayeredPane();
-        backGroundP = new javax.swing.JPanel();
+        backGroundP = new reviewBackground();
         movieTableP = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jmovieTable = new javax.swing.JTable();
@@ -283,10 +289,13 @@ public class FrameUI extends javax.swing.JFrame {
         jScrollPaneView = new javax.swing.JScrollPane();
         jTextAreaViewReview = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
-        backGroundp3a = new javax.swing.JPanel();
+        backGroundP3a = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jlogTable = new javax.swing.JTable();
+        ReportTypeP = new javax.swing.JPanel();
+        ReportType = new javax.swing.JComboBox<>();
+        Oreder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -330,6 +339,22 @@ public class FrameUI extends javax.swing.JFrame {
             }
         });
 
+        ReportListButton.setBackground(new java.awt.Color(255, 153, 0));
+        ReportListButton.setText("Report List");
+        ReportListButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReportListButtonActionPerformed(evt);
+            }
+        });
+
+        CreateReport.setBackground(new java.awt.Color(255, 153, 0));
+        CreateReport.setText("Create Report ");
+        CreateReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
         adminPanel.setLayout(adminPanelLayout);
         adminPanelLayout.setHorizontalGroup(
@@ -349,7 +374,9 @@ public class FrameUI extends javax.swing.JFrame {
                                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         adminPanelLayout.setVerticalGroup(
@@ -361,13 +388,17 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
+                .addGap(46, 46, 46)
                 .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(10, 10, 10)
+                .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         base1.add(adminPanel, "card3");
@@ -917,21 +948,17 @@ public class FrameUI extends javax.swing.JFrame {
         backGroundP2.setLayout(backGroundP2Layout);
         backGroundP2Layout.setHorizontalGroup(
             backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 621, Short.MAX_VALUE)
-            .addGroup(backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP2Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         backGroundP2Layout.setVerticalGroup(
             backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-            .addGroup(backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP2Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         contentBase.add(backGroundP2, "card5");
@@ -976,21 +1003,56 @@ public class FrameUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout backGroundp3aLayout = new javax.swing.GroupLayout(backGroundp3a);
-        backGroundp3a.setLayout(backGroundp3aLayout);
-        backGroundp3aLayout.setHorizontalGroup(
-            backGroundp3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout backGroundP3aLayout = new javax.swing.GroupLayout(backGroundP3a);
+        backGroundP3a.setLayout(backGroundP3aLayout);
+        backGroundP3aLayout.setHorizontalGroup(
+            backGroundP3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        backGroundp3aLayout.setVerticalGroup(
-            backGroundp3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        backGroundP3aLayout.setVerticalGroup(
+            backGroundP3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        contentBase.add(backGroundp3a, "card6");
+        contentBase.add(backGroundP3a, "card7");
+
+        ReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Genre Report", "Rate Report" }));
+
+        Oreder.setText("Order");
+        Oreder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OrederActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ReportTypePLayout = new javax.swing.GroupLayout(ReportTypeP);
+        ReportTypeP.setLayout(ReportTypePLayout);
+        ReportTypePLayout.setHorizontalGroup(
+            ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReportTypePLayout.createSequentialGroup()
+                .addGroup(ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ReportTypePLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ReportTypePLayout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(Oreder)))
+                .addContainerGap(346, Short.MAX_VALUE))
+        );
+        ReportTypePLayout.setVerticalGroup(
+            ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReportTypePLayout.createSequentialGroup()
+                .addGap(127, 127, 127)
+                .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(Oreder)
+                .addContainerGap(367, Short.MAX_VALUE))
+        );
+
+        contentBase.add(ReportTypeP, "card6");
 
         javax.swing.GroupLayout secondaryPanelLayout = new javax.swing.GroupLayout(secondaryPanel);
         secondaryPanel.setLayout(secondaryPanelLayout);
@@ -1275,10 +1337,24 @@ public class FrameUI extends javax.swing.JFrame {
 
     private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
         //button to view reviews of selected movie
-
-        int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
+      
+      /*try
+      {
+            movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));  
+      }catch(ArrayIndexOutOfBoundsException ex)
+      {
+           JOptionPane.showMessageDialog(null,
+                    "Please select a movie to review",
+                    "Selection error",
+                    JOptionPane.ERROR_MESSAGE);
+      }*/
+        
+        
 
         try {
+            
+            int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
+            
             //join review table and rate table to get review,rate and userid
             joinStatement = con.prepareStatement("SELECT userreview.review, userrating.userrating, userrating.userid"
                     + " FROM userreview INNER JOIN userrating ON userrating.UserID = userreview.UserID"
@@ -1318,7 +1394,7 @@ public class FrameUI extends javax.swing.JFrame {
             resName.next();
             name = resName.getString("name");
             jtextUserName.setText(name);
-
+            this.LoadPanel(backGroundP2);
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -1328,25 +1404,30 @@ public class FrameUI extends javax.swing.JFrame {
             jLabelReviewCount.setText("MAX");
             jLabelCurrentReview.setText("1");
         }
+      catch(Exception ex)
+      {
+           JOptionPane.showMessageDialog(null,
+                    "Please select a movie to view its reviews",
+                    "Selection error",
+                    JOptionPane.ERROR_MESSAGE);
+      }
 
-        this.LoadPanel(backGroundP2);
+        
     }//GEN-LAST:event_revRateViewBActionPerformed
 
     private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
-        
-        try{
-        movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
-         this.LoadPanel(backGroundP1);
-        }
-        catch(ArrayIndexOutOfBoundsException e){
-                
-                JOptionPane.showMessageDialog(null,
-                    "Please select a movie",
+        try
+        {
+            movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
+            this.LoadPanel(backGroundP1);
+        }catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(null,
+                    "Please select a movie to review",
                     "Selection error",
                     JOptionPane.ERROR_MESSAGE);
-                        
-                        }
-       
+                }
+        
     }//GEN-LAST:event_revRateSubmitBActionPerformed
 
     private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
@@ -1610,8 +1691,28 @@ public class FrameUI extends javax.swing.JFrame {
         }
         jlogTable.setAutoCreateRowSorter(true);
 
-        this.LoadPanel(backGroundp3a);
+        this.LoadPanel(backGroundP3a);
     }//GEN-LAST:event_moviesTableBa1ActionPerformed
+
+    private void ReportListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportListButtonActionPerformed
+        // TODO add your handling code here:
+         Statistics.showList();
+    }//GEN-LAST:event_ReportListButtonActionPerformed
+
+    private void CreateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateReportActionPerformed
+        this.LoadPanel(ReportTypeP);
+    }//GEN-LAST:event_CreateReportActionPerformed
+
+    private void OrederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrederActionPerformed
+        // TODO add your handling code here:
+                  Statistics R = new Statistics();
+                  //int ID=Integer.parseInt(adminIdL.getText().substring(10));
+                  int ID = 1;
+                  int Type=ReportType.getSelectedIndex();
+                  
+                  R.orderReport(ID, Type);
+        
+    }//GEN-LAST:event_OrederActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1649,6 +1750,11 @@ public class FrameUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CreateReport;
+    private javax.swing.JButton Oreder;
+    private javax.swing.JButton ReportListButton;
+    private javax.swing.JComboBox<String> ReportType;
+    private javax.swing.JPanel ReportTypeP;
     public javax.swing.JPanel UserPanel;
     private javax.swing.JButton addDeleteB;
     private javax.swing.JPanel addDeleteMoviesP;
@@ -1659,8 +1765,8 @@ public class FrameUI extends javax.swing.JFrame {
     public javax.swing.JPanel backGroundP;
     private javax.swing.JPanel backGroundP1;
     private javax.swing.JPanel backGroundP2;
+    private javax.swing.JPanel backGroundP3a;
     public javax.swing.JPanel backGroundPa;
-    private javax.swing.JPanel backGroundp3a;
     private javax.swing.JLayeredPane base1;
     private javax.swing.JLayeredPane contentBase;
     private javax.swing.JButton deleteMovieB;
