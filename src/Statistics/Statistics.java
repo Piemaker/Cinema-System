@@ -165,7 +165,7 @@ override it to connect to the data base u want.
             } catch (ClassNotFoundException e) {
             }
             try {
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinema","root",Password);
+                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinema","Mohab","qwa220zxs18MN313");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

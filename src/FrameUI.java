@@ -284,6 +284,7 @@ public class FrameUI extends javax.swing.JFrame {
         jScrollPaneView = new javax.swing.JScrollPane();
         jTextAreaViewReview = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
+        backGroundP3a = new javax.swing.JPanel();
         ReportTypeP = new javax.swing.JPanel();
         ReportType = new javax.swing.JComboBox<>();
         Oreder = new javax.swing.JButton();
@@ -955,6 +956,19 @@ public class FrameUI extends javax.swing.JFrame {
         );
 
         contentBase.add(backGroundP2, "card5");
+
+        javax.swing.GroupLayout backGroundP3aLayout = new javax.swing.GroupLayout(backGroundP3a);
+        backGroundP3a.setLayout(backGroundP3aLayout);
+        backGroundP3aLayout.setHorizontalGroup(
+            backGroundP3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 621, Short.MAX_VALUE)
+        );
+        backGroundP3aLayout.setVerticalGroup(
+            backGroundP3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 602, Short.MAX_VALUE)
+        );
+
+        contentBase.add(backGroundP3a, "card7");
 
         ReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Genre Report", "Rate Report" }));
 
@@ -1633,6 +1647,7 @@ public class FrameUI extends javax.swing.JFrame {
     public javax.swing.JPanel backGroundP;
     private javax.swing.JPanel backGroundP1;
     private javax.swing.JPanel backGroundP2;
+    private javax.swing.JPanel backGroundP3a;
     public javax.swing.JPanel backGroundPa;
     private javax.swing.JLayeredPane base1;
     private javax.swing.JLayeredPane contentBase;
