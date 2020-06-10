@@ -16,12 +16,10 @@ public class ReportGUI extends javax.swing.JFrame {
      */
     
     public ReportGUI() {
-      this.setDefaultCloseOperation(javax.swing.JFrame. HIDE_ON_CLOSE);
         initComponents();
         
     }
     public ReportGUI(Report R) {
-        this.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
         
         initComponents();
         Date.setText(R.Date);
@@ -55,7 +53,7 @@ public class ReportGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Data.setEditable(false);
         Data.setColumns(20);
