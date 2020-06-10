@@ -65,8 +65,8 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1239,68 +1239,141 @@ public class FrameUI extends javax.swing.JFrame {
     }//GEN-LAST:event_revRateViewBActionPerformed
 
     private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
-        //movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
+        movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
         this.LoadPanel(backGroundP1);
     }//GEN-LAST:event_revRateSubmitBActionPerformed
 
     private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
 
         PreparedStatement mystatement;
-        String userReview, username;
-        int movieId, userId, userRating;
+    String review, username, logMessage;
+    int movieID, userID, rate;
 
-        try {
-            movieId = Integer.parseInt(movieIdL.getText());
-            userId = Integer.parseInt(userIdL.getText().substring(9));
-            username = userNameL.getText().substring(10);
-            userRating = ((int) jComboBoxRate.getSelectedIndex());
-            userReview = jTextAreaSubmitReview.getText();
-            // insert user ratring
-            if (userRating > 0) {
-                mystatement = con.prepareStatement("INSERT INTO userrating (ID, MovieID, UserID, UserRating) VALUES (DEFAULT, ?, ?, ?)");
-                mystatement.setInt(1, movieId);
-                mystatement.setInt(2, userId);
-                mystatement.setInt(3, userRating);
-                mystatement.execute();
+    
+    movieID = Integer.parseInt(movieIdL.getText());
+    userID = Integer.parseInt(userIdL.getText().substring(9));
+    username = userNameL.getText().substring(10);
+    rate = jComboBoxRate.getSelectedIndex();
+    review = jTextAreaSubmitReview.getText();
+     if (rate == 0) {
+            JOptionPane.showMessageDialog(null,
+                    "Please select a rating",
+                    "Please select a value",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (review.equals("")) {
 
-                // code for system logs
-                String logMessage = "User: " + username + " with User ID = " + userId + " has added rating for a movie with movieId = " + movieId;
-                mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
-                mystatement.setNull(1, userId);
-                mystatement.setInt(2, java.sql.Types.INTEGER);
-                mystatement.setInt(3, movieId);
-                mystatement.setString(4, getDateTime());
-                mystatement.setString(5, "Add Rating");
-                mystatement.setString(6, logMessage);
-                mystatement.execute();
+            JOptionPane.showMessageDialog(null,
+                    "Please write a review",
+                    "Empty review isn't accepeted",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-                // insert user review
-                if (!(userReview.equals(""))) {
-                    mystatement = con.prepareStatement("INSERT INTO userreview (ID, MovieID, UserID, Review) VALUES (DEFAULT, ?, ?, ?)");
-                    mystatement.setInt(1, movieId);
-                    mystatement.setInt(2, userId);
-                    mystatement.setInt(3, userRating);
+        }
+
+        if (rate != 0 && !review.equals("")) {
+
+            try {
+                //check if review already exists by counting if a row exists
+
+                mystatement = con.prepareStatement("SELECT COUNT(*) FROM userreview  WHERE movieid = ? AND userid = ?");
+                mystatement.setInt(1, movieID);
+                mystatement.setInt(2, userID);
+                res = mystatement.executeQuery();
+                res.next();
+                int count = res.getInt("COUNT(*)");
+                System.out.println(count);
+                if (count != 0) {
+
+                    mystatement = con.prepareStatement("UPDATE userrating SET userrating = ? WHERE movieid = ? AND userid = ?");
+                    mystatement.setInt(1, rate);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setInt(3, userID);
                     mystatement.execute();
-
-                    // code for system logs
-                    logMessage = "User: " + username + " with User ID = " + userId + " has added review for a movie with movieId = " + movieId;
+                    System.out.println("Success 1");
+                    
+                    logMessage = "User: " + username + " with User ID = " + userID + " has updated rating for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
-                    mystatement.setNull(1, userId);
+                    mystatement.setNull(1, userID);
                     mystatement.setInt(2, java.sql.Types.INTEGER);
-                    mystatement.setInt(3, movieId);
+                    mystatement.setInt(3, movieID);
+                    mystatement.setString(4, getDateTime());
+                    mystatement.setString(5, "Update Rating");
+                    mystatement.setString(6, logMessage);
+                    mystatement.execute();
+                    System.out.println("Success 2");
+                    
+                    mystatement = con.prepareStatement("UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?");
+                    mystatement.setString(1, review);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setInt(3, userID);
+                    mystatement.execute();
+                    System.out.println("Success 3");
+                    
+                    logMessage = "User: " + username + " with User ID = " + userID + " has updated review for a movie with movieId = " + movieID;
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                    mystatement.setNull(1, userID);
+                    mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(3, movieID);
+                    mystatement.setString(4, getDateTime());
+                    mystatement.setString(5, "Update Review");
+                    mystatement.setString(6, logMessage);
+                    mystatement.execute();
+                    System.out.println("Success 4");
+                    
+                     JOptionPane.showMessageDialog(null,
+                            "Success!",
+                            "Review and rate have been updated.",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                } else {
+                    //insert rate into userrate table
+                    mystatement = con.prepareStatement("INSERT INTO userrating (id,movieid,userid,userrating) VALUES(DEFAULT,?,?,?)");
+                    mystatement.setInt(1, movieID);
+                    mystatement.setInt(2, userID);
+                    mystatement.setInt(3, rate);
+                    mystatement.execute();
+                    
+                    logMessage = "User: " + username + " with User ID = " + userID + " has added rating for a movie with movieId = " + movieID;
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                    mystatement.setNull(1, userID);
+                    mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(3, movieID);
+                    mystatement.setString(4, getDateTime());
+                    mystatement.setString(5, "Add Rating");
+                    mystatement.setString(6, logMessage);
+                    mystatement.execute();
+                    
+                    //insert review into userreview table
+                    mystatement = con.prepareStatement("INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)");
+                    mystatement.setInt(1, movieID);
+                    mystatement.setInt(2, userID);
+                    mystatement.setString(3, review);
+                    mystatement.execute();
+                    
+                     logMessage = "User: " + username + " with User ID = " + userID + " has added review for a movie with movieId = " + movieID;
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                    mystatement.setNull(1, userID);
+                    mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(3, movieID);
                     mystatement.setString(4, getDateTime());
                     mystatement.setString(5, "Add Review");
                     mystatement.setString(6, logMessage);
                     mystatement.execute();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null,
-                        "You must Rate the movie before you can submit",
-                        "No Rate specified",
-                        JOptionPane.ERROR_MESSAGE);
-            }
 
-        } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null,
+                            "Success!",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+
+                JOptionPane.showMessageDialog(null,
+                        "Unable to submit",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
 
         }
 
