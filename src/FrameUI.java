@@ -42,6 +42,7 @@ public class FrameUI extends javax.swing.JFrame {
     Statement stat;
     ResultSet res;
     String[][] movieArray = new String[100][4];
+    String[][] logsArray = new String[300][7];
 
     //statment to fetch data of userRevRateView
     PreparedStatement joinStatement;
@@ -65,8 +66,8 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,25 +80,21 @@ public class FrameUI extends javax.swing.JFrame {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
 
     }
-    
-    
-    public class reviewBackground extends JPanel
-    {
+
+    public class reviewBackground extends JPanel {
+
         private BufferedImage image;
 
         public reviewBackground() {
-            try 
-            {                
+            try {
                 image = ImageIO.read(getClass().getResourceAsStream("/Images/grad.png"));
-            } 
-            catch (Exception ex) 
-            {
+            } catch (Exception ex) {
                 System.out.println(ex.toString());
             }
-    }
+        }
+
         @Override
-        public void paintComponent(Graphics g)
-        {
+        public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(image, 0, 0, this);
         }
@@ -135,9 +132,14 @@ public class FrameUI extends javax.swing.JFrame {
         jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));
 
 //for moviesTable
-        JTableHeader anHeader = jmovieTable.getTableHeader();
-        anHeader.setForeground(new java.awt.Color(75, 75, 75));
-        anHeader.setBackground(new java.awt.Color(75, 75, 75));
+        JTableHeader movieHeader = jmovieTable.getTableHeader();
+        movieHeader.setForeground(new java.awt.Color(75, 75, 75));
+        movieHeader.setBackground(new java.awt.Color(75, 75, 75));
+
+        //logsTable Color 
+        JTableHeader logHeader = jlogTable.getTableHeader();
+        logHeader.setForeground(new java.awt.Color(75, 75, 75));
+        logHeader.setBackground(new java.awt.Color(75, 75, 75));
     }
 
     public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
@@ -281,6 +283,10 @@ public class FrameUI extends javax.swing.JFrame {
         jScrollPaneView = new javax.swing.JScrollPane();
         jTextAreaViewReview = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
+        backGroundp3a = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jlogTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -551,8 +557,8 @@ public class FrameUI extends javax.swing.JFrame {
         movieTablePLayout.setHorizontalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(movieTablePLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(revRateSubmitB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, movieTablePLayout.createSequentialGroup()
@@ -563,31 +569,29 @@ public class FrameUI extends javax.swing.JFrame {
                     .addComponent(addDeleteB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(revRateViewB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(deleteMovieB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         movieTablePLayout.setVerticalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(movieTablePLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(movieTablePLayout.createSequentialGroup()
-                        .addComponent(jScrollPane3)
-                        .addContainerGap())
-                    .addGroup(movieTablePLayout.createSequentialGroup()
-                        .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextSearch)
-                            .addComponent(jSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(refreshB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addDeleteB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextSearch)
+                    .addComponent(jSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(refreshB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addDeleteB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 151, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, movieTablePLayout.createSequentialGroup()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout backGroundPLayout = new javax.swing.GroupLayout(backGroundP);
@@ -932,6 +936,62 @@ public class FrameUI extends javax.swing.JFrame {
 
         contentBase.add(backGroundP2, "card5");
 
+        jlogTable.setBackground(new java.awt.Color(75, 75, 75));
+        jlogTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jlogTable.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jlogTable.setForeground(new java.awt.Color(200, 200, 200));
+        jlogTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "UserID", "AdminID", "MovieID", "TimeStamp", "Operation", "LogMessage"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jlogTable.setGridColor(new java.awt.Color(75, 75, 75));
+        jlogTable.setName("Movies"); // NOI18N
+        jlogTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jlogTable);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout backGroundp3aLayout = new javax.swing.GroupLayout(backGroundp3a);
+        backGroundp3a.setLayout(backGroundp3aLayout);
+        backGroundp3aLayout.setHorizontalGroup(
+            backGroundp3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        backGroundp3aLayout.setVerticalGroup(
+            backGroundp3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        contentBase.add(backGroundp3a, "card6");
+
         javax.swing.GroupLayout secondaryPanelLayout = new javax.swing.GroupLayout(secondaryPanel);
         secondaryPanel.setLayout(secondaryPanelLayout);
         secondaryPanelLayout.setHorizontalGroup(
@@ -1215,9 +1275,8 @@ public class FrameUI extends javax.swing.JFrame {
 
     private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
         //button to view reviews of selected movie
-       
+
         int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
-        
 
         try {
             //join review table and rate table to get review,rate and userid
@@ -1262,7 +1321,7 @@ public class FrameUI extends javax.swing.JFrame {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            
+
             jTextAreaViewReview.setText("No one has reviewd this movie yet, be the first to.");
             jtextUserRate.setText("X");
             jtextUserName.setText("XXXX");
@@ -1274,23 +1333,34 @@ public class FrameUI extends javax.swing.JFrame {
     }//GEN-LAST:event_revRateViewBActionPerformed
 
     private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
+        
+        try{
         movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
-        this.LoadPanel(backGroundP1);
+         this.LoadPanel(backGroundP1);
+        }
+        catch(ArrayIndexOutOfBoundsException e){
+                
+                JOptionPane.showMessageDialog(null,
+                    "Please select a movie",
+                    "Selection error",
+                    JOptionPane.ERROR_MESSAGE);
+                        
+                        }
+       
     }//GEN-LAST:event_revRateSubmitBActionPerformed
 
     private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
 
         PreparedStatement mystatement;
-    String review, username, logMessage;
-    int movieID, userID, rate;
+        String review, username, logMessage;
+        int movieID, userID, rate;
 
-    
-    movieID = Integer.parseInt(movieIdL.getText());
-    userID = Integer.parseInt(userIdL.getText().substring(9));
-    username = userNameL.getText().substring(10);
-    rate = jComboBoxRate.getSelectedIndex();
-    review = jTextAreaSubmitReview.getText();
-     if (rate == 0) {
+        movieID = Integer.parseInt(movieIdL.getText());
+        userID = Integer.parseInt(userIdL.getText().substring(9));
+        username = userNameL.getText().substring(10);
+        rate = jComboBoxRate.getSelectedIndex();
+        review = jTextAreaSubmitReview.getText();
+        if (rate == 0) {
             JOptionPane.showMessageDialog(null,
                     "Please select a rating",
                     "Please select a value",
@@ -1304,6 +1374,8 @@ public class FrameUI extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
         }
+        
+        
 
         if (rate != 0 && !review.equals("")) {
 
@@ -1325,7 +1397,7 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setInt(3, userID);
                     mystatement.execute();
                     System.out.println("Success 1");
-                    
+
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated rating for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
                     mystatement.setNull(1, userID);
@@ -1336,14 +1408,14 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setString(6, logMessage);
                     mystatement.execute();
                     System.out.println("Success 2");
-                    
+
                     mystatement = con.prepareStatement("UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?");
                     mystatement.setString(1, review);
                     mystatement.setInt(2, movieID);
                     mystatement.setInt(3, userID);
                     mystatement.execute();
                     System.out.println("Success 3");
-                    
+
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated review for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
                     mystatement.setNull(1, userID);
@@ -1354,8 +1426,8 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setString(6, logMessage);
                     mystatement.execute();
                     System.out.println("Success 4");
-                    
-                     JOptionPane.showMessageDialog(null,
+
+                    JOptionPane.showMessageDialog(null,
                             "Success!",
                             "Review and rate have been updated.",
                             JOptionPane.INFORMATION_MESSAGE);
@@ -1367,7 +1439,7 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setInt(2, userID);
                     mystatement.setInt(3, rate);
                     mystatement.execute();
-                    
+
                     logMessage = "User: " + username + " with User ID = " + userID + " has added rating for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
                     mystatement.setNull(1, userID);
@@ -1377,15 +1449,15 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setString(5, "Add Rating");
                     mystatement.setString(6, logMessage);
                     mystatement.execute();
-                    
+
                     //insert review into userreview table
                     mystatement = con.prepareStatement("INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)");
                     mystatement.setInt(1, movieID);
                     mystatement.setInt(2, userID);
                     mystatement.setString(3, review);
                     mystatement.execute();
-                    
-                     logMessage = "User: " + username + " with User ID = " + userID + " has added review for a movie with movieId = " + movieID;
+
+                    logMessage = "User: " + username + " with User ID = " + userID + " has added review for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
                     mystatement.setNull(1, userID);
                     mystatement.setInt(2, java.sql.Types.INTEGER);
@@ -1400,7 +1472,10 @@ public class FrameUI extends javax.swing.JFrame {
                             "Success",
                             JOptionPane.INFORMATION_MESSAGE);
                 }
-            } catch (SQLException ex) {
+                
+            } 
+            
+            catch (SQLException ex) {
                 ex.printStackTrace();
 
                 JOptionPane.showMessageDialog(null,
@@ -1409,6 +1484,7 @@ public class FrameUI extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
 
             }
+            
 
         }
 
@@ -1470,7 +1546,71 @@ public class FrameUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jtextratingFocusGained
 
     private void moviesTableBa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBa1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            //button to refresh the data in the movie table
+
+            stat = con.createStatement();
+            // query to select table
+            res = stat.executeQuery("SELECT * FROM system_logs");
+
+            //model to update movie table values
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+            model.addColumn("UserID");
+            model.addColumn("AdminID");
+            model.addColumn("MovieID");
+            model.addColumn("TimeStamp");
+            model.addColumn("Opeartion");
+            model.addColumn("LogMessage");
+
+            int id;
+            int userID;
+            int adminID;
+            int movieID;
+            String timeStamp;
+            String operation;
+            String logMessage;
+
+            int row = 0;
+            //loop to aquire data from the DB
+            while (res.next()) {
+                id = res.getInt("id");
+                userID = res.getInt("UserID");
+                adminID = res.getInt("AdminID");
+                movieID = res.getInt("MovieID");
+                timeStamp = res.getString("TimeStamp");
+                operation = res.getString("Operation");
+                logMessage = res.getString("LogMessage");
+
+                logsArray[row][0] = String.valueOf(id);
+                logsArray[row][1] = String.valueOf(userID);
+                logsArray[row][2] = String.valueOf(adminID);
+                logsArray[row][3] = String.valueOf(movieID);
+                logsArray[row][4] = String.valueOf(timeStamp);
+                logsArray[row][5] = String.valueOf(operation);
+                logsArray[row][6] = String.valueOf(logMessage);
+
+                model.addRow(logsArray[row]);
+                row++;
+            }
+            //set model to table
+
+            jlogTable.setModel(model);
+            //set prefered width size
+            jlogTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jlogTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jlogTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jlogTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jlogTable.getColumnModel().getColumn(4).setPreferredWidth(150);
+            jlogTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jlogTable.getColumnModel().getColumn(6).setPreferredWidth(750);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        jlogTable.setAutoCreateRowSorter(true);
+
+        this.LoadPanel(backGroundp3a);
     }//GEN-LAST:event_moviesTableBa1ActionPerformed
 
     /**
@@ -1520,6 +1660,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JPanel backGroundP1;
     private javax.swing.JPanel backGroundP2;
     public javax.swing.JPanel backGroundPa;
+    private javax.swing.JPanel backGroundp3a;
     private javax.swing.JLayeredPane base1;
     private javax.swing.JLayeredPane contentBase;
     private javax.swing.JButton deleteMovieB;
@@ -1540,6 +1681,8 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelReview;
     private javax.swing.JLabel jLabelReview1;
     private javax.swing.JLabel jLabelReviewCount;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPaneSubmit;
     private javax.swing.JScrollPane jScrollPaneView;
@@ -1558,6 +1701,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextAreaViewReview;
     private javax.swing.JTextField jTextSearch;
     private javax.swing.JButton jadd;
+    private javax.swing.JTable jlogTable;
     private javax.swing.JTable jmovieTable;
     private javax.swing.JTextField jtextUserName;
     private javax.swing.JTextField jtextUserRate;
