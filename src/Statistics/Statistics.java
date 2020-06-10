@@ -119,7 +119,7 @@ override it to connect to the data base u want.
 */
     public static Connection Connect() {
         Connection con = null;
-        String Password = "miko2099";
+        String Password = "root";
                  try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
             } catch (ClassNotFoundException e) {
