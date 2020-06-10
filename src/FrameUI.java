@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.lang.ArrayIndexOutOfBoundsException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -88,7 +88,7 @@ public class FrameUI extends javax.swing.JFrame {
         public reviewBackground() {
             try 
             {                
-                image = ImageIO.read(getClass().getResourceAsStream("/Images/grad.png"));
+                image = ImageIO.read(getClass().getResourceAsStream("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"));
             } 
             catch (Exception ex) 
             {
@@ -228,7 +228,7 @@ public class FrameUI extends javax.swing.JFrame {
         userIdL = new javax.swing.JLabel();
         secondaryPanel = new reviewBackground();
         contentBase = new javax.swing.JLayeredPane();
-        backGroundP = new javax.swing.JPanel();
+        backGroundP = new reviewBackground();
         movieTableP = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jmovieTable = new javax.swing.JTable();
@@ -1258,11 +1258,24 @@ public class FrameUI extends javax.swing.JFrame {
 
     private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
         //button to view reviews of selected movie
-       
-        int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
+      
+      /*try
+      {
+            movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));  
+      }catch(ArrayIndexOutOfBoundsException ex)
+      {
+           JOptionPane.showMessageDialog(null,
+                    "Please select a movie to review",
+                    "Selection error",
+                    JOptionPane.ERROR_MESSAGE);
+      }*/
+        
         
 
         try {
+            
+            int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
+            
             //join review table and rate table to get review,rate and userid
             joinStatement = con.prepareStatement("SELECT userreview.review, userrating.userrating, userrating.userid"
                     + " FROM userreview INNER JOIN userrating ON userrating.UserID = userreview.UserID"
@@ -1302,7 +1315,7 @@ public class FrameUI extends javax.swing.JFrame {
             resName.next();
             name = resName.getString("name");
             jtextUserName.setText(name);
-
+            this.LoadPanel(backGroundP2);
         } catch (SQLException e) {
             e.printStackTrace();
             
@@ -1312,13 +1325,30 @@ public class FrameUI extends javax.swing.JFrame {
             jLabelReviewCount.setText("MAX");
             jLabelCurrentReview.setText("1");
         }
+      catch(Exception ex)
+      {
+           JOptionPane.showMessageDialog(null,
+                    "Please select a movie to view its reviews",
+                    "Selection error",
+                    JOptionPane.ERROR_MESSAGE);
+      }
 
-        this.LoadPanel(backGroundP2);
+        
     }//GEN-LAST:event_revRateViewBActionPerformed
 
     private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
-        movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
-        this.LoadPanel(backGroundP1);
+        try
+        {
+            movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
+            this.LoadPanel(backGroundP1);
+        }catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(null,
+                    "Please select a movie to review",
+                    "Selection error",
+                    JOptionPane.ERROR_MESSAGE);
+                }
+        
     }//GEN-LAST:event_revRateSubmitBActionPerformed
 
     private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
