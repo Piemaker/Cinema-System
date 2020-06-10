@@ -28,8 +28,10 @@ public class Statistics_flow {
  
        public static void main(String args[]) {
 
-Statistics a = new Statistics();
-a.orderReport(1, 0);
+
+           Statistics R = new Statistics();
+
+           R.orderReport(1, 1);
         
        }
 

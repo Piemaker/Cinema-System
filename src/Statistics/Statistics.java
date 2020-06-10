@@ -71,9 +71,12 @@ public class Statistics {
     /*order selector*/
     public void orderReport(int ID,int type){
     switch(type){
-        case 0:
+        case 1 :
             GenreReport(ID);
             break;
+        case 2 :
+            RateReport(ID);
+            break;    
     }
     }
 /*Genre*/    
@@ -110,7 +113,44 @@ private Report GenreReport(int ID){
             return R;
 }
 
+///* Rate report */
+private void preRate(){
+        try {
+            /* scan Rates */
+            while (Movies.next()) {
+                Movie xt = new Movie(Movies);
+                if (Genres.get(xt.genre) == null) {
+                    Genres.put(xt.genre, 1);
+                } else {
+                    Genres.put(xt.genre, (int) Genres.get(xt.genre) + 1);
+                }
+            }
+            Genre_counter=Genres.size();
+        } catch (SQLException ex) {
+            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
 
+private Report RateReport(int ID){
+    preRate();
+      String date=newDate(),data="",Type="Rate Report";
+          
+          data+="Number of Geners : " + Genres.size()+"\n";
+          for (Object str : Genres.keySet()){
+                data+=str + ": " + Genres.get(str)+"\n";
+        }
+          
+          Report R=new Report(date,getName(ID),Type,data);
+            R.setID(SaveReport(R,ID));
+            R.view();
+return R;
+}
+
+
+
+public static void showList(){
+ReportList L = new ReportList();
+}
 
 ////*  db  */
 /* connect to db 
