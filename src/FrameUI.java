@@ -218,13 +218,15 @@ public class FrameUI extends javax.swing.JFrame {
         adminNameL = new javax.swing.JLabel();
         adminIdL = new javax.swing.JLabel();
         moviesTableBa1 = new javax.swing.JButton();
+        signOutButton2 = new javax.swing.JButton();
+        signOutButton3 = new javax.swing.JButton();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
         moviesTableB = new javax.swing.JButton();
         signOutButton1 = new javax.swing.JButton();
         userNameL = new javax.swing.JLabel();
         userIdL = new javax.swing.JLabel();
-        secondaryPanel = new javax.swing.JPanel();
+        secondaryPanel = new reviewBackground();
         contentBase = new javax.swing.JLayeredPane();
         backGroundP = new javax.swing.JPanel();
         movieTableP = new javax.swing.JPanel();
@@ -281,6 +283,8 @@ public class FrameUI extends javax.swing.JFrame {
         jScrollPaneView = new javax.swing.JScrollPane();
         jTextAreaViewReview = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
+        ReportTypeP = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -324,6 +328,22 @@ public class FrameUI extends javax.swing.JFrame {
             }
         });
 
+        signOutButton2.setBackground(new java.awt.Color(255, 153, 0));
+        signOutButton2.setText("Create Report");
+        signOutButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOutButton2ActionPerformed(evt);
+            }
+        });
+
+        signOutButton3.setBackground(new java.awt.Color(255, 153, 0));
+        signOutButton3.setText("Report List");
+        signOutButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOutButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
         adminPanel.setLayout(adminPanelLayout);
         adminPanelLayout.setHorizontalGroup(
@@ -343,7 +363,9 @@ public class FrameUI extends javax.swing.JFrame {
                                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(signOutButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(signOutButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         adminPanelLayout.setVerticalGroup(
@@ -355,13 +377,17 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
+                .addGap(46, 46, 46)
                 .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(signOutButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(signOutButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         base1.add(adminPanel, "card3");
@@ -913,24 +939,41 @@ public class FrameUI extends javax.swing.JFrame {
         backGroundP2.setLayout(backGroundP2Layout);
         backGroundP2Layout.setHorizontalGroup(
             backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 621, Short.MAX_VALUE)
-            .addGroup(backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP2Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         backGroundP2Layout.setVerticalGroup(
             backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-            .addGroup(backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(backGroundP2Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(backGroundP2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         contentBase.add(backGroundP2, "card5");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Report 1", "Report 2" }));
+
+        javax.swing.GroupLayout ReportTypePLayout = new javax.swing.GroupLayout(ReportTypeP);
+        ReportTypeP.setLayout(ReportTypePLayout);
+        ReportTypePLayout.setHorizontalGroup(
+            ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReportTypePLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(346, Short.MAX_VALUE))
+        );
+        ReportTypePLayout.setVerticalGroup(
+            ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReportTypePLayout.createSequentialGroup()
+                .addGap(127, 127, 127)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(439, Short.MAX_VALUE))
+        );
+
+        contentBase.add(ReportTypeP, "card6");
 
         javax.swing.GroupLayout secondaryPanelLayout = new javax.swing.GroupLayout(secondaryPanel);
         secondaryPanel.setLayout(secondaryPanelLayout);
@@ -1473,6 +1516,14 @@ public class FrameUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_moviesTableBa1ActionPerformed
 
+    private void signOutButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signOutButton2ActionPerformed
+
+    private void signOutButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButton3ActionPerformed
+        this.LoadPanel(ReportTypeP);
+    }//GEN-LAST:event_signOutButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1509,6 +1560,7 @@ public class FrameUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel ReportTypeP;
     public javax.swing.JPanel UserPanel;
     private javax.swing.JButton addDeleteB;
     private javax.swing.JPanel addDeleteMoviesP;
@@ -1525,6 +1577,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteMovieB;
     private javax.swing.JButton jButtonNextReview;
     private javax.swing.JButton jButtonSubmit;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxRate;
     private javax.swing.JLabel jLabeSlash;
     private javax.swing.JLabel jLabel1;
@@ -1578,6 +1631,8 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JPanel secondaryPanel;
     private javax.swing.JButton signOutButton;
     private javax.swing.JButton signOutButton1;
+    private javax.swing.JButton signOutButton2;
+    private javax.swing.JButton signOutButton3;
     private javax.swing.JLabel userIcon;
     private javax.swing.JLabel userIdL;
     private javax.swing.JLabel userNameL;
