@@ -14,21 +14,25 @@ public class ReportGUI extends javax.swing.JFrame {
     /**
      * Creates new form ReportGUI
      */
+    
     public ReportGUI() {
         initComponents();
+        
     }
     public ReportGUI(Report R) {
         
         initComponents();
-        Date.setText(R.Date.toString());
+        Date.setText(R.Date);
         Owner.setText(R.Owner);
         Type.setText(R.Type);
         Data.setText(R.Data);
         ID.setText(Integer.toString(R.ID));
         this.setVisible(true);
         this.setTitle(R.Type);
+        
     }
-
+     
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,7 +53,7 @@ public class ReportGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Data.setEditable(false);
         Data.setColumns(20);
@@ -170,6 +174,7 @@ public class ReportGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

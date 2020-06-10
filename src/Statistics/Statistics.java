@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-//import java.sql;
+
 
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -25,10 +25,12 @@ import Statistics.Report.*;
 public class Statistics {
 
     Date Date;
+    ResultSet Movies;
+    // Genre Report
     int Genre_counter;
     HashMap Genres;
+    
     HashMap Rate;
-    ResultSet Movies;
     
     String DateFormat="yyyy-MM-dd hh:mm:ss";
 
@@ -49,21 +51,9 @@ public class Statistics {
     }
     
     private void Process() {
-        try {
-            /* scan Genres */
-            while (Movies.next()) {
-                Movie xt = new Movie(Movies);
-                if (Genres.get(xt.genre) == null) {
-                    Genres.put(xt.genre, 1);
-                } else {
-                    Genres.put(xt.genre, (int) Genres.get(xt.genre) + 1);
-                }
-            }
-            Genre_counter=Genres.size();
-        } catch (SQLException ex) {
-            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    
     }
+
 
  //* date */   
     private String getDate() {
@@ -87,7 +77,25 @@ public class Statistics {
     }
     }
 /*Genre*/    
+    private void preGenre(){
+        try {
+            /* scan Genres */
+            while (Movies.next()) {
+                Movie xt = new Movie(Movies);
+                if (Genres.get(xt.genre) == null) {
+                    Genres.put(xt.genre, 1);
+                } else {
+                    Genres.put(xt.genre, (int) Genres.get(xt.genre) + 1);
+                }
+            }
+            Genre_counter=Genres.size();
+        } catch (SQLException ex) {
+            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
+    
 private Report GenreReport(int ID){
+        preGenre();
 /*   report will be a separete function   */
           String date=newDate(),data="",Type="Genre Report";
           
@@ -102,9 +110,14 @@ private Report GenreReport(int ID){
             return R;
 }
 
+
+
 ////*  db  */
-/* connect to db */
-    private Connection Connect() {
+/* connect to db 
+override it to connect to the data base u want. 
+
+*/
+    public static Connection Connect() {
         Connection con = null;
         String Password = "root";
                  try {
@@ -136,7 +149,7 @@ try{
         }
 
     
-    private String getName(int ID){
+    public static String getName(int ID){
     String owner="" ; 
 try{
           Connection con;
@@ -158,16 +171,19 @@ return owner;
     /* aka save report and get report id . */
     private int SaveReport(Report R,int OwnerID) {
        int ReportID=0;
-       String query="insert into Report ( Owner , Date , Report ) " +"values ( ? , ? , ?);";
-       // save 
+       String query="insert into Report ( Owner , Type , Date , Report ) " +"values ( ? ,?, ?,?);";
+       
       try(
-          Connection con= Connect();
-          PreparedStatement stat= con.prepareStatement(query,
+          
+              Connection con= Connect();
+       // save 
+              PreparedStatement stat= con.prepareStatement(query,
                                       Statement.RETURN_GENERATED_KEYS);
               ){
           stat.setString(1,Integer.toString(OwnerID));
-          stat.setString(2,newDate());
-          stat.setString(3,"\""+R.getData()+"\"");
+          stat.setString(2,R.getType());
+          stat.setString(3,newDate());
+          stat.setString(4,"\""+R.getData()+"\"");
           int affectedRows = stat.executeUpdate();
           
             if (affectedRows == 0) {
