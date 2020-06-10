@@ -119,15 +119,15 @@
                           <Component id="adminIdL" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                           <Component id="moviesTableBa1" min="-2" pref="34" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="moviesTableBa" min="-2" pref="34" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="signOutButton" min="-2" pref="34" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Component id="ReportListButton" min="-2" pref="34" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="CreateReport" min="-2" pref="34" max="-2" attributes="0"/>
-                          <EmptySpace pref="88" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="signOutButton" min="-2" pref="34" max="-2" attributes="0"/>
+                          <EmptySpace pref="120" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
