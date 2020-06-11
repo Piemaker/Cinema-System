@@ -474,33 +474,39 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jScrollPane3" min="-2" pref="408" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane3" pref="426" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="revRateSubmitB" alignment="0" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jTextSearch" min="-2" pref="150" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="revRateSubmitB" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="refreshB" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="addDeleteB" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="revRateViewB" max="32767" attributes="0"/>
+                                          <Component id="deleteMovieB" min="-2" pref="201" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jTextSearch" min="-2" pref="156" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jSearch" min="-2" pref="40" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="refreshB" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="addDeleteB" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="revRateViewB" max="32767" attributes="0"/>
-                                      <Component id="deleteMovieB" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jScrollPane3" pref="614" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jTextSearch" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jSearch" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jSearch" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="refreshB" min="-2" pref="70" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="revRateSubmitB" min="-2" pref="70" max="-2" attributes="0"/>
@@ -510,11 +516,7 @@
                                   <Component id="addDeleteB" min="-2" pref="70" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="deleteMovieB" min="-2" pref="70" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="171" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jScrollPane3" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1166,7 +1168,7 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="0" y="0" width="630" height="620"/>
+                          <AbsoluteConstraints x="0" y="0" width="640" height="620"/>
                         </Constraint>
                       </Constraints>
                     </Component>
