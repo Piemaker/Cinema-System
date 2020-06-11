@@ -220,7 +220,22 @@ public class Registration extends javax.swing.JFrame {
                         "Please fill both feilds",
                         "Missing information",
                         JOptionPane.ERROR_MESSAGE);
-            } else {
+            } 
+            else if(name.length() < 3 || password.length() > 12)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "name must be between 3 and 12 characters",
+                        "User Info error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            else if(password.length() < 3 || password.length() > 6)
+            {
+                 JOptionPane.showMessageDialog(null,
+                        "Password must be between 3 and 6 characters",
+                        "User Info error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            else {
 
                 PreparedStatement myStatement = con.prepareStatement("INSERT INTO users (id,name,password) VALUES (DEFAULT,?,?)");
                 myStatement.setString(1, name);
