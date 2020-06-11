@@ -226,12 +226,14 @@ public class FrameUI extends javax.swing.JFrame {
         moviesTableBa1 = new javax.swing.JButton();
         ReportListButton = new javax.swing.JButton();
         CreateReport = new javax.swing.JButton();
+        actorsTablebutton = new javax.swing.JButton();
         UserPanel = new javax.swing.JPanel();
         userIcon = new javax.swing.JLabel();
         moviesTableB = new javax.swing.JButton();
         signOutButton1 = new javax.swing.JButton();
         userNameL = new javax.swing.JLabel();
         userIdL = new javax.swing.JLabel();
+        actorsTablebutton1 = new javax.swing.JButton();
         secondaryPanel = new reviewBackground();
         contentBase = new javax.swing.JLayeredPane();
         backGroundP = new reviewBackground();
@@ -307,6 +309,7 @@ public class FrameUI extends javax.swing.JFrame {
         adminIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin.png"))); // NOI18N
 
         moviesTableBa.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableBa.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         moviesTableBa.setText("Movies Table");
         moviesTableBa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,6 +318,7 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         signOutButton.setBackground(new java.awt.Color(255, 153, 0));
+        signOutButton.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         signOutButton.setText("Sign Out");
         signOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,6 +335,7 @@ public class FrameUI extends javax.swing.JFrame {
         adminIdL.setText("ID");
 
         moviesTableBa1.setBackground(new java.awt.Color(255, 153, 0));
+        moviesTableBa1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         moviesTableBa1.setText("System Logs");
         moviesTableBa1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -339,6 +344,7 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         ReportListButton.setBackground(new java.awt.Color(255, 153, 0));
+        ReportListButton.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         ReportListButton.setText("Report List");
         ReportListButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,10 +353,20 @@ public class FrameUI extends javax.swing.JFrame {
         });
 
         CreateReport.setBackground(new java.awt.Color(255, 153, 0));
+        CreateReport.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         CreateReport.setText("Create Report ");
         CreateReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CreateReportActionPerformed(evt);
+            }
+        });
+
+        actorsTablebutton.setBackground(new java.awt.Color(255, 153, 0));
+        actorsTablebutton.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        actorsTablebutton.setText("Actors Table");
+        actorsTablebutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actorsTablebuttonActionPerformed(evt);
             }
         });
 
@@ -366,16 +382,17 @@ public class FrameUI extends javax.swing.JFrame {
                     .addGroup(adminPanelLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(adminPanelLayout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(actorsTablebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         adminPanelLayout.setVerticalGroup(
@@ -387,17 +404,19 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(67, 67, 67)
                 .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(actorsTablebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         base1.add(adminPanel, "card3");
@@ -434,6 +453,15 @@ public class FrameUI extends javax.swing.JFrame {
         userIdL.setForeground(new java.awt.Color(255, 255, 255));
         userIdL.setText("ID");
 
+        actorsTablebutton1.setBackground(new java.awt.Color(255, 153, 0));
+        actorsTablebutton1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        actorsTablebutton1.setText("Actors Table");
+        actorsTablebutton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actorsTablebutton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout UserPanelLayout = new javax.swing.GroupLayout(UserPanel);
         UserPanel.setLayout(UserPanelLayout);
         UserPanelLayout.setHorizontalGroup(
@@ -453,6 +481,11 @@ public class FrameUI extends javax.swing.JFrame {
                             .addComponent(userIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(UserPanelLayout.createSequentialGroup()
+                    .addGap(22, 22, 22)
+                    .addComponent(actorsTablebutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(23, Short.MAX_VALUE)))
         );
         UserPanelLayout.setVerticalGroup(
             UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,9 +498,14 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(userIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99)
+                .addGap(38, 38, 38)
                 .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(255, Short.MAX_VALUE))
+            .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(UserPanelLayout.createSequentialGroup()
+                    .addGap(293, 293, 293)
+                    .addComponent(actorsTablebutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(293, Short.MAX_VALUE)))
         );
 
         base1.add(UserPanel, "card2");
@@ -1021,7 +1059,7 @@ public class FrameUI extends javax.swing.JFrame {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(base1)
+            .addComponent(base1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(secondaryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -1647,6 +1685,14 @@ public class FrameUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_OrederActionPerformed
 
+    private void actorsTablebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actorsTablebuttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_actorsTablebuttonActionPerformed
+
+    private void actorsTablebutton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actorsTablebutton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_actorsTablebutton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1689,6 +1735,9 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ReportType;
     private javax.swing.JPanel ReportTypeP;
     public javax.swing.JPanel UserPanel;
+    private javax.swing.JPanel actors;
+    private javax.swing.JButton actorsTablebutton;
+    private javax.swing.JButton actorsTablebutton1;
     private javax.swing.JButton addDeleteB;
     private javax.swing.JPanel addDeleteMoviesP;
     private javax.swing.JLabel adminIcon;
@@ -1700,7 +1749,12 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JLayeredPane base1;
     private javax.swing.JLayeredPane contentBase;
     private javax.swing.JButton deleteMovieB;
+    private javax.swing.JTable jActorTable;
+    private javax.swing.JButton jButtonAddActor;
+    private javax.swing.JButton jButtonDeleteSelected;
     private javax.swing.JButton jButtonNextReview;
+    private javax.swing.JButton jButtonRefresh;
+    private javax.swing.JButton jButtonSearch;
     private javax.swing.JButton jButtonSubmit;
     private javax.swing.JComboBox<String> jComboBoxRate;
     private javax.swing.JLabel jLabeSlash;
@@ -1720,6 +1774,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPaneSubmit;
     private javax.swing.JScrollPane jScrollPaneView;
     private javax.swing.JButton jSearch;
@@ -1736,6 +1791,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextAreaSubmitReview;
     private javax.swing.JTextArea jTextAreaViewReview;
     private javax.swing.JTextField jTextSearch;
+    private javax.swing.JTextField jTextSearch1;
     private javax.swing.JButton jadd;
     private javax.swing.JTable jlogTable;
     private javax.swing.JTable jmovieTable;
