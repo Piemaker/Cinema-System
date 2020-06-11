@@ -1639,8 +1639,8 @@ public class FrameUI extends javax.swing.JFrame {
     private void OrederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrederActionPerformed
         // TODO add your handling code here:
                   Statistics R = new Statistics();
-                  //int ID=Integer.parseInt(adminIdL.getText().substring(10));
-                  int ID = 1;
+                  int ID=Integer.parseInt(adminIdL.getText().substring(10));
+                  //int ID = 1;
                   int Type=ReportType.getSelectedIndex();
                   
                   R.orderReport(ID, Type);
