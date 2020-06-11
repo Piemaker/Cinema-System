@@ -178,7 +178,7 @@ override it to connect to the data base u want.
             }
             try {
                 //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinema","Mohab","qwa220zxs18MN313");
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinema","root",Password);
+                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root",Password);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -211,11 +211,11 @@ try{
           Connection con;
           con = Connect();
           Statement stat= con.createStatement();
-          ResultSet admin= stat.executeQuery("SELECT * FROM Admin WHERE ID = "
+          // adminID, admin_name, password FROM admins
+          ResultSet admin= stat.executeQuery("SELECT * FROM admins WHERE adminID = "
                                                                         +Integer.toString(ID));
          while(admin.next()){
-          owner+=admin.getString("FName");
-          owner+=" "+admin.getString("LName");
+          owner+=admin.getString("admin_name");
             }
 }catch (SQLException e){
     owner="Failed to get the name .";
@@ -227,7 +227,7 @@ return owner;
     /* aka save report and get report id . */
     private int SaveReport(Report R,int OwnerID) {
        int ReportID=0;
-       String query="insert into Report ( Owner , Type , Date , Report ) " +"values ( ? ,?, ?,?);";
+       String query="insert into Report ( Owner , Type , Date , Report ) values ( ? ,?, ?,?)";
        
       try(
           
@@ -243,7 +243,7 @@ return owner;
           int affectedRows = stat.executeUpdate();
           
             if (affectedRows == 0) {
-            throw new SQLException("Creating user failed, no rows affected.");
+            throw new SQLException("Creating Report failed, no rows affected.");
             }
 
         try (ResultSet generatedKeys = stat.getGeneratedKeys()) {
@@ -252,7 +252,7 @@ return owner;
                 ReportID=generatedKeys.getInt(1);
             }
             else {
-                throw new SQLException("Creating user failed, no ID obtained.");
+                throw new SQLException("Creating Report failed, no ID obtained.");
             }
         }
     }catch(Exception e){

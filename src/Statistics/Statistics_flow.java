@@ -31,8 +31,8 @@ public class Statistics_flow {
 
          Statistics R = new Statistics();
 
-           R.orderReport(1, 1);
-           R.orderReport(1, 2);
+          // R.orderReport(1, 1);
+           R.orderReport(2, 2);
      
        }
 

@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MariaDB dump 10.17  Distrib 10.4.12-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: cinema
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	10.4.12-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -16,18 +16,45 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Report`
+--
+
+DROP TABLE IF EXISTS `Report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Report` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Owner` int(11) NOT NULL,
+  `Date` datetime DEFAULT NULL,
+  `Report` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Type` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Report`
+--
+
+LOCK TABLES `Report` WRITE;
+/*!40000 ALTER TABLE `Report` DISABLE KEYS */;
+INSERT INTO `Report` VALUES (1,2,'2020-06-11 03:08:15','\"from [0] to 1  :  	 0\nfrom [1] to 2  :  	 0\nfrom [2] to 3  :  	 0\nfrom [3] to 4  :  	 0\nfrom [4] to 5  :  	 0\nfrom [5] to 6  :  	 0\nfrom [6] to 7  :  	 0\nfrom [7] to 8  :  	 4\nfrom [8] to 9  :  	 3\nfrom [9] to 10  :  	 1\n\nTotal rates :	8\"','Rate Report');
+/*!40000 ALTER TABLE `Report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `admins`
 --
 
 DROP TABLE IF EXISTS `admins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admins` (
-  `adminID` int NOT NULL,
-  `admin_name` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `adminID` int(11) NOT NULL,
+  `admin_name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`adminID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,16 +73,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `movies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `movies` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(45) NOT NULL,
-  `Genre` varchar(45) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `Genre` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `Rating` double NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +91,7 @@ CREATE TABLE `movies` (
 
 LOCK TABLES `movies` WRITE;
 /*!40000 ALTER TABLE `movies` DISABLE KEYS */;
-INSERT INTO `movies` VALUES (1,'Batman','Action',8),(2,'Spiderman','Action',7.5),(3,'Shrek','Comedy',7.5),(4,'The Lord of the Rings 1','Fantasy',9.3),(12,'The Matrix 2','Action',7.3),(13,'Parasite','Drama',8.3),(14,'Sonic','Adventure',7.5),(15,'Yes Man!','Comedy',8),(22,'Zombie Land','Action/Comedy',7.6);
+INSERT INTO `movies` VALUES (1,'Batman','Action',8),(2,'Spiderman','Action',7.5),(3,'Shrek','Comedy',7.5),(4,'The Lord of the Rings 1','Fantasy',9.3),(12,'The Matrix 2','Action',7.3),(13,'Parasite','Drama',8.3),(14,'Sonic','Adventure',7.5),(15,'Yes Man!','Comedy',8);
 /*!40000 ALTER TABLE `movies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,17 +101,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `system_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `system_logs` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `UserID` int DEFAULT NULL,
-  `AdminID` int DEFAULT NULL,
-  `MovieID` int DEFAULT NULL,
-  `TimeStamp` varchar(25) DEFAULT NULL,
-  `Operation` varchar(10) DEFAULT NULL,
-  `LogMessage` varchar(200) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `UserID` int(11) DEFAULT NULL,
+  `AdminID` int(11) DEFAULT NULL,
+  `MovieID` int(11) DEFAULT NULL,
+  `TimeStamp` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Operation` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `LogMessage` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,18 +130,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `userrating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userrating` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `MovieID` int NOT NULL,
-  `UserID` int NOT NULL,
-  `UserRating` int DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `MovieID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `UserRating` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `MovieID` (`MovieID`),
   KEY `fk_useriduserreview` (`UserID`),
-  CONSTRAINT `fk_useriduserreview` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `userrating_ibfk_1` FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_useriduserreview_` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userrating__fk_1` FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,18 +160,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `userreview`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userreview` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `MovieID` int NOT NULL,
-  `UserID` int NOT NULL,
-  `Review` varchar(1000) DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `MovieID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `Review` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `MovieID` (`MovieID`),
   KEY `fk_user_id` (`UserID`),
-  CONSTRAINT `fk_user_id` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `userreview_ibfk_1` FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_user_id_` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userreview_ibfk_1_` FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,15 +190,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +207,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Omar','admin'),(9,'sayed','admin'),(10,'Ahmed','admin'),(14,'Mahmoud','123'),(16,'mohab','1234'),(17,'Farouk','123123');
+INSERT INTO `users` VALUES (1,'Omar','admin'),(9,'sayed','admin'),(10,'Ahmed','admin'),(14,'Mahmoud','123'),(16,'mohab','1234');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -193,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-09 17:39:58
+-- Dump completed on 2020-06-11 15:12:59
