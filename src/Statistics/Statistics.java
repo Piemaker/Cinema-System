@@ -149,7 +149,7 @@ private Report RateReport(int ID){
           int TotalRates =0;
           for (Object str : Rate.keySet()){
               TotalRates+= (int) Rate.get(str);  
-              data+= "from "+ ((int) str - 1) + " to " + str + "  :  \t " + Rate.get(str).toString()+"\n";
+              data+= "from ["+ ((int) str - 1) + "] to " + str + "  :  \t " + Rate.get(str).toString()+"\n";
         }
           data+="\nTotal rates :\t"+TotalRates;
             Report R=new Report(date,getName(ID),Type,data);
