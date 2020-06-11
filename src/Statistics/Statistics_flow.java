@@ -29,10 +29,11 @@ public class Statistics_flow {
        public static void main(String args[]) {
 
 
-           Statistics R = new Statistics();
+         Statistics R = new Statistics();
 
            R.orderReport(1, 1);
-        
+           R.orderReport(1, 2);
+     
        }
 
 }

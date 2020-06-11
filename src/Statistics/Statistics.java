@@ -32,11 +32,15 @@ public class Statistics {
     
     HashMap Rate;
     
-    String DateFormat="yyyy-MM-dd hh:mm:ss";
-
+   String DateFormat="yyyy-MM-dd hh:mm:ss";
+  //int GenreRepot= 1;
+  //int RateRepot= 2;
+            
+            
     public Statistics() {
         this.Date = new Date();
         this.Genres = new HashMap();
+        this.Rate = new HashMap();
         this.Genre_counter = 0;
         this.Movies = getMovies();
         Process();
@@ -45,6 +49,7 @@ public class Statistics {
     public Statistics(ResultSet Movies) {
         this.Date = new Date();
         this.Genres = new HashMap();
+        this.Rate = new HashMap();
         this.Genre_counter =0;
         this.Movies = Movies;
         Process();
@@ -82,6 +87,7 @@ public class Statistics {
 /*Genre*/    
     private void preGenre(){
         try {
+            updateMovies();
             /* scan Genres */
             while (Movies.next()) {
                 Movie xt = new Movie(Movies);
@@ -92,6 +98,7 @@ public class Statistics {
                 }
             }
             Genre_counter=Genres.size();
+          
         } catch (SQLException ex) {
             Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,11 +109,11 @@ private Report GenreReport(int ID){
 /*   report will be a separete function   */
           String date=newDate(),data="",Type="Genre Report";
           
-          data+="Number of Geners : " + Genres.size()+"\n";
           for (Object str : Genres.keySet()){
-                data+=str + ": " + Genres.get(str)+"\n";
+                data+=str + ": \t" + Genres.get(str)+"\n";
         }
-          
+        data+="Total Number of Geners : " + Genres.size()+"\n";
+            
           Report R=new Report(date,getName(ID),Type,data);
             R.setID(SaveReport(R,ID));
             R.view();
@@ -116,16 +123,20 @@ private Report GenreReport(int ID){
 ///* Rate report */
 private void preRate(){
         try {
+            updateMovies();
+              for (int i=1;i<11;i++) {
+                   Rate.put(i , 0);
+              }
             /* scan Rates */
             while (Movies.next()) {
-                Movie xt = new Movie(Movies);
-                if (Genres.get(xt.genre) == null) {
-                    Genres.put(xt.genre, 1);
-                } else {
-                    Genres.put(xt.genre, (int) Genres.get(xt.genre) + 1);
-                }
+                // d is for partial like in math in integration when u take a piece dx and work using it to get x
+             Movie dm = new Movie(Movies);
+             Double d_Rate = dm.rating; 
+             int dr = d_Rate.intValue()+1;
+             Rate.put(dr, (int) Rate.get(dr) + 1);
+          
+             
             }
-            Genre_counter=Genres.size();
         } catch (SQLException ex) {
             Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,12 +146,13 @@ private Report RateReport(int ID){
     preRate();
       String date=newDate(),data="",Type="Rate Report";
           
-          data+="Number of Geners : " + Genres.size()+"\n";
-          for (Object str : Genres.keySet()){
-                data+=str + ": " + Genres.get(str)+"\n";
+          int TotalRates =0;
+          for (Object str : Rate.keySet()){
+              TotalRates+= (int) Rate.get(str);  
+              data+= "from "+ ((int) str - 1) + " to " + str + "  :  \t " + Rate.get(str).toString()+"\n";
         }
-          
-          Report R=new Report(date,getName(ID),Type,data);
+          data+="\nTotal rates :\t"+TotalRates;
+            Report R=new Report(date,getName(ID),Type,data);
             R.setID(SaveReport(R,ID));
             R.view();
 return R;
@@ -166,7 +178,7 @@ override it to connect to the data base u want.
             }
             try {
                 //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinema","Mohab","qwa220zxs18MN313");
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root","root");
+                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinema","root",Password);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -189,6 +201,9 @@ try{
           
         }
 
+   public void updateMovies(){
+   this.Movies=getMovies();
+   }
     
     public static String getName(int ID){
     String owner="" ; 
