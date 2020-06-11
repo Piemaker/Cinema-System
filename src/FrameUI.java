@@ -245,7 +245,6 @@ public class FrameUI extends javax.swing.JFrame {
         jSearch = new javax.swing.JButton();
         revRateViewB = new javax.swing.JButton();
         revRateSubmitB = new javax.swing.JButton();
-        backGroundPa = new reviewBackground();
         addDeleteMoviesP = new javax.swing.JPanel();
         jSeparator13 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
@@ -259,21 +258,6 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jadd = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        backGroundP1 = new reviewBackground();
-        reviewRatingSubmitP = new javax.swing.JPanel();
-        jLabelReview = new javax.swing.JLabel();
-        jLabelRate = new javax.swing.JLabel();
-        movieIdL = new javax.swing.JLabel();
-        jComboBoxRate = new javax.swing.JComboBox<>();
-        jSeparator8 = new javax.swing.JSeparator();
-        jSeparator6 = new javax.swing.JSeparator();
-        jSeparator5 = new javax.swing.JSeparator();
-        jSeparator7 = new javax.swing.JSeparator();
-        jButtonSubmit = new javax.swing.JButton();
-        jScrollPaneSubmit = new javax.swing.JScrollPane();
-        jTextAreaSubmitReview = new javax.swing.JTextArea();
-        jLabel7 = new javax.swing.JLabel();
-        backGroundP2 = new reviewBackground();
         reviewRatingViewP = new javax.swing.JPanel();
         jLabelReview1 = new javax.swing.JLabel();
         jLabelReviewCount = new javax.swing.JLabel();
@@ -289,6 +273,19 @@ public class FrameUI extends javax.swing.JFrame {
         jScrollPaneView = new javax.swing.JScrollPane();
         jTextAreaViewReview = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
+        reviewRatingSubmitP = new javax.swing.JPanel();
+        jLabelReview = new javax.swing.JLabel();
+        jLabelRate = new javax.swing.JLabel();
+        movieIdL = new javax.swing.JLabel();
+        jComboBoxRate = new javax.swing.JComboBox<>();
+        jSeparator8 = new javax.swing.JSeparator();
+        jSeparator6 = new javax.swing.JSeparator();
+        jSeparator5 = new javax.swing.JSeparator();
+        jSeparator7 = new javax.swing.JSeparator();
+        jButtonSubmit = new javax.swing.JButton();
+        jScrollPaneSubmit = new javax.swing.JScrollPane();
+        jTextAreaSubmitReview = new javax.swing.JTextArea();
+        jLabel7 = new javax.swing.JLabel();
         backGroundP3a = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -298,8 +295,10 @@ public class FrameUI extends javax.swing.JFrame {
         Oreder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Navigation Window");
+        setResizable(false);
 
-        mainPanel.setBackground(new java.awt.Color(0, 255, 0));
+        mainPanel.setBackground(new java.awt.Color(51, 51, 51));
 
         base1.setLayout(new java.awt.CardLayout());
 
@@ -398,7 +397,7 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         base1.add(adminPanel, "card3");
@@ -468,7 +467,7 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(99, 99, 99)
                 .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         base1.add(UserPanel, "card2");
@@ -619,7 +618,7 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(addDeleteB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 151, Short.MAX_VALUE))
+                .addGap(0, 171, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, movieTablePLayout.createSequentialGroup()
                 .addComponent(jScrollPane3)
                 .addContainerGap())
@@ -638,21 +637,20 @@ public class FrameUI extends javax.swing.JFrame {
 
         contentBase.add(backGroundP, "card2");
 
-        backGroundPa.setBackground(new java.awt.Color(153, 153, 0));
-
+        addDeleteMoviesP.setToolTipText("");
         addDeleteMoviesP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jSeparator13.setBackground(new java.awt.Color(200, 200, 200));
-        addDeleteMoviesP.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 360, 10));
+        addDeleteMoviesP.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 570, 10));
 
         jSeparator4.setBackground(new java.awt.Color(200, 200, 200));
         jSeparator4.setForeground(new java.awt.Color(204, 204, 204));
-        addDeleteMoviesP.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 360, -1));
+        addDeleteMoviesP.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 570, -1));
 
         jSeparator3.setBackground(new java.awt.Color(200, 200, 200));
-        addDeleteMoviesP.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 360, -1));
+        addDeleteMoviesP.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 570, -1));
 
-        jtextname.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jtextname.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jtextname.setForeground(new java.awt.Color(255, 255, 255));
         jtextname.setText("eg: spiderman");
         jtextname.setBorder(null);
@@ -667,9 +665,9 @@ public class FrameUI extends javax.swing.JFrame {
                 jtextnameActionPerformed(evt);
             }
         });
-        addDeleteMoviesP.add(jtextname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 360, 20));
+        addDeleteMoviesP.add(jtextname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 570, 20));
 
-        jtextrating.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jtextrating.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jtextrating.setForeground(new java.awt.Color(255, 255, 255));
         jtextrating.setText("eg: 10, 3.5 , 6");
         jtextrating.setBorder(null);
@@ -684,9 +682,9 @@ public class FrameUI extends javax.swing.JFrame {
                 jtextratingActionPerformed(evt);
             }
         });
-        addDeleteMoviesP.add(jtextrating, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 360, 20));
+        addDeleteMoviesP.add(jtextrating, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 570, 20));
 
-        jtextgenre.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jtextgenre.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jtextgenre.setForeground(new java.awt.Color(255, 255, 255));
         jtextgenre.setText("eg: action/comedy/adventure");
         jtextgenre.setBorder(null);
@@ -701,7 +699,7 @@ public class FrameUI extends javax.swing.JFrame {
                 jtextgenreActionPerformed(evt);
             }
         });
-        addDeleteMoviesP.add(jtextgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 360, 20));
+        addDeleteMoviesP.add(jtextgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 570, 20));
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -734,33 +732,104 @@ public class FrameUI extends javax.swing.JFrame {
                 jaddActionPerformed(evt);
             }
         });
-        addDeleteMoviesP.add(jadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, 180, 40));
+        addDeleteMoviesP.add(jadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 520, 180, 40));
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel9.setToolTipText("");
-        jLabel9.setMaximumSize(new java.awt.Dimension(592, 600));
-        jLabel9.setPreferredSize(new java.awt.Dimension(592, 600));
-        addDeleteMoviesP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 580));
+        jLabel9.setMaximumSize(new java.awt.Dimension(1920, 1080));
+        jLabel9.setPreferredSize(new java.awt.Dimension(1920, 1080));
+        addDeleteMoviesP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 650, 620));
 
-        javax.swing.GroupLayout backGroundPaLayout = new javax.swing.GroupLayout(backGroundPa);
-        backGroundPa.setLayout(backGroundPaLayout);
-        backGroundPaLayout.setHorizontalGroup(
-            backGroundPaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backGroundPaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(addDeleteMoviesP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        backGroundPaLayout.setVerticalGroup(
-            backGroundPaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backGroundPaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(addDeleteMoviesP, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        contentBase.add(addDeleteMoviesP, "card8");
 
-        contentBase.add(backGroundPa, "card3");
+        reviewRatingViewP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelReview1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        jLabelReview1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelReview1.setText("Review");
+        reviewRatingViewP.add(jLabelReview1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 190, 30));
+
+        jLabelReviewCount.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabelReviewCount.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelReviewCount.setText("Max");
+        reviewRatingViewP.add(jLabelReviewCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 540, -1, 40));
+
+        jLabelCurrentReview.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabelCurrentReview.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelCurrentReview.setText("1");
+        reviewRatingViewP.add(jLabelCurrentReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, -1, 40));
+
+        jLabeSlash.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabeSlash.setForeground(new java.awt.Color(255, 255, 255));
+        jLabeSlash.setText("/");
+        reviewRatingViewP.add(jLabeSlash, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 540, -1, 40));
+
+        jLabelRate1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        jLabelRate1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelRate1.setText("Rating:");
+        reviewRatingViewP.add(jLabelRate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 140, 40));
+
+        jSeparator9.setBackground(new java.awt.Color(200, 200, 200));
+        reviewRatingViewP.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 630, -1));
+
+        jSeparator10.setBackground(new java.awt.Color(200, 200, 200));
+        reviewRatingViewP.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 630, 10));
+
+        jSeparator11.setBackground(new java.awt.Color(200, 200, 200));
+        reviewRatingViewP.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 630, 10));
+
+        jButtonNextReview.setBackground(new java.awt.Color(115, 0, 0));
+        jButtonNextReview.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButtonNextReview.setForeground(new java.awt.Color(200, 200, 200));
+        jButtonNextReview.setText("Next Review");
+        jButtonNextReview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonNextReview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNextReviewActionPerformed(evt);
+            }
+        });
+        reviewRatingViewP.add(jButtonNextReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 510, 180, 40));
+
+        jtextUserName.setEditable(false);
+        jtextUserName.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jtextUserName.setForeground(new java.awt.Color(255, 255, 255));
+        jtextUserName.setText("User XXXX");
+        jtextUserName.setBorder(null);
+        jtextUserName.setOpaque(false);
+        reviewRatingViewP.add(jtextUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 600, 30));
+
+        jtextUserRate.setEditable(false);
+        jtextUserRate.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        jtextUserRate.setForeground(new java.awt.Color(255, 255, 255));
+        jtextUserRate.setText("x");
+        jtextUserRate.setBorder(null);
+        jtextUserRate.setOpaque(false);
+        reviewRatingViewP.add(jtextUserRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 150, 50, 40));
+
+        jScrollPaneView.setFocusable(false);
+        jScrollPaneView.setOpaque(false);
+
+        jTextAreaViewReview.setEditable(false);
+        jTextAreaViewReview.setColumns(20);
+        jTextAreaViewReview.setFont(new java.awt.Font("Palatino Linotype", 3, 24)); // NOI18N
+        jTextAreaViewReview.setForeground(new java.awt.Color(255, 255, 255));
+        jTextAreaViewReview.setLineWrap(true);
+        jTextAreaViewReview.setRows(5);
+        jTextAreaViewReview.setText("No one has reviewd this movie yet, be the first to.");
+        jTextAreaViewReview.setBorder(null);
+        jTextAreaViewReview.setHighlighter(null);
+        jTextAreaViewReview.setOpaque(false);
+        jScrollPaneView.setViewportView(jTextAreaViewReview);
+
+        reviewRatingViewP.add(jScrollPaneView, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 610, 220));
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
+        jLabel8.setToolTipText("");
+        reviewRatingViewP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 620));
+
+        contentBase.add(reviewRatingViewP, "card9");
 
         reviewRatingSubmitP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -785,19 +854,19 @@ public class FrameUI extends javax.swing.JFrame {
                 jComboBoxRateActionPerformed(evt);
             }
         });
-        reviewRatingSubmitP.add(jComboBoxRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 170, -1));
+        reviewRatingSubmitP.add(jComboBoxRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, 170, -1));
 
         jSeparator8.setBackground(new java.awt.Color(200, 200, 200));
-        reviewRatingSubmitP.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 400, -1));
+        reviewRatingSubmitP.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 640, -1));
 
         jSeparator6.setBackground(new java.awt.Color(200, 200, 200));
-        reviewRatingSubmitP.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 400, 10));
+        reviewRatingSubmitP.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 640, 10));
 
         jSeparator5.setBackground(new java.awt.Color(200, 200, 200));
-        reviewRatingSubmitP.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 400, 10));
+        reviewRatingSubmitP.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 640, 10));
 
         jSeparator7.setBackground(new java.awt.Color(200, 200, 200));
-        reviewRatingSubmitP.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 400, 10));
+        reviewRatingSubmitP.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 640, 10));
 
         jButtonSubmit.setBackground(new java.awt.Color(115, 0, 0));
         jButtonSubmit.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -809,13 +878,13 @@ public class FrameUI extends javax.swing.JFrame {
                 jButtonSubmitActionPerformed(evt);
             }
         });
-        reviewRatingSubmitP.add(jButtonSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 520, 180, 40));
+        reviewRatingSubmitP.add(jButtonSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 530, 180, 40));
 
         jScrollPaneSubmit.setFocusable(false);
         jScrollPaneSubmit.setOpaque(false);
 
         jTextAreaSubmitReview.setColumns(20);
-        jTextAreaSubmitReview.setFont(new java.awt.Font("Palatino Linotype", 3, 20)); // NOI18N
+        jTextAreaSubmitReview.setFont(new java.awt.Font("Palatino Linotype", 3, 24)); // NOI18N
         jTextAreaSubmitReview.setForeground(new java.awt.Color(255, 255, 255));
         jTextAreaSubmitReview.setLineWrap(true);
         jTextAreaSubmitReview.setRows(5);
@@ -830,138 +899,14 @@ public class FrameUI extends javax.swing.JFrame {
         });
         jScrollPaneSubmit.setViewportView(jTextAreaSubmitReview);
 
-        reviewRatingSubmitP.add(jScrollPaneSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
+        reviewRatingSubmitP.add(jScrollPaneSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 620, 220));
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel7.setToolTipText("");
-        reviewRatingSubmitP.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 580));
+        reviewRatingSubmitP.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 620));
 
-        javax.swing.GroupLayout backGroundP1Layout = new javax.swing.GroupLayout(backGroundP1);
-        backGroundP1.setLayout(backGroundP1Layout);
-        backGroundP1Layout.setHorizontalGroup(
-            backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backGroundP1Layout.createSequentialGroup()
-                .addGap(0, 119, Short.MAX_VALUE)
-                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 102, Short.MAX_VALUE))
-        );
-        backGroundP1Layout.setVerticalGroup(
-            backGroundP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backGroundP1Layout.createSequentialGroup()
-                .addGap(0, 10, Short.MAX_VALUE)
-                .addComponent(reviewRatingSubmitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
-        );
-
-        contentBase.add(backGroundP1, "card4");
-
-        backGroundP2.setBackground(new java.awt.Color(204, 204, 255));
-
-        reviewRatingViewP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelReview1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabelReview1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReview1.setText("Review");
-        reviewRatingViewP.add(jLabelReview1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 190, 30));
-
-        jLabelReviewCount.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabelReviewCount.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReviewCount.setText("Max");
-        reviewRatingViewP.add(jLabelReviewCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 540, -1, 40));
-
-        jLabelCurrentReview.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabelCurrentReview.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelCurrentReview.setText("1");
-        reviewRatingViewP.add(jLabelCurrentReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 540, -1, 40));
-
-        jLabeSlash.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabeSlash.setForeground(new java.awt.Color(255, 255, 255));
-        jLabeSlash.setText("/");
-        reviewRatingViewP.add(jLabeSlash, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 540, -1, 40));
-
-        jLabelRate1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabelRate1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelRate1.setText("Rating:");
-        reviewRatingViewP.add(jLabelRate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 140, 40));
-
-        jSeparator9.setBackground(new java.awt.Color(200, 200, 200));
-        reviewRatingViewP.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 400, -1));
-
-        jSeparator10.setBackground(new java.awt.Color(200, 200, 200));
-        reviewRatingViewP.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 400, 10));
-
-        jSeparator11.setBackground(new java.awt.Color(200, 200, 200));
-        reviewRatingViewP.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 400, 10));
-
-        jButtonNextReview.setBackground(new java.awt.Color(115, 0, 0));
-        jButtonNextReview.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButtonNextReview.setForeground(new java.awt.Color(200, 200, 200));
-        jButtonNextReview.setText("Next Review");
-        jButtonNextReview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonNextReview.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonNextReviewActionPerformed(evt);
-            }
-        });
-        reviewRatingViewP.add(jButtonNextReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, 180, 40));
-
-        jtextUserName.setEditable(false);
-        jtextUserName.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jtextUserName.setForeground(new java.awt.Color(255, 255, 255));
-        jtextUserName.setText("User XXXX");
-        jtextUserName.setBorder(null);
-        jtextUserName.setOpaque(false);
-        reviewRatingViewP.add(jtextUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 370, 30));
-
-        jtextUserRate.setEditable(false);
-        jtextUserRate.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jtextUserRate.setForeground(new java.awt.Color(255, 255, 255));
-        jtextUserRate.setText("x");
-        jtextUserRate.setBorder(null);
-        jtextUserRate.setOpaque(false);
-        reviewRatingViewP.add(jtextUserRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 50, 40));
-
-        jScrollPaneView.setFocusable(false);
-        jScrollPaneView.setOpaque(false);
-
-        jTextAreaViewReview.setEditable(false);
-        jTextAreaViewReview.setColumns(20);
-        jTextAreaViewReview.setFont(new java.awt.Font("Palatino Linotype", 3, 20)); // NOI18N
-        jTextAreaViewReview.setForeground(new java.awt.Color(255, 255, 255));
-        jTextAreaViewReview.setLineWrap(true);
-        jTextAreaViewReview.setRows(5);
-        jTextAreaViewReview.setText("No one has reviewd this movie yet, be the first to.");
-        jTextAreaViewReview.setBorder(null);
-        jTextAreaViewReview.setHighlighter(null);
-        jTextAreaViewReview.setOpaque(false);
-        jScrollPaneView.setViewportView(jTextAreaViewReview);
-
-        reviewRatingViewP.add(jScrollPaneView, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 380, 220));
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
-        jLabel8.setToolTipText("");
-        reviewRatingViewP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 580));
-
-        javax.swing.GroupLayout backGroundP2Layout = new javax.swing.GroupLayout(backGroundP2);
-        backGroundP2.setLayout(backGroundP2Layout);
-        backGroundP2Layout.setHorizontalGroup(
-            backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backGroundP2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        backGroundP2Layout.setVerticalGroup(
-            backGroundP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backGroundP2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(reviewRatingViewP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        contentBase.add(backGroundP2, "card5");
+        contentBase.add(reviewRatingSubmitP, "card9");
 
         jlogTable.setBackground(new java.awt.Color(75, 75, 75));
         jlogTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -999,11 +944,11 @@ public class FrameUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout backGroundP3aLayout = new javax.swing.GroupLayout(backGroundP3a);
@@ -1040,7 +985,7 @@ public class FrameUI extends javax.swing.JFrame {
                     .addGroup(ReportTypePLayout.createSequentialGroup()
                         .addGap(91, 91, 91)
                         .addComponent(Oreder)))
-                .addContainerGap(346, Short.MAX_VALUE))
+                .addContainerGap(369, Short.MAX_VALUE))
         );
         ReportTypePLayout.setVerticalGroup(
             ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1049,7 +994,7 @@ public class FrameUI extends javax.swing.JFrame {
                 .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
                 .addComponent(Oreder)
-                .addContainerGap(367, Short.MAX_VALUE))
+                .addContainerGap(374, Short.MAX_VALUE))
         );
 
         contentBase.add(ReportTypeP, "card6");
@@ -1071,7 +1016,7 @@ public class FrameUI extends javax.swing.JFrame {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(base1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(secondaryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
@@ -1231,7 +1176,7 @@ public class FrameUI extends javax.swing.JFrame {
     }//GEN-LAST:event_refreshBActionPerformed
 
     private void addDeleteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDeleteBActionPerformed
-        this.LoadPanel(backGroundPa);
+        this.LoadPanel(addDeleteMoviesP);
     }//GEN-LAST:event_addDeleteBActionPerformed
 
     private void deleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMovieBActionPerformed
@@ -1338,19 +1283,6 @@ public class FrameUI extends javax.swing.JFrame {
     private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
         //button to view reviews of selected movie
       
-      /*try
-      {
-            movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));  
-      }catch(ArrayIndexOutOfBoundsException ex)
-      {
-           JOptionPane.showMessageDialog(null,
-                    "Please select a movie to review",
-                    "Selection error",
-                    JOptionPane.ERROR_MESSAGE);
-      }*/
-        
-        
-
         try {
             
             int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));
@@ -1394,7 +1326,7 @@ public class FrameUI extends javax.swing.JFrame {
             resName.next();
             name = resName.getString("name");
             jtextUserName.setText(name);
-            this.LoadPanel(backGroundP2);
+            this.LoadPanel(reviewRatingViewP);
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -1403,6 +1335,7 @@ public class FrameUI extends javax.swing.JFrame {
             jtextUserName.setText("XXXX");
             jLabelReviewCount.setText("MAX");
             jLabelCurrentReview.setText("1");
+            this.LoadPanel(reviewRatingViewP);
         }
       catch(Exception ex)
       {
@@ -1419,7 +1352,7 @@ public class FrameUI extends javax.swing.JFrame {
         try
         {
             movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));
-            this.LoadPanel(backGroundP1);
+            this.LoadPanel(reviewRatingSubmitP);
         }catch(Exception e)
                 {
                     JOptionPane.showMessageDialog(null,
@@ -1763,10 +1696,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JLabel adminNameL;
     public javax.swing.JPanel adminPanel;
     public javax.swing.JPanel backGroundP;
-    private javax.swing.JPanel backGroundP1;
-    private javax.swing.JPanel backGroundP2;
     private javax.swing.JPanel backGroundP3a;
-    public javax.swing.JPanel backGroundPa;
     private javax.swing.JLayeredPane base1;
     private javax.swing.JLayeredPane contentBase;
     private javax.swing.JButton deleteMovieB;
