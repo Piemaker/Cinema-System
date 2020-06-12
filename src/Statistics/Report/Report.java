@@ -32,6 +32,7 @@ public class Report {
                     this.Type = S.getString("Type");
                     this.Data = S.getString("Report");
                     this.Date = S.getString("Date");
+                    this.Owner = getName(OwnerID);
         } catch (SQLException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }
