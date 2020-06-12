@@ -68,8 +68,8 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1734,13 +1734,13 @@ public class FrameUI extends javax.swing.JFrame {
                     System.out.println("Success 1");
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated rating for a movie with movieId = " + movieID;
-                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
-                    mystatement.setNull(1, userID);
-                    mystatement.setInt(2, java.sql.Types.INTEGER);
-                    mystatement.setInt(3, movieID);
-                    mystatement.setString(4, getDateTime());
-                    mystatement.setString(5, "Update");
-                    mystatement.setString(6, logMessage);
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
+                    mystatement.setInt(1, userID);
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Update");
+                    mystatement.setString(5, logMessage);
                     mystatement.execute();
                   
 
@@ -1752,13 +1752,13 @@ public class FrameUI extends javax.swing.JFrame {
                     
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated review for a movie with movieId = " + movieID;
-                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
-                    mystatement.setNull(1, userID);
-                    mystatement.setInt(2, java.sql.Types.INTEGER);
-                    mystatement.setInt(3, movieID);
-                    mystatement.setString(4, getDateTime());
-                    mystatement.setString(5, "Update");
-                    mystatement.setString(6, logMessage);
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
+                    mystatement.setInt(1, userID);
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Update");
+                    mystatement.setString(5, logMessage);
                     mystatement.execute();
                     System.out.println("Success 4");
 
@@ -1776,13 +1776,13 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.execute();
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has added rating for a movie with movieId = " + movieID;
-                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
-                    mystatement.setNull(1, userID);
-                    mystatement.setInt(2, java.sql.Types.INTEGER);
-                    mystatement.setInt(3, movieID);
-                    mystatement.setString(4, getDateTime());
-                    mystatement.setString(5, "Add");
-                    mystatement.setString(6, logMessage);
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
+                    mystatement.setInt(1, userID);
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Add");
+                    mystatement.setString(5, logMessage);
                     mystatement.execute();
 
                     //insert review into userreview table
@@ -1793,13 +1793,13 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.execute();
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has added review for a movie with movieId = " + movieID;
-                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
-                    mystatement.setNull(1, userID);
-                    mystatement.setInt(2, java.sql.Types.INTEGER);
-                    mystatement.setInt(3, movieID);
-                    mystatement.setString(4, getDateTime());
-                    mystatement.setString(5, "Add");
-                    mystatement.setString(6, logMessage);
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
+                    mystatement.setInt(1, userID);
+                   //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Add");
+                    mystatement.setString(5, logMessage);
                     mystatement.execute();
 
                     JOptionPane.showMessageDialog(null,
