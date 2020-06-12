@@ -1,4 +1,11 @@
 --
+-- Create database & use it 
+--
+
+CREATE DATABASE `cinema`;
+USE `cinema`;
+
+--
 -- Table structure for table `Report`
 --
 
@@ -14,6 +21,7 @@ ALTER TABLE `Report`
 ADD PRIMARY KEY (`ID`);
 ALTER TABLE `Report`
 ADD FOREIGN KEY (`Owner`) REFERENCES `admins` (`adminID`);
+
 --
 -- Dumping data for table `Report`
 --
