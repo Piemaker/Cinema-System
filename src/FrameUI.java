@@ -311,9 +311,10 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jadd = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        ReportTypeP = new javax.swing.JPanel();
+        ReportTypeP = new reviewBackground();
         ReportType = new javax.swing.JComboBox<>();
         Oreder = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
         actors = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jActorTable = new javax.swing.JTable();
@@ -1111,12 +1112,19 @@ public class FrameUI extends javax.swing.JFrame {
 
         ReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Genre Report", "Rate Report" }));
 
+        Oreder.setBackground(new java.awt.Color(115, 0, 0));
+        Oreder.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        Oreder.setForeground(new java.awt.Color(255, 255, 255));
         Oreder.setText("Order");
         Oreder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OrederActionPerformed(evt);
             }
         });
+
+        jLabel12.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Choose the report type");
 
         javax.swing.GroupLayout ReportTypePLayout = new javax.swing.GroupLayout(ReportTypeP);
         ReportTypeP.setLayout(ReportTypePLayout);
@@ -1126,20 +1134,25 @@ public class FrameUI extends javax.swing.JFrame {
                 .addGroup(ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReportTypePLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ReportTypePLayout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(Oreder)))
-                .addContainerGap(409, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ReportTypePLayout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(Oreder, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(385, Short.MAX_VALUE))
         );
         ReportTypePLayout.setVerticalGroup(
             ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReportTypePLayout.createSequentialGroup()
-                .addGap(127, 127, 127)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addComponent(Oreder)
-                .addContainerGap(394, Short.MAX_VALUE))
+                .addGap(60, 60, 60)
+                .addComponent(Oreder, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(376, Short.MAX_VALUE))
         );
 
         contentBase.add(ReportTypeP, "card6");
@@ -1284,7 +1297,7 @@ public class FrameUI extends javax.swing.JFrame {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(base1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(base1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(secondaryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -2262,6 +2275,7 @@ public class FrameUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
