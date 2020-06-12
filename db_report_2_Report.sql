@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.12-MariaDB, for Linux (x86_64)
 --
--- Host: localhost    Database: cinema_1
+-- Host: localhost    Database: cinema
 -- ------------------------------------------------------
 -- Server version	10.4.12-MariaDB
 
