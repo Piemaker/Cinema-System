@@ -1430,7 +1430,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="addDeleteMoviesP">
+                <Container class="javax.swing.JPanel" name="addMoviesP">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
@@ -1751,15 +1751,15 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jTextSearch1" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <Component id="jTextSearch1" min="-2" pref="156" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButtonSearch" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="jButtonSearch" min="-2" pref="41" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jButtonAddActor" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButtonDeleteSelectedActor" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButtonRefresh" alignment="0" min="-2" pref="196" max="-2" attributes="0"/>
+                                  <Component id="jButtonRefresh" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="13" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1768,8 +1768,8 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextSearch1" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
-                                  <Component id="jButtonSearch" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextSearch1" max="32767" attributes="0"/>
+                                  <Component id="jButtonSearch" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonRefresh" min="-2" pref="70" max="-2" attributes="0"/>
@@ -1777,9 +1777,9 @@
                               <Component id="jButtonAddActor" min="-2" pref="70" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonDeleteSelectedActor" min="-2" pref="70" max="-2" attributes="0"/>
-                              <EmptySpace pref="360" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane4" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jScrollPane4" alignment="1" pref="640" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
