@@ -67,8 +67,8 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1421,14 +1421,14 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setString(5, "Update Rating");
                     mystatement.setString(6, logMessage);
                     mystatement.execute();
-                    System.out.println("Success 2");
+                  
 
                     mystatement = con.prepareStatement("UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?");
                     mystatement.setString(1, review);
                     mystatement.setInt(2, movieID);
                     mystatement.setInt(3, userID);
                     mystatement.execute();
-                    System.out.println("Success 3");
+                    
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated review for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
