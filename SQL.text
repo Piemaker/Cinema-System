@@ -139,9 +139,7 @@ ADD FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`);
 --
 
 LOCK TABLES `userrating` WRITE;
-/*!40000 ALTER TABLE `userrating` DISABLE KEYS */;
 INSERT INTO `userrating` VALUES (3,3,1,9),(4,3,9,7),(6,3,10,7),(7,1,10,10),(8,1,1,9),(11,1,16,8),(12,18,1,9),(13,16,1,7);
-/*!40000 ALTER TABLE `userrating` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
