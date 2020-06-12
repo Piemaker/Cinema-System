@@ -239,7 +239,7 @@ return owner;
           stat.setString(1,Integer.toString(OwnerID));
           stat.setString(2,R.getType());
           stat.setString(3,newDate());
-          stat.setString(4,"\""+R.getData()+"\"");
+          stat.setString(4,R.getData());
           int affectedRows = stat.executeUpdate();
           
             if (affectedRows == 0) {
