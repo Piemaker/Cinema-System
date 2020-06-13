@@ -2,7 +2,6 @@
 CREATE DATABASE `cinema`;
 USE `cinema`;
 -- Table structure for table `Report`
-DROP TABLE IF EXISTS `Report`;
 CREATE TABLE `Report` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Owner` int(11) NOT NULL,
@@ -15,7 +14,6 @@ ADD PRIMARY KEY (`ID`);
 ALTER TABLE `Report`
 ADD FOREIGN KEY (`Owner`) REFERENCES `admins` (`adminID`);
 -- Table structure for table `actors`
-DROP TABLE IF EXISTS `actors`;
 CREATE TABLE `actors` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -27,7 +25,6 @@ ADD PRIMARY KEY (`ID`);
 -- Dumping data for table `actors`
 INSERT INTO `actors` VALUES (4,'keanu','1964-09-02',56),(6,'Omar','1997-07-16',23),(7,'OAMR','1997-07-16',22),(8,'someone','1990-04-02',30),(9,'someone','1990-04-02',30),(10,'someone','1990-10-02',29),(11,'Mahmoud Men3em','1998-02-23',22);
 -- Table structure for table `admins`
-DROP TABLE IF EXISTS `admins`;
 CREATE TABLE `admins` (
   `adminID` int(11) NOT NULL,
   `admin_name` varchar(45) NOT NULL,
@@ -68,7 +65,6 @@ CREATE TABLE `system_logs` (
 ALTER TABLE `system_logs`
 ADD PRIMARY KEY (`ID`);
 -- Table structure for table `userrating`
-DROP TABLE IF EXISTS `userrating`;
 CREATE TABLE `userrating` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `MovieID` int(11) NOT NULL,
@@ -84,7 +80,6 @@ ADD FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`);
 -- Dumping data for table `userrating`
 INSERT INTO `userrating` VALUES (3,3,1,9),(4,3,9,7),(6,3,10,7),(7,1,10,10),(8,1,1,9),(11,1,16,8),(12,18,1,9),(13,16,1,7);
 -- Table structure for table `userreview`
-DROP TABLE IF EXISTS `userreview`;
 CREATE TABLE `userreview` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `MovieID` int(11) NOT NULL,
@@ -100,7 +95,6 @@ ADD FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`);
 -- Dumping data for table `userreview`
 INSERT INTO `userreview` VALUES (3,3,1,'Awesome!'),(4,3,9,'Good movie.'),(5,3,10,'Good.'),(6,1,10,'The best in the series!!!!'),(7,1,1,'The story and action are great.'),(8,1,16,':)'),(9,18,1,'Love it!'),(10,16,1,'GOOD MOVIE WATCH IT');
 -- Table structure for table `users`
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT UNIQUE,
   `Name` varchar(45) NOT NULL UNIQUE,
