@@ -153,6 +153,19 @@ public class FrameUI extends javax.swing.JFrame {
         jtextDate.setBackground(new java.awt.Color(0, 0, 0, 1));
     }
 
+//    PART FOR HELPER FUNCTIONS
+    //method to check if rating is double
+    public boolean checkDouble(String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+    }
+
     public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
         base1.removeAll();
         base1.add(panel);
@@ -653,7 +666,7 @@ public class FrameUI extends javax.swing.JFrame {
         movieTablePLayout.setHorizontalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(movieTablePLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -739,7 +752,7 @@ public class FrameUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -832,7 +845,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel7.setToolTipText("");
-        reviewRatingSubmitP.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 640));
+        reviewRatingSubmitP.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 640));
 
         contentBase.add(reviewRatingSubmitP, "card9");
 
@@ -912,7 +925,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel11.setToolTipText("");
         jLabel11.setMaximumSize(new java.awt.Dimension(1920, 1080));
         jLabel11.setPreferredSize(new java.awt.Dimension(1920, 1080));
-        addActor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 640));
+        addActor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 640));
 
         contentBase.add(addActor, "card9");
 
@@ -1000,7 +1013,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel8.setToolTipText("");
-        reviewRatingViewP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 640));
+        reviewRatingViewP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 640));
 
         contentBase.add(reviewRatingViewP, "card9");
 
@@ -1106,7 +1119,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel9.setToolTipText("");
         jLabel9.setMaximumSize(new java.awt.Dimension(1920, 1080));
         jLabel9.setPreferredSize(new java.awt.Dimension(1920, 1080));
-        addMoviesP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 690, 640));
+        addMoviesP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 710, 640));
 
         contentBase.add(addMoviesP, "card8");
 
@@ -1141,7 +1154,7 @@ public class FrameUI extends javax.swing.JFrame {
                     .addGroup(ReportTypePLayout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(Oreder, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(385, Short.MAX_VALUE))
+                .addContainerGap(402, Short.MAX_VALUE))
         );
         ReportTypePLayout.setVerticalGroup(
             ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1244,7 +1257,7 @@ public class FrameUI extends javax.swing.JFrame {
         actorsLayout.setHorizontalGroup(
             actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(actorsLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(actorsLayout.createSequentialGroup()
@@ -1253,8 +1266,8 @@ public class FrameUI extends javax.swing.JFrame {
                         .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonAddActor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonDeleteSelectedActor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         actorsLayout.setVerticalGroup(
             actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1297,7 +1310,7 @@ public class FrameUI extends javax.swing.JFrame {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(base1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(base1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
             .addComponent(secondaryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -1348,7 +1361,7 @@ public class FrameUI extends javax.swing.JFrame {
         String genre = jtextgenre.getText();
         String rating = jtextrating.getText();
 
-        double rate = Double.parseDouble(rating);
+        double rate = 0;
         int movieId = 0;
         int adminId = 0;
 
@@ -1360,8 +1373,19 @@ public class FrameUI extends javax.swing.JFrame {
                     "Values can't be set to empty or null!",
                     "Empty/Null Error!",
                     JOptionPane.ERROR_MESSAGE);
-
-        } else {
+        } else if (checkDouble(rating)) {
+            rate = Double.parseDouble(rating);
+            
+            if( ( rate < 0 ) || (rate > 10) ){
+                    
+            JOptionPane.showMessageDialog(null,
+                        "Enter a rating from 0 to 10 ",
+                        "Rating error",
+                        JOptionPane.ERROR_MESSAGE);
+            
+            
+                    }  
+            else{
 
             try {
 
@@ -1400,7 +1424,7 @@ public class FrameUI extends javax.swing.JFrame {
                     myStatement.setString(5, "Update");
                     myStatement.setString(6, logMessage);
                     myStatement.execute();
-                    
+
                     JOptionPane.showMessageDialog(null,
                             "Success",
                             "Successfully Updated",
@@ -1439,14 +1463,11 @@ public class FrameUI extends javax.swing.JFrame {
                             "Success",
                             "Successfully Added",
                             JOptionPane.INFORMATION_MESSAGE);
-                }
+                
 
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null,
-                        "Enter a numeric rating",
-                        "Rating error",
-                        JOptionPane.ERROR_MESSAGE);
-            } catch (SQLException e) {
+                }
+                
+                 } catch (SQLException e) {
 
                 JOptionPane.showMessageDialog(null,
                         "Unable to submit",
@@ -1455,8 +1476,18 @@ public class FrameUI extends javax.swing.JFrame {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
+            }
+        }  
+             else {
+                        JOptionPane.showMessageDialog(null,
+                        "Enter a numeric rating",
+                        "Rating error",
+                        JOptionPane.ERROR_MESSAGE);
+           
+                }
 
-        }
+           
+
 
     }//GEN-LAST:event_jaddActionPerformed
 
@@ -1742,14 +1773,12 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setString(4, "Update");
                     mystatement.setString(5, logMessage);
                     mystatement.execute();
-                  
 
                     mystatement = con.prepareStatement("UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?");
                     mystatement.setString(1, review);
                     mystatement.setInt(2, movieID);
                     mystatement.setInt(3, userID);
                     mystatement.execute();
-                    
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated review for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
@@ -1795,7 +1824,7 @@ public class FrameUI extends javax.swing.JFrame {
                     logMessage = "User: " + username + " with User ID = " + userID + " has added review for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
                     mystatement.setInt(1, userID);
-                   //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
                     mystatement.setInt(2, movieID);
                     mystatement.setString(3, getDateTime());
                     mystatement.setString(4, "Add");
