@@ -1,0 +1,106 @@
+-- Create database & use it 
+CREATE DATABASE `cinema`;
+USE `cinema`;
+-- Table structure for table `Report`
+CREATE TABLE `Report` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Owner` int(11) NOT NULL,
+  `Date` datetime DEFAULT NULL,
+  `Report` varchar(1000) DEFAULT NULL,
+  `Type` varchar(30)  DEFAULT NULL
+);
+ALTER TABLE `Report`
+ADD PRIMARY KEY (`ID`);
+ALTER TABLE `Report`
+ADD FOREIGN KEY (`Owner`) REFERENCES `admins` (`adminID`);
+-- Table structure for table `actors`
+CREATE TABLE `actors` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `dateOfBirth` date NOT NULL,
+  `age` int(10) unsigned NOT NULL
+); 
+ALTER TABLE `actors`
+ADD PRIMARY KEY (`ID`);
+-- Dumping data for table `actors`
+INSERT INTO `actors` VALUES (4,'keanu','1964-09-02',56),(6,'Omar','1997-07-16',23),(7,'OAMR','1997-07-16',22),(8,'someone','1990-04-02',30),(9,'someone','1990-04-02',30),(10,'someone','1990-10-02',29),(11,'Mahmoud Men3em','1998-02-23',22);
+-- Table structure for table `admins`
+CREATE TABLE `admins` (
+  `adminID` int(11) NOT NULL,
+  `admin_name` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL
+);
+ALTER TABLE `admins`
+ADD PRIMARY KEY (`adminID`)
+-- Dumping data for table `admins`
+INSERT INTO `admins` VALUES (1,'mikel','1234'),(2,'omar','1234'),(3,'mohab','1234');
+-- Table structure for table `movies`
+CREATE TABLE `movies` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+  `Name` varchar(45) NOT NULL UNIQUE,
+  `Genre` varchar(45) NOT NULL,
+  `Rating` double NOT NULL,
+  `UserID` int(11) DEFAULT NULL,
+  `AdminID` int(11) DEFAULT NULL
+  );
+ALTER TABLE `movies`
+ADD PRIMARY KEY (`ID`);
+ALTER TABLE `movies`
+ADD FOREIGN KEY (`AdminID`) REFERENCES `users` (`ID`);
+ALTER TABLE `movies`
+ADD FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`);
+-- Dumping data for table `movies`
+INSERT INTO `movies` VALUES (1,'Batman','Action',8,NULL,NULL),(2,'Spiderman','Action',7.5,NULL,NULL),(3,'Shrek','Comedy',8,NULL,NULL),(4,'The Lord of the Rings 1','Fantasy',9.3,NULL,NULL),(12,'The Matrix 2','Action',7.3,NULL,NULL),(13,'Parasite','Drama',8.3,NULL,NULL),(14,'Sonic','Adventure',9,NULL,NULL),(15,'Yes Man!','Comedy',8,NULL,NULL),(16,'Spiderman 2','Action',8,NULL,NULL),(18,'Batman 2','Action',8.5,NULL,NULL);
+-- Table structure for table `system_logs`
+CREATE TABLE `system_logs` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `UserID` int(11) DEFAULT NULL,
+  `AdminID` int(11) DEFAULT NULL,
+  `MovieID` int(11) DEFAULT NULL,
+  `ActorID` int(11) DEFAULT NULL,
+  `TimeStamp` varchar(25) DEFAULT NULL,
+  `Operation` varchar(10) DEFAULT NULL,
+  `LogMessage` varchar(200) NOT NULL
+);
+ALTER TABLE `system_logs`
+ADD PRIMARY KEY (`ID`);
+-- Table structure for table `userrating`
+CREATE TABLE `userrating` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `MovieID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `UserRating` int(11) DEFAULT NULL
+);
+ALTER TABLE `userrating`
+ADD PRIMARY KEY (`ID`);
+ALTER TABLE `userrating`
+ADD FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`); 
+ALTER TABLE `userrating`
+ADD FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`);
+-- Dumping data for table `userrating`
+INSERT INTO `userrating` VALUES (3,3,1,9),(4,3,9,7),(6,3,10,7),(7,1,10,10),(8,1,1,9),(11,1,16,8),(12,18,1,9),(13,16,1,7);
+-- Table structure for table `userreview`
+CREATE TABLE `userreview` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `MovieID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `Review` varchar(1000) DEFAULT NULL
+);
+ALTER TABLE `userreview`
+ADD PRIMARY KEY (`ID`);
+ALTER TABLE `userreview`
+ADD FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`);
+ALTER TABLE `userreview`
+ADD FOREIGN KEY (`MovieID`) REFERENCES `movies` (`ID`);
+-- Dumping data for table `userreview`
+INSERT INTO `userreview` VALUES (3,3,1,'Awesome!'),(4,3,9,'Good movie.'),(5,3,10,'Good.'),(6,1,10,'The best in the series!!!!'),(7,1,1,'The story and action are great.'),(8,1,16,':)'),(9,18,1,'Love it!'),(10,16,1,'GOOD MOVIE WATCH IT');
+-- Table structure for table `users`
+CREATE TABLE `users` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+  `Name` varchar(45) NOT NULL UNIQUE,
+  `password` varchar(45) NOT NULL 
+);
+ALTER TABLE `users`
+ADD PRIMARY KEY (`ID`);
+-- Dumping data for table `users`
+INSERT INTO `users` VALUES (1,'Omar','admin'),(9,'sayed','admin'),(10,'Ahmed','admin'),(14,'Mahmoud','123'),(16,'mohab','1234');
