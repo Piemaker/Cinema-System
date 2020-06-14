@@ -1,5 +1,6 @@
 
 import Statistics.Statistics;
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -68,8 +69,8 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -666,7 +667,7 @@ public class FrameUI extends javax.swing.JFrame {
         movieTablePLayout.setHorizontalGroup(
             movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(movieTablePLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -752,7 +753,7 @@ public class FrameUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -845,7 +846,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel7.setToolTipText("");
-        reviewRatingSubmitP.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 640));
+        reviewRatingSubmitP.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 640));
 
         contentBase.add(reviewRatingSubmitP, "card9");
 
@@ -902,7 +903,7 @@ public class FrameUI extends javax.swing.JFrame {
                 jButtonAddActor1ActionPerformed(evt);
             }
         });
-        addActor.add(jButtonAddActor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 520, 180, 40));
+        addActor.add(jButtonAddActor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 180, 40));
 
         jLabel4.setBackground(new java.awt.Color(204, 204, 204));
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -925,7 +926,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel11.setToolTipText("");
         jLabel11.setMaximumSize(new java.awt.Dimension(1920, 1080));
         jLabel11.setPreferredSize(new java.awt.Dimension(1920, 1080));
-        addActor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 640));
+        addActor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 640));
 
         contentBase.add(addActor, "card9");
 
@@ -1013,7 +1014,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png"))); // NOI18N
         jLabel8.setToolTipText("");
-        reviewRatingViewP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 640));
+        reviewRatingViewP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 640));
 
         contentBase.add(reviewRatingViewP, "card9");
 
@@ -1119,7 +1120,7 @@ public class FrameUI extends javax.swing.JFrame {
         jLabel9.setToolTipText("");
         jLabel9.setMaximumSize(new java.awt.Dimension(1920, 1080));
         jLabel9.setPreferredSize(new java.awt.Dimension(1920, 1080));
-        addMoviesP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 710, 640));
+        addMoviesP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 720, 640));
 
         contentBase.add(addMoviesP, "card8");
 
@@ -1154,7 +1155,7 @@ public class FrameUI extends javax.swing.JFrame {
                     .addGroup(ReportTypePLayout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(Oreder, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(402, Short.MAX_VALUE))
+                .addContainerGap(412, Short.MAX_VALUE))
         );
         ReportTypePLayout.setVerticalGroup(
             ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1257,7 +1258,7 @@ public class FrameUI extends javax.swing.JFrame {
         actorsLayout.setHorizontalGroup(
             actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(actorsLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(actorsLayout.createSequentialGroup()
@@ -2157,7 +2158,14 @@ public class FrameUI extends javax.swing.JFrame {
                     "Values can't be set to empty or null!",
                     "Empty/Null Error!",
                     JOptionPane.ERROR_MESSAGE);
-        } else {
+        } else if(name.length() > 45)
+                    {
+                     JOptionPane.showMessageDialog(null,
+                    "Name can't exceed 45 characters",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);}
+            
+         else {
 
             try {
 
@@ -2204,17 +2212,24 @@ public class FrameUI extends javax.swing.JFrame {
                         "Successfully Added",
                         JOptionPane.INFORMATION_MESSAGE);
 
-            } catch (SQLException e1) {
+            } catch (MysqlDataTruncation e) {
                 JOptionPane.showMessageDialog(null,
                         "Error",
                         "Enter a valid date of birth",
                         JOptionPane.ERROR_MESSAGE);
 
-                e1.printStackTrace();
-            } catch (Exception e) {
                 e.printStackTrace();
-            }
+                
+          
+            }catch (SQLException ex) {
+                ex.printStackTrace();
 
+                JOptionPane.showMessageDialog(null,
+                        "Unable to submit",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
         }
     }//GEN-LAST:event_jButtonAddActor1ActionPerformed
 
