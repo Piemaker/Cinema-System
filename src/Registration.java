@@ -26,7 +26,6 @@ public class Registration extends javax.swing.JFrame {
      */
     public Registration() {
         initComponents();
-        getConnection();
         jPasswordFeild.setBackground(new java.awt.Color(0, 0, 0, 1));
         jTextName.setBackground(new java.awt.Color(0, 0, 0, 1));
     }
@@ -35,7 +34,7 @@ public class Registration extends javax.swing.JFrame {
     Statement stat;
     ResultSet res;
 
-    void getConnection() {
+    private void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -52,6 +51,7 @@ public class Registration extends javax.swing.JFrame {
     }
 
     private void addUser(String name , String password) throws SQLException{
+                getConnection();
                 PreparedStatement myStatement = con.prepareStatement("INSERT INTO users (id,name,password) VALUES (DEFAULT,?,?)");
                 myStatement.setString(1, name);
                 myStatement.setString(2, password);
