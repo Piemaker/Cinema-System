@@ -46,11 +46,6 @@ public class MovieTest {
        
        
     }
-    @Ignore
-    @Test
-    public void testRow(){
-
-
 }
     
-}
+

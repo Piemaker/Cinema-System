@@ -98,6 +98,7 @@ try{
 }
     return false;
     }
+    
   public static void View(int id){        
 Report R;
       try{
