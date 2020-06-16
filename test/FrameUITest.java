@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.sql.SQLException;
 import javax.swing.JPanel;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -161,18 +163,27 @@ public class FrameUITest {
         System.out.println("checkMovieExist");
 
         //ARRANGE
-        String name = "Batman";
+        String name = "MovieThatExists";
+        String genre = "TestGenre";
+        double rate = 3;
         FrameUI instance = new FrameUI();
 
         //ACT
-        int expResultOne = instance.checkMovieExist(name);
+        try {
+            instance.con.setAutoCommit(false);
+            instance.insertMovie(name, genre, rate);
+            int expResultOne = instance.checkMovieExist(name);
 
-        //ASSERT
-        assertEquals(expResultOne, 1);
+            //ASSERT
+            assertEquals(expResultOne, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("FrameUITest.testCheckMovieExist()");
+        }
 
     }
-    
-     /**
+
+    /**
      * Test of checkMovieNotExist method, of class FrameUI.
      */
     @Test
@@ -192,5 +203,113 @@ public class FrameUITest {
 
     }
 
-    
+    /**
+     * Test of InsertMovie method, of class FrameUI.
+     */
+    @Test
+    public void testInsertMovie() {
+        System.out.println("testInsertMovie");
+
+        //ARRANGE
+        String name = "TESTNAME";
+        String genre = "TESTGENRE";
+        double rating = 5;
+        FrameUI instance = new FrameUI();
+
+        //ACT
+        try {
+            instance.con.setAutoCommit(false);
+            int expResultOne = instance.insertMovie(name, genre, rating);
+
+            //ASSERT
+            assertEquals(1, expResultOne);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("FrameUITest.testInsertMovie(SQL EXCEPTION)");
+        }
+    }
+
+    /**
+     * Test of InsertMovie method, of class FrameUI.
+     */
+    @Test
+    public void testInsertMovieFalse() {
+        System.out.println("testInsertMovieFALSE");
+
+        //ARRANGE
+        String name = "VEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERTLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONGTESTNAME";
+        String genre = "TESTGENRE";
+        double rating = 5;
+        FrameUI instance = new FrameUI();
+
+        //ACT
+        try {
+            instance.con.setAutoCommit(false);
+            int expResultZero = instance.insertMovie(name, genre, rating);
+
+            //ASSERT
+            assertEquals(0, expResultZero);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("FrameUITest.testInsertMovieFalse(SQL EXCEPTION)");
+        }
+    }
+
+    /**
+     * Test of UpdateMovie method, of class FrameUI.
+     */
+    @Test
+    public void testUpdateMovie() {
+        System.out.println("testUpdateMovie");
+
+        //ARRANGE
+        String name = "TESTMOVIENAME";
+        String genre = "TESTGENRE";
+        double rate = 3;
+        String newGenre = "NEWTESTGENRE";
+        double newRate = 5;
+        FrameUI instance = new FrameUI();
+
+        try {
+            //ACT
+            instance.con.setAutoCommit(false);
+            instance.insertMovie(name, genre, rate);
+            int expResultOne = instance.updateMovie(name, newGenre, newRate);
+
+            //ASSERT
+            assertEquals(1, expResultOne);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("FrameUITest.testUpdateMovie()");
+        }
+    }
+
+    /**
+     * Test of UpdateMovie method, of class FrameUI.
+     */
+    @Test
+    public void testUpdateMovieFalse() {
+        System.out.println("testUpdateMovieFalse");
+
+        //ARRANGE
+        String name = "MovieThatDoesn'tExist";
+        String newGenre = "NEWTESTGENRE";
+        double newRate = 5;
+        FrameUI instance = new FrameUI();
+
+        try {
+            //ACT
+            instance.con.setAutoCommit(false);
+            int expResultZero = instance.updateMovie(name, newGenre, newRate);
+
+            //ASSERT
+            assertEquals(0, expResultZero);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("FrameUITest.testUpdateMovie()");
+        }
+    }
+
 }
