@@ -142,6 +142,7 @@ public class FrameUITest {
         //ARRANGE
         double rateNegative = -5;
         double rateAboveTen = 12;
+
         FrameUI instance = new FrameUI();
 
         //ACT
@@ -151,6 +152,34 @@ public class FrameUITest {
         //ASSERT
         assertFalse("The rating is negative", expResultFalse1);
         assertFalse("The rating is above 10", expResultFalse2);
+
+    }
+
+    /**
+     * Test of checkRating method, of class FrameUI.
+     */
+    @Test
+    public void testCheckBoundaryRating() {
+        System.out.println("checkRating");
+
+        //ARRANGE
+        FrameUI instance = new FrameUI();
+
+        //ACT
+        boolean expResultFalse1 = instance.checkRating(-1);
+        boolean expReultTrue1 = instance.checkRating(0);
+        boolean expReultTrue2 = instance.checkRating(1);
+        boolean expReultTrue3 = instance.checkRating(9);
+        boolean expReultTrue4 = instance.checkRating(10);
+        boolean expResultFalse2 = instance.checkRating(11);
+
+        //ASSERT
+        assertFalse("The rating is positive", expResultFalse1);
+        assertFalse("The rating is less than 10", expResultFalse2);
+        assertTrue("The rating is either negative or above 10 empty", expReultTrue1);
+        assertTrue("The rating is either negative or above 10 empty", expReultTrue2);
+        assertTrue("The rating is either negative or above 10 empty", expReultTrue3);
+        assertTrue("The rating is either negative or above 10 empty", expReultTrue4);
 
     }
 
@@ -311,7 +340,7 @@ public class FrameUITest {
             System.out.println("FrameUITest.testUpdateMovie()");
         }
     }
-    
+
     /**
      * Test of delteSelectedMovie method, of class FrameUI.
      */
@@ -365,6 +394,5 @@ public class FrameUITest {
         assertEquals(0, expResultZero);
 
     }
-
 
 }

@@ -248,6 +248,28 @@ public class FrameUI extends javax.swing.JFrame {
         return result;
     }
 
+    
+
+    public void insertSystemLogs(int userID,int adminID ,int movieID, int actorID,String timestamp, String opeartion, String logMessage) {
+
+        // Write the logs in the table
+        try {
+            
+            PreparedStatement myStatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID,actorID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?,?, ?, ?, ?, ?, ?)");
+            myStatement.setInt(1, userID);
+            myStatement.setInt(2, adminID);
+            myStatement.setInt(3, movieID);
+            myStatement.setInt(4, actorID);
+            myStatement.setString(5, timestamp);
+            myStatement.setString(6, opeartion);
+            myStatement.setString(7, logMessage);
+            myStatement.execute();
+        } catch (SQLException e) {
+            System.out.println("FrameUI.insertSystemLogs(Problem in system logs)");
+            e.printStackTrace();
+        }
+    }
+
     public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
         base1.removeAll();
         base1.add(panel);
