@@ -51,6 +51,26 @@ public class Registration extends javax.swing.JFrame {
         System.out.println("connected");
     }
 
+    private void addUser(String name , String password) throws SQLException{
+                PreparedStatement myStatement = con.prepareStatement("INSERT INTO users (id,name,password) VALUES (DEFAULT,?,?)");
+                myStatement.setString(1, name);
+                myStatement.setString(2, password);
+                myStatement.execute();
+    }
+    
+    public int verfiyName(String name, String password) {
+
+        if ((name.isEmpty() || name == null) || password.isEmpty() || password == null) {
+            return 1;
+        } else if (name.length() < 3 || name.length() > 12) {
+            return 2;
+        } else if (password.length() < 3 || password.length() > 6) {
+            return 3;
+        }
+        return 0;
+    }    
+    
+    
     public void close() {
 
         WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
@@ -58,6 +78,7 @@ public class Registration extends javax.swing.JFrame {
 
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -207,57 +228,61 @@ public class Registration extends javax.swing.JFrame {
 
     private void jButtonRegisetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisetActionPerformed
 
-        try {
-
+        
             String name;
             String password;
 
             name = jTextName.getText();
             password = jPasswordFeild.getText();
 
+            int code = verfiyName(name, password);
+            
             //check if any of the feilds are empty
-            if ((name.isEmpty() || name == null) || password.isEmpty() || password == null) {
+        switch (code) {
 
+            case 1:
                 JOptionPane.showMessageDialog(null,
                         "Please fill both feilds",
                         "Missing information",
                         JOptionPane.ERROR_MESSAGE);
-            } 
-            else if(name.length() < 3 || name.length() > 12)
-            {
+                break;
+
+            case 2:
                 JOptionPane.showMessageDialog(null,
                         "name must be between 3 and 12 characters",
                         "User Info error",
                         JOptionPane.ERROR_MESSAGE);
-            }
-            else if(password.length() < 3 || password.length() > 6)
-            {
-                 JOptionPane.showMessageDialog(null,
+
+                break;
+                
+            case 3:
+                JOptionPane.showMessageDialog(null,
                         "Password must be between 3 and 6 characters",
                         "User Info error",
                         JOptionPane.ERROR_MESSAGE);
-            }
-            else {
 
-                PreparedStatement myStatement = con.prepareStatement("INSERT INTO users (id,name,password) VALUES (DEFAULT,?,?)");
-                myStatement.setString(1, name);
-                myStatement.setString(2, password);
-                myStatement.execute();
+                break;
+            
+            case 0:
+
+        try {
+
+                addUser(name, password);
 
                 JOptionPane.showMessageDialog(null,
                         "Successfully Registered!",
                         "Success",
                         JOptionPane.DEFAULT_OPTION);
-                
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null,
-                    "User name is already taken.",
-                    "User name is taken",
-                    JOptionPane.ERROR_MESSAGE);
-        }
 
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "User name is already taken.",
+                        "User name is taken",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            break;
+        }
     }//GEN-LAST:event_jButtonRegisetActionPerformed
 
     /**

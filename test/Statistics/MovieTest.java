@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 */
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 //import static org.mockito.Mockito.*;
@@ -31,6 +32,7 @@ public class MovieTest {
     /**
      * Test of equals method, of class Movie.
      */
+
     @Test
     public void testEquals() {
         System.out.println("equals");
@@ -44,5 +46,11 @@ public class MovieTest {
        
        
     }
+    @Ignore
+    @Test
+    public void testRow(){
+
+
+}
     
 }
