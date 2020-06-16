@@ -311,5 +311,60 @@ public class FrameUITest {
             System.out.println("FrameUITest.testUpdateMovie()");
         }
     }
+    
+    /**
+     * Test of delteSelectedMovie method, of class FrameUI.
+     */
+    @Test
+    public void testDleteSelectedMovie() {
+
+        System.out.println("testDeleteSelectedMovie");
+
+        //ARRANGE
+        String name = "MovieThatDoesn'tExiseTOBEDELETED";
+        String newGenre = "NEWTESTGENRE";
+        double newRate = 5;
+        FrameUI instance = new FrameUI();
+
+        try {
+            //ACT
+            instance.con.setAutoCommit(false);
+            instance.insertMovie(name, newGenre, newRate);
+            instance.mystat = instance.con.prepareStatement("SELECT id FROM movies WHERE name = ? AND genre = ? AND rating =?   ");
+            instance.mystat.setString(1, name);
+            instance.mystat.setString(2, newGenre);
+            instance.mystat.setDouble(3, newRate);
+            instance.res = instance.mystat.executeQuery();
+            instance.res.next();
+            int id = instance.res.getInt("id");
+            int expResultOne = instance.deleteSelectedMovie(id);
+
+            //ASSERT
+            assertEquals(1, expResultOne);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("FrameUITest.testDeleteSelectedMovie()");
+        }
+    }
+
+    /**
+     * Test of delteSelectedMovie method, of class FrameUI.
+     */
+    @Test
+    public void testDleteSelectedMovieFalse() {
+
+        System.out.println("testDeleteSelectedMovieFalse");
+
+        //ARRANGE
+        FrameUI instance = new FrameUI();
+
+        //ACT
+        int expResultZero = instance.deleteSelectedMovie(0);
+
+        //ASSERT
+        assertEquals(0, expResultZero);
+
+    }
+
 
 }

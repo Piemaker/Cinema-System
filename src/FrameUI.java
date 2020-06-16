@@ -235,6 +235,19 @@ public class FrameUI extends javax.swing.JFrame {
         return result;
     }
 
+    public int deleteSelectedMovie(int id) {
+        int result = 0;
+        try {
+            PreparedStatement mystatement = con.prepareStatement("DELETE FROM movies WHERE id = ?");
+            mystatement.setInt(1, id);
+            result = mystatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("FrameUI.deleteSelectedMovie(Error in deletion)");
+        }
+        return result;
+    }
+
     public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
         base1.removeAll();
         base1.add(panel);
@@ -2112,24 +2125,25 @@ public class FrameUI extends javax.swing.JFrame {
         try {
 
             int id = Integer.parseInt((String) jActorTable.getValueAt(jActorTable.getSelectedRow(), 0));
-
+            int actorId = id;
             PreparedStatement mystatement;
             try {
                 mystatement = con.prepareStatement("DELETE FROM actors WHERE id = ?");
                 mystatement.setInt(1, id);
                 mystatement.execute();
 
-                //                // code for system logs.
-                //                int adminId = Integer.parseInt(adminIdL.getText().substring(10));
-                //                String logMessage = "Admin with adminID = " + adminId + " has added a deleted a movie with movieId = " + id;
-                //                mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, ?, ?, ?, ?, ?)");
-                //                mystatement.setNull(1, java.sql.Types.INTEGER);
-                //                mystatement.setInt(2, adminId);
-                //                mystatement.setInt(3, id);
-                //                mystatement.setString(4, getDateTime());
-                //                mystatement.setString(5, "Delete");
-                //                mystatement.setString(6, logMessage);
-                //                mystatement.execute();
+                int adminId = Integer.parseInt(adminIdL.getText().substring(10));
+                String logMessage = "Admin with adminID = " + adminId + " has delted an actor with actorId = " + actorId;
+                PreparedStatement myStatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID,actorID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?,?, ?, ?, ?, ?, ?)");
+                myStatement.setNull(1, java.sql.Types.INTEGER);
+                myStatement.setInt(2, adminId);
+                myStatement.setNull(3, java.sql.Types.INTEGER);
+                myStatement.setInt(4, actorId);
+                myStatement.setString(5, getDateTime());
+                myStatement.setString(6, "Delete");
+                myStatement.setString(7, logMessage);
+                myStatement.execute();
+
                 JOptionPane.showMessageDialog(null,
                         "Success",
                         "Successfully Deleted",
