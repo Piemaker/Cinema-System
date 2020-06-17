@@ -44,8 +44,8 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,9 +60,45 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
     }
        
        
+     public int checkUsername(String username)
+    {
+        if(username.equals(""))
+        {
+            return 0;
+        }
+        return 1;
+    }
+    
+    public int checkUsernameLength(String username)
+    {
+        if(username.length() < 3 || username.length() > 18)
+        {
+            return 0;
+        }
+        return 1;
+    }
+    
+    public int checkPassword(String password)
+    {
+        if(password.equals(""))
+        {
+            return 0;
+        }
+        return 1;
+    }
+    
+    public int checkPasswordLength(String password)
+    {
+        if(password.length() < 3 || password.length() > 6)
+        {
+            return 0;
+        }
+        return 1;
+    }   
        
        
-       int verifyUser(String username, String password)
+       
+    int verifyUser(String username, String password)
     {
         int userId = 0 ;
         

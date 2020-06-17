@@ -70,8 +70,8 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -324,6 +324,75 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+        public int checkRating2(int rating)
+    {
+         if (rating == 0) {
+            return 0;
+        }  
+        return 1;
+    }
+    
+    public int checkReview(String review)
+    {
+        if (review.equals("")) {
+            return 0;
+        }
+        return 1;
+    }
+    
+    public int checkReviewLength(String review)
+    {
+        if(review.length() > 1000)
+        {
+            return 0;
+        }
+        return 1;
+    }
+
+    public int addActorNameField(String name)
+    {
+        if ((name.isEmpty() || name == null)) {
+
+            return 0;
+        }
+        return 1;
+    }
+    public int addActorNameValid(String name)
+    {
+        if(name.matches(".*\\d.*"))
+        {
+             return 0;
+        }
+        return 1;
+    }
+    
+    public int addActorNameLength(String name)
+    {
+        if (name.length() > 45) {
+            return 0;
+        }
+        return 1;
+    }
+    
+    public int addActorDoBField(String DoB)
+    {
+        if (DoB.isEmpty() || DoB == null) {
+
+            return 0;
+        }
+        return 1;
+    }
+    
+    public int addActorDoBValid(String DoB)
+    {
+        if(DoB.matches("^\\d{4}-\\d{2}-\\d{2}$"))
+        {
+            return 1;
+        }
+        return 0;
+    }
+
 
     public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
         base1.removeAll();
@@ -1850,22 +1919,28 @@ public class FrameUI extends javax.swing.JFrame {
         username = userNameL.getText().substring(10);
         rate = jComboBoxRate.getSelectedIndex();
         review = jTextAreaSubmitReview.getText();
-        if (rate == 0) {
+        if(checkRating2(rate) == 0)
+        {
             JOptionPane.showMessageDialog(null,
                     "Please select a rating",
                     "Please select a value",
                     JOptionPane.INFORMATION_MESSAGE);
         }
-        if (review.equals("")) {
-
+        else if(checkReview(review) == 0)
+        {
             JOptionPane.showMessageDialog(null,
                     "Please write a review",
                     "Empty review isn't accepeted",
                     JOptionPane.INFORMATION_MESSAGE);
-
         }
-
-        if (rate != 0 && !review.equals("")) {
+        else if(checkReviewLength(review) == 0)
+        {
+            JOptionPane.showMessageDialog(null,
+                    "You exceeded the 1000 character limit in the review",
+                    "Limit exceeded",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
 
             try {
                 //check if review already exists by counting if a row exists
@@ -1887,7 +1962,13 @@ public class FrameUI extends javax.swing.JFrame {
                     System.out.println("Success 1");
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated rating for a movie with movieId = " + movieID;
-                    insertReviewRateSystemLogs(userID, movieID, "Update", logMessage);
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
+                    mystatement.setInt(1, userID);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Update");
+                    mystatement.setString(5, logMessage);
+                    mystatement.execute();
 
                     mystatement = con.prepareStatement("UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?");
                     mystatement.setString(1, review);
@@ -1897,14 +1978,22 @@ public class FrameUI extends javax.swing.JFrame {
 
                     logMessage = "User: " + username + " with User ID = " + userID + " has updated review for a movie with movieId = " + movieID;
                     mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
-                    insertReviewRateSystemLogs(userID, movieID, "Update", logMessage);
+                    mystatement.setInt(1, userID);
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Update");
+                    mystatement.setString(5, logMessage);
+                    mystatement.execute();
+                    System.out.println("Success 4");
 
                     JOptionPane.showMessageDialog(null,
                             "Success!",
                             "Review and rate have been updated.",
                             JOptionPane.INFORMATION_MESSAGE);
 
-                } else {
+                } 
+                else {
                     //insert rate into userrate table
                     mystatement = con.prepareStatement("INSERT INTO userrating (id,movieid,userid,userrating) VALUES(DEFAULT,?,?,?)");
                     mystatement.setInt(1, movieID);
@@ -1912,9 +2001,15 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setInt(3, rate);
                     mystatement.execute();
 
-                    //System log
                     logMessage = "User: " + username + " with User ID = " + userID + " has added rating for a movie with movieId = " + movieID;
-                    insertReviewRateSystemLogs(userID, movieID, "Add", logMessage);
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
+                    mystatement.setInt(1, userID);
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Add");
+                    mystatement.setString(5, logMessage);
+                    mystatement.execute();
 
                     //insert review into userreview table
                     mystatement = con.prepareStatement("INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)");
@@ -1923,9 +2018,15 @@ public class FrameUI extends javax.swing.JFrame {
                     mystatement.setString(3, review);
                     mystatement.execute();
 
-                    //System log
                     logMessage = "User: " + username + " with User ID = " + userID + " has added review for a movie with movieId = " + movieID;
-                    insertReviewRateSystemLogs(userID, movieID, "Add", logMessage);
+                    mystatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)");
+                    mystatement.setInt(1, userID);
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+                    mystatement.setInt(2, movieID);
+                    mystatement.setString(3, getDateTime());
+                    mystatement.setString(4, "Add");
+                    mystatement.setString(5, logMessage);
+                    mystatement.execute();
 
                     JOptionPane.showMessageDialog(null,
                             "Success!",
@@ -2235,23 +2336,43 @@ public class FrameUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jButtonAddActor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActor1ActionPerformed
-        String name = jtextName.getText();
+         String name = jtextName.getText();
         String DoB = jtextDate.getText();
 
         //check if values are null/empty
-        if ((name.isEmpty() || name == null) || DoB.isEmpty() || DoB == null) {
-
+        if(addActorNameField(name) == 0)
+        {
             //display error message
             JOptionPane.showMessageDialog(null,
-                    "Values can't be set to empty or null!",
+                    "Name field can't be set to empty or null!",
                     "Empty/Null Error!",
                     JOptionPane.ERROR_MESSAGE);
-        } else if (name.length() > 45) {
+        }
+        else if(addActorDoBField(DoB) == 0)
+        {
+           //display error message
             JOptionPane.showMessageDialog(null,
-                    "Name can't exceed 45 characters",
-                    "Error",
+                    "Date of birth field can't be set to empty or null!",
+                    "Empty/Null Error!",
+                    JOptionPane.ERROR_MESSAGE); 
+        }
+        else if(addActorNameLength(name) == 0)
+        {
+            //display error message
+            JOptionPane.showMessageDialog(null,
+                    "Enter a name less than 45 character",
+                    "Empty/Null Error!",
                     JOptionPane.ERROR_MESSAGE);
-        } else {
+        }
+        else if(addActorDoBValid(DoB) == 0)
+        {
+             //display error message
+            JOptionPane.showMessageDialog(null,
+                    "Enter a valid date format",
+                    "Empty/Null Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        else {
 
             try {
 
@@ -2274,8 +2395,9 @@ public class FrameUI extends javax.swing.JFrame {
                 System.out.println("done1");
 
                 //code for system logs.
+                // first retrieve the id of the inserted movie.
                 stat = con.createStatement();
-                res = stat.executeQuery("SELECT ID FROM actors WHERE name = '" + name + "'");
+                res = stat.executeQuery("SELECT ID FROM actors ORDER BY ID DESC LIMIT 1");
                 if (res.next()) {
                     actorId = res.getInt("ID");
                 }
@@ -2283,7 +2405,15 @@ public class FrameUI extends javax.swing.JFrame {
                 // Write the logs in the table
                 adminId = Integer.parseInt(adminIdL.getText().substring(10));
                 String logMessage = "Admin with adminID = " + adminId + " has added an actor with actorId = " + actorId;
-                insertActorSystemLogs(adminId, actorId, "Add", logMessage);
+                myStatement = con.prepareStatement("INSERT INTO system_logs (ID, UserID, AdminID, movieID,actorID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?,?, ?, ?, ?, ?, ?)");
+                myStatement.setNull(1, java.sql.Types.INTEGER);
+                myStatement.setInt(2, adminId);
+                myStatement.setNull(3, java.sql.Types.INTEGER);
+                myStatement.setInt(4, actorId);
+                myStatement.setString(5, getDateTime());
+                myStatement.setString(6, "Add");
+                myStatement.setString(7, logMessage);
+                myStatement.execute();
                 JOptionPane.showMessageDialog(null,
                         "Success",
                         "Successfully Added",
