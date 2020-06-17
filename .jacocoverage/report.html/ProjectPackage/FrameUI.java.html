@@ -1,0 +1,2593 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FrameUI.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Cinema&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ProjectPackage</a> &gt; <span class="el_source">FrameUI.java</span></div><h1>FrameUI.java</h1><pre class="source lang-java linenums">package ProjectPackage;
+
+
+import Statistics.Statistics;
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.lang.ArrayIndexOutOfBoundsException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+/**
+ *
+ * @author Mohab
+ */
+public class FrameUI extends javax.swing.JFrame {
+
+    /**
+     * Creates new form FrameUI
+     */
+<span class="fc" id="L39">    public FrameUI() {</span>
+<span class="fc" id="L40">        initComponents();</span>
+<span class="fc" id="L41">        getConnection();</span>
+<span class="fc" id="L42">        initializations();</span>
+<span class="fc" id="L43">    }</span>
+
+    Connection con;
+    Statement stat;
+    ResultSet res;
+    PreparedStatement mystat;
+<span class="fc" id="L49">    String[][] movieArray = new String[100][4];</span>
+<span class="fc" id="L50">    String[][] logsArray = new String[300][8];</span>
+<span class="fc" id="L51">    String[][] actorArray = new String[100][4];</span>
+
+    //statment to fetch data of userRevRateView
+    PreparedStatement joinStatement;
+    PreparedStatement fetchNameStatement;
+
+    //variables for the userRevRateView
+    int rate;
+    int uID;
+    String review;
+    int count;// to count the number of reviews
+<span class="fc" id="L62">    int currentRevPage = 0;</span>
+    String name; //name of user
+    //result sets for the userRevRateView
+    ResultSet resJoin;
+    ResultSet resName;
+
+    void getConnection() {
+        try {
+<span class="fc" id="L70">            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
+<span class="nc" id="L71">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L72">            e.printStackTrace();</span>
+<span class="fc" id="L73">        }</span>
+        try {
+            //con = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;, &quot;Mohab&quot;, &quot;qwa220zxs18MN313&quot;);
+<span class="fc" id="L76">            con = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;, &quot;root&quot;, &quot;root&quot;);</span>
+<span class="nc" id="L77">        } catch (SQLException e) {</span>
+<span class="nc" id="L78">            e.printStackTrace();</span>
+<span class="fc" id="L79">        }</span>
+<span class="fc" id="L80">        System.out.println(&quot;connected&quot;);</span>
+<span class="fc" id="L81">    }</span>
+
+    public void close() {
+
+<span class="nc" id="L85">        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);</span>
+<span class="nc" id="L86">        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);</span>
+
+<span class="nc" id="L88">    }</span>
+
+    public class reviewBackground extends JPanel {
+
+        private BufferedImage image;
+
+<span class="fc" id="L94">        public reviewBackground() {</span>
+            try {
+<span class="fc" id="L96">                image = ImageIO.read(getClass().getResourceAsStream(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;));</span>
+<span class="nc" id="L97">            } catch (Exception ex) {</span>
+<span class="nc" id="L98">                System.out.println(ex.toString());</span>
+<span class="fc" id="L99">            }</span>
+<span class="fc" id="L100">        }</span>
+
+        @Override
+        public void paintComponent(Graphics g) {
+<span class="nc" id="L104">            super.paintComponent(g);</span>
+<span class="nc" id="L105">            g.drawImage(image, 0, 0, this);</span>
+<span class="nc" id="L106">        }</span>
+    }
+
+    final void initializations() {
+// for user review/rating view
+<span class="fc" id="L111">        jtextUserName.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L112">        jtextUserRate.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L113">        jScrollPaneView.setOpaque(false);</span>
+<span class="fc" id="L114">        jScrollPaneView.getViewport().setOpaque(false);</span>
+<span class="fc" id="L115">        jScrollPaneView.setBorder(null);</span>
+<span class="fc" id="L116">        jScrollPaneView.setViewportBorder(null);</span>
+<span class="fc" id="L117">        jTextAreaViewReview.setBorder(null);</span>
+<span class="fc" id="L118">        jTextAreaViewReview.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+
+<span class="fc" id="L120">        jTextAreaViewReview.setLineWrap(true); //for adding new line instead of scrolling</span>
+<span class="fc" id="L121">        jTextAreaViewReview.setWrapStyleWord(true);</span>
+
+//for user review/rating submit
+<span class="fc" id="L124">        jScrollPaneSubmit.setOpaque(false);</span>
+<span class="fc" id="L125">        jScrollPaneSubmit.getViewport().setOpaque(false);</span>
+<span class="fc" id="L126">        jScrollPaneSubmit.setBorder(null);</span>
+<span class="fc" id="L127">        jScrollPaneSubmit.setViewportBorder(null);</span>
+<span class="fc" id="L128">        jTextAreaSubmitReview.setBorder(null);</span>
+<span class="fc" id="L129">        jTextAreaSubmitReview.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+
+<span class="fc" id="L131">        jTextAreaSubmitReview.setLineWrap(true); //for adding new line instead of scrolling</span>
+<span class="fc" id="L132">        jTextAreaSubmitReview.setWrapStyleWord(true);</span>
+
+//for add/delete movies
+<span class="fc" id="L135">        jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L136">        jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+
+<span class="fc" id="L138">        jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+
+//for moviesTable
+<span class="fc" id="L141">        JTableHeader movieHeader = jmovieTable.getTableHeader();</span>
+<span class="fc" id="L142">        movieHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L143">        movieHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
+
+        //logsTable Color 
+<span class="fc" id="L146">        JTableHeader logHeader = jlogTable.getTableHeader();</span>
+<span class="fc" id="L147">        logHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L148">        logHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
+
+        //actorsTable Color
+<span class="fc" id="L151">        JTableHeader actorsHeader = jActorTable.getTableHeader();</span>
+<span class="fc" id="L152">        actorsHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L153">        actorsHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
+
+        //for add actor
+<span class="fc" id="L156">        jtextName.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L157">        jtextDate.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L158">    }</span>
+
+//    SECTION FOR HELPER FUNCTIONS
+    //method to check if rating is double
+    public boolean checkDouble(String value) {
+        try {
+<span class="fc" id="L164">            Double.parseDouble(value);</span>
+<span class="fc" id="L165">            return true;</span>
+
+<span class="fc" id="L167">        } catch (NumberFormatException e) {</span>
+<span class="fc" id="L168">            return false;</span>
+        }
+
+    }
+
+    //method to check if movie feilds are empty
+    public boolean checkEmptyMovie(String name, String genre, String rating) {
+
+<span class="pc bpc" id="L176" title="5 of 12 branches missed.">        if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {</span>
+<span class="fc" id="L177">            return true;</span>
+        } else {
+<span class="fc" id="L179">            return false;</span>
+        }
+
+    }
+
+    public boolean checkRating(double rate) {
+<span class="fc bfc" id="L185" title="All 4 branches covered.">        if ((rate &lt; 0) || (rate &gt; 10)) {</span>
+<span class="fc" id="L186">            return false;</span>
+        } else {
+<span class="fc" id="L188">            return true;</span>
+        }
+    }
+
+    public int checkMovieExist(String name) {
+<span class="fc" id="L193">        int count = 0;</span>
+        try {
+            //check if movie already exists by counting if a row exists
+<span class="fc" id="L196">            PreparedStatement mystatement = con.prepareStatement(&quot;SELECT COUNT(*) FROM movies  WHERE name = ?&quot;);</span>
+<span class="fc" id="L197">            mystatement.setString(1, name);</span>
+<span class="fc" id="L198">            ResultSet res = mystatement.executeQuery();</span>
+<span class="fc" id="L199">            res.next();</span>
+<span class="fc" id="L200">            count = res.getInt(&quot;COUNT(*)&quot;);</span>
+
+<span class="nc" id="L202">        } catch (SQLException e) {</span>
+
+<span class="nc" id="L204">            e.printStackTrace();</span>
+<span class="nc" id="L205">            System.out.println(&quot;FrameUI.checkMovieExist(SQL exception!)&quot;);</span>
+<span class="fc" id="L206">        }</span>
+<span class="fc" id="L207">        return count;</span>
+    }
+
+    public int updateMovie(String name, String genre, double rate) {
+<span class="fc" id="L211">        int result = 0;</span>
+        try {
+<span class="fc" id="L213">            PreparedStatement mystatement = con.prepareStatement(&quot;UPDATE movies SET rating = ?,genre = ? WHERE name = ?&quot;);</span>
+<span class="fc" id="L214">            mystatement.setDouble(1, rate);</span>
+<span class="fc" id="L215">            mystatement.setString(2, genre);</span>
+<span class="fc" id="L216">            mystatement.setString(3, name);</span>
+<span class="fc" id="L217">            result = mystatement.executeUpdate();</span>
+<span class="nc" id="L218">        } catch (SQLException e) {</span>
+<span class="nc" id="L219">            e.printStackTrace();</span>
+<span class="nc" id="L220">            System.out.println(&quot;FrameUI.updateMovie(Problem in updating movie)&quot;);</span>
+<span class="fc" id="L221">        }</span>
+<span class="fc" id="L222">        return result;</span>
+    }
+
+    public int insertMovie(String name, String genre, double rate) {
+<span class="fc" id="L226">        int result = 0;</span>
+        try {
+<span class="fc" id="L228">            PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO movies (id,name,genre,rating) VALUES(DEFAULT,?,?,?)&quot;);</span>
+<span class="fc" id="L229">            myStatement.setString(1, name);</span>
+<span class="fc" id="L230">            myStatement.setString(2, genre);</span>
+<span class="fc" id="L231">            myStatement.setDouble(3, rate);</span>
+<span class="fc" id="L232">            result = myStatement.executeUpdate();</span>
+<span class="fc" id="L233">        } catch (SQLException e) {</span>
+<span class="fc" id="L234">            e.printStackTrace();</span>
+<span class="fc" id="L235">            System.out.println(&quot;FrameUI.insertMovie(Problem in inserting movie)&quot;);</span>
+<span class="fc" id="L236">        }</span>
+<span class="fc" id="L237">        return result;</span>
+    }
+
+    public int deleteSelectedMovie(int id) {
+<span class="fc" id="L241">        int result = 0;</span>
+        try {
+<span class="fc" id="L243">            PreparedStatement mystatement = con.prepareStatement(&quot;DELETE FROM movies WHERE id = ?&quot;);</span>
+<span class="fc" id="L244">            mystatement.setInt(1, id);</span>
+<span class="fc" id="L245">            result = mystatement.executeUpdate();</span>
+<span class="nc" id="L246">        } catch (SQLException e) {</span>
+<span class="nc" id="L247">            e.printStackTrace();</span>
+<span class="nc" id="L248">            System.out.println(&quot;FrameUI.deleteSelectedMovie(Error in deletion)&quot;);</span>
+<span class="fc" id="L249">        }</span>
+<span class="fc" id="L250">        return result;</span>
+    }
+
+    public void insertUpdateMovieSystemLogs(int adminID, int movieID, String opeartion, String logMessage) {
+
+        // Write the logs in the table
+        try {
+
+<span class="nc" id="L258">            PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, AdminID, movieID,timestamp ,Operation, LogMessage) Values(DEFAULT,?, ?, ?, ?, ?)&quot;);</span>
+
+<span class="nc" id="L260">            myStatement.setInt(1, adminID);</span>
+<span class="nc" id="L261">            myStatement.setInt(2, movieID);</span>
+<span class="nc" id="L262">            myStatement.setString(3, getDateTime());</span>
+<span class="nc" id="L263">            myStatement.setString(4, opeartion);</span>
+<span class="nc" id="L264">            myStatement.setString(5, logMessage);</span>
+<span class="nc" id="L265">            myStatement.execute();</span>
+<span class="nc" id="L266">        } catch (SQLException e) {</span>
+<span class="nc" id="L267">            System.out.println(&quot;FrameUI.insertSystemLogs(Problem in system logs)&quot;);</span>
+<span class="nc" id="L268">            e.printStackTrace();</span>
+<span class="nc" id="L269">        }</span>
+<span class="nc" id="L270">    }</span>
+
+    public void insertActorSystemLogs(int adminID, int actorID, String opeartion, String logMessage) {
+
+        // Write the logs in the table
+        try {
+
+<span class="nc" id="L277">            PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, AdminID, actorID,timestamp ,Operation, LogMessage) Values(DEFAULT,?, ?, ?, ?, ?)&quot;);</span>
+
+<span class="nc" id="L279">            myStatement.setInt(1, adminID);</span>
+<span class="nc" id="L280">            myStatement.setInt(2, actorID);</span>
+<span class="nc" id="L281">            myStatement.setString(3, getDateTime());</span>
+<span class="nc" id="L282">            myStatement.setString(4, opeartion);</span>
+<span class="nc" id="L283">            myStatement.setString(5, logMessage);</span>
+<span class="nc" id="L284">            myStatement.execute();</span>
+<span class="nc" id="L285">        } catch (SQLException e) {</span>
+<span class="nc" id="L286">            System.out.println(&quot;FrameUI.insertSystemLogs(Problem in system logs)&quot;);</span>
+<span class="nc" id="L287">            e.printStackTrace();</span>
+<span class="nc" id="L288">        }</span>
+<span class="nc" id="L289">    }</span>
+
+    public void insertReviewRateSystemLogs(int userID, int movieID, String opeartion, String logMessage) {
+
+        // Write the logs in the table
+        try {
+
+<span class="nc" id="L296">            PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, userID, movieID,timestamp ,Operation, LogMessage) Values(DEFAULT,?, ?, ?, ?, ?)&quot;);</span>
+
+<span class="nc" id="L298">            myStatement.setInt(1, userID);</span>
+<span class="nc" id="L299">            myStatement.setInt(2, movieID);</span>
+<span class="nc" id="L300">            myStatement.setString(3, getDateTime());</span>
+<span class="nc" id="L301">            myStatement.setString(4, opeartion);</span>
+<span class="nc" id="L302">            myStatement.setString(5, logMessage);</span>
+<span class="nc" id="L303">            myStatement.execute();</span>
+<span class="nc" id="L304">        } catch (SQLException e) {</span>
+<span class="nc" id="L305">            System.out.println(&quot;FrameUI.insertSystemLogs(Problem in system logs)&quot;);</span>
+<span class="nc" id="L306">            e.printStackTrace();</span>
+<span class="nc" id="L307">        }</span>
+<span class="nc" id="L308">    }</span>
+
+    public void insertSystemLogs(int userID, int adminID, int movieID, int actorID, String operation, String logMessage) {
+        // Write the logs in the table
+        try {
+
+<span class="nc" id="L314">            PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID,actorID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?,?, ?, ?, ?, ?, ?)&quot;);</span>
+
+<span class="nc" id="L316">            myStatement.setInt(1, userID);</span>
+<span class="nc" id="L317">            myStatement.setInt(2, adminID);</span>
+<span class="nc" id="L318">            myStatement.setInt(3, movieID);</span>
+<span class="nc" id="L319">            myStatement.setInt(4, actorID);</span>
+<span class="nc" id="L320">            myStatement.setString(5, getDateTime());</span>
+<span class="nc" id="L321">            myStatement.setString(6, operation);</span>
+<span class="nc" id="L322">            myStatement.setString(7, logMessage);</span>
+<span class="nc" id="L323">            myStatement.execute();</span>
+<span class="nc" id="L324">        } catch (SQLException e) {</span>
+<span class="nc" id="L325">            System.out.println(&quot;FrameUI.insertSystemLogs(Problem in system logs)&quot;);</span>
+<span class="nc" id="L326">            e.printStackTrace();</span>
+<span class="nc" id="L327">        }</span>
+<span class="nc" id="L328">    }</span>
+    
+        public int checkRating2(int rating)
+    {
+<span class="fc bfc" id="L332" title="All 2 branches covered.">         if (rating == 0) {</span>
+<span class="fc" id="L333">            return 0;</span>
+        }  
+<span class="fc" id="L335">        return 1;</span>
+    }
+    
+    public int checkReview(String review)
+    {
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        if (review.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L341">            return 0;</span>
+        }
+<span class="fc" id="L343">        return 1;</span>
+    }
+    
+    public int checkReviewLength(String review)
+    {
+<span class="fc bfc" id="L348" title="All 2 branches covered.">        if(review.length() &gt; 1000)</span>
+        {
+<span class="fc" id="L350">            return 0;</span>
+        }
+<span class="fc" id="L352">        return 1;</span>
+    }
+
+    public int addActorNameField(String name)
+    {
+<span class="pc bpc" id="L357" title="1 of 4 branches missed.">        if ((name.isEmpty() || name == null)) {</span>
+
+<span class="fc" id="L359">            return 0;</span>
+        }
+<span class="fc" id="L361">        return 1;</span>
+    }
+    public int addActorNameValid(String name)
+    {
+<span class="fc bfc" id="L365" title="All 2 branches covered.">        if(name.matches(&quot;.*\\d.*&quot;))</span>
+        {
+<span class="fc" id="L367">             return 0;</span>
+        }
+<span class="fc" id="L369">        return 1;</span>
+    }
+    
+    public int addActorNameLength(String name)
+    {
+<span class="fc bfc" id="L374" title="All 2 branches covered.">        if (name.length() &gt; 45) {</span>
+<span class="fc" id="L375">            return 0;</span>
+        }
+<span class="fc" id="L377">        return 1;</span>
+    }
+    
+    public int addActorDoBField(String DoB)
+    {
+<span class="pc bpc" id="L382" title="1 of 4 branches missed.">        if (DoB.isEmpty() || DoB == null) {</span>
+
+<span class="fc" id="L384">            return 0;</span>
+        }
+<span class="fc" id="L386">        return 1;</span>
+    }
+    
+    public int addActorDoBValid(String DoB)
+    {
+<span class="fc bfc" id="L391" title="All 2 branches covered.">        if(DoB.matches(&quot;^\\d{4}-\\d{2}-\\d{2}$&quot;))</span>
+        {
+<span class="fc" id="L393">            return 1;</span>
+        }
+<span class="fc" id="L395">        return 0;</span>
+    }
+
+
+    public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
+<span class="nc" id="L400">        base1.removeAll();</span>
+<span class="nc" id="L401">        base1.add(panel);</span>
+<span class="nc" id="L402">        base1.repaint();</span>
+<span class="nc" id="L403">        base1.revalidate();</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">        if (userType == 50) // 50 refers to regular user</span>
+        {
+<span class="nc" id="L406">            userNameL.setText(&quot;Username: &quot; + username);</span>
+<span class="nc" id="L407">            userIdL.setText(&quot;User ID: &quot; + id);</span>
+<span class="nc" id="L408">            addDeleteB.setVisible(false);</span>
+<span class="nc" id="L409">            deleteMovieB.setVisible(false);</span>
+<span class="nc" id="L410">            jButtonAddActor.setVisible(false);</span>
+<span class="nc" id="L411">            jButtonDeleteSelectedActor.setVisible(false);</span>
+<span class="nc" id="L412">            System.out.println(userIdL.getText().substring(9));</span>
+<span class="nc bnc" id="L413" title="All 2 branches missed.">        } else if (userType == 100) // 100 refers to admin user</span>
+        {
+<span class="nc" id="L415">            adminNameL.setText(&quot;Adminname: &quot; + username);</span>
+<span class="nc" id="L416">            adminIdL.setText(&quot;Admin ID: &quot; + id);</span>
+<span class="nc" id="L417">            revRateSubmitB.setVisible(false);</span>
+<span class="nc" id="L418">            revRateViewB.setVisible(false);</span>
+<span class="nc" id="L419">            System.out.println(adminIdL.getText().substring(10));</span>
+        }
+
+<span class="nc" id="L422">    }</span>
+
+    public void LoadPanel(JPanel panel) {
+<span class="nc" id="L425">        contentBase.removeAll();</span>
+<span class="nc" id="L426">        contentBase.add(panel);</span>
+<span class="nc" id="L427">        contentBase.repaint();</span>
+<span class="nc" id="L428">        contentBase.revalidate();</span>
+<span class="nc" id="L429">    }</span>
+
+    public void removePanels() {
+<span class="nc" id="L432">        contentBase.removeAll();</span>
+<span class="nc" id="L433">    }</span>
+
+    public class costumPanel extends JPanel {
+
+        private BufferedImage image;
+
+<span class="nc" id="L439">        public costumPanel() {</span>
+            try {
+<span class="nc" id="L441">                image = ImageIO.read(getClass().getResourceAsStream(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;));</span>
+<span class="nc" id="L442">            } catch (Exception ex) {</span>
+<span class="nc" id="L443">                System.out.println(ex.toString());</span>
+<span class="nc" id="L444">            }</span>
+<span class="nc" id="L445">        }</span>
+
+        @Override
+        public void paintComponent(Graphics g) {
+<span class="nc" id="L449">            super.paintComponent(g);</span>
+<span class="nc" id="L450">            g.drawImage(image, 0, 0, this);</span>
+
+<span class="nc" id="L452">        }</span>
+    }
+
+    static public String getDateTime() {
+<span class="nc" id="L456">        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;yyyy/MM/dd HH:mm:ss&quot;);</span>
+<span class="nc" id="L457">        LocalDateTime now = LocalDateTime.now();</span>
+<span class="nc" id="L458">        return dtf.format(now);</span>
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="fc" id="L470">        mainPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L471">        base1 = new javax.swing.JLayeredPane();</span>
+<span class="fc" id="L472">        adminPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L473">        adminIcon = new javax.swing.JLabel();</span>
+<span class="fc" id="L474">        moviesTableBa = new javax.swing.JButton();</span>
+<span class="fc" id="L475">        signOutButton = new javax.swing.JButton();</span>
+<span class="fc" id="L476">        adminNameL = new javax.swing.JLabel();</span>
+<span class="fc" id="L477">        adminIdL = new javax.swing.JLabel();</span>
+<span class="fc" id="L478">        moviesTableBa1 = new javax.swing.JButton();</span>
+<span class="fc" id="L479">        ReportListButton = new javax.swing.JButton();</span>
+<span class="fc" id="L480">        CreateReport = new javax.swing.JButton();</span>
+<span class="fc" id="L481">        actorsTablebutton = new javax.swing.JButton();</span>
+<span class="fc" id="L482">        UserPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L483">        userIcon = new javax.swing.JLabel();</span>
+<span class="fc" id="L484">        moviesTableB = new javax.swing.JButton();</span>
+<span class="fc" id="L485">        signOutButton1 = new javax.swing.JButton();</span>
+<span class="fc" id="L486">        userNameL = new javax.swing.JLabel();</span>
+<span class="fc" id="L487">        userIdL = new javax.swing.JLabel();</span>
+<span class="fc" id="L488">        actorsTablebutton1 = new javax.swing.JButton();</span>
+<span class="fc" id="L489">        secondaryPanel = new reviewBackground();</span>
+<span class="fc" id="L490">        contentBase = new javax.swing.JLayeredPane();</span>
+<span class="fc" id="L491">        backGroundP = new reviewBackground();</span>
+<span class="fc" id="L492">        movieTableP = new javax.swing.JPanel();</span>
+<span class="fc" id="L493">        jScrollPane3 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L494">        jmovieTable = new javax.swing.JTable();</span>
+<span class="fc" id="L495">        refreshB = new javax.swing.JButton();</span>
+<span class="fc" id="L496">        addDeleteB = new javax.swing.JButton();</span>
+<span class="fc" id="L497">        deleteMovieB = new javax.swing.JButton();</span>
+<span class="fc" id="L498">        jTextSearch = new javax.swing.JTextField();</span>
+<span class="fc" id="L499">        jSearch = new javax.swing.JButton();</span>
+<span class="fc" id="L500">        revRateViewB = new javax.swing.JButton();</span>
+<span class="fc" id="L501">        revRateSubmitB = new javax.swing.JButton();</span>
+<span class="fc" id="L502">        backGroundP3a = new javax.swing.JPanel();</span>
+<span class="fc" id="L503">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="fc" id="L504">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L505">        jlogTable = new javax.swing.JTable();</span>
+<span class="fc" id="L506">        reviewRatingSubmitP = new javax.swing.JPanel();</span>
+<span class="fc" id="L507">        jLabelReview = new javax.swing.JLabel();</span>
+<span class="fc" id="L508">        jLabelRate = new javax.swing.JLabel();</span>
+<span class="fc" id="L509">        movieIdL = new javax.swing.JLabel();</span>
+<span class="fc" id="L510">        jComboBoxRate = new javax.swing.JComboBox&lt;&gt;();</span>
+<span class="fc" id="L511">        jSeparator8 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L512">        jSeparator6 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L513">        jSeparator5 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L514">        jSeparator7 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L515">        jButtonSubmit = new javax.swing.JButton();</span>
+<span class="fc" id="L516">        jScrollPaneSubmit = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L517">        jTextAreaSubmitReview = new javax.swing.JTextArea();</span>
+<span class="fc" id="L518">        jLabel7 = new javax.swing.JLabel();</span>
+<span class="fc" id="L519">        addActor = new javax.swing.JPanel();</span>
+<span class="fc" id="L520">        jtextName = new javax.swing.JTextField();</span>
+<span class="fc" id="L521">        jtextDate = new javax.swing.JTextField();</span>
+<span class="fc" id="L522">        jSeparator12 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L523">        jSeparator14 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L524">        jButtonAddActor1 = new javax.swing.JButton();</span>
+<span class="fc" id="L525">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="fc" id="L526">        jLabel6 = new javax.swing.JLabel();</span>
+<span class="fc" id="L527">        jLabel10 = new javax.swing.JLabel();</span>
+<span class="fc" id="L528">        jLabel11 = new javax.swing.JLabel();</span>
+<span class="fc" id="L529">        reviewRatingViewP = new javax.swing.JPanel();</span>
+<span class="fc" id="L530">        jLabelReview1 = new javax.swing.JLabel();</span>
+<span class="fc" id="L531">        jLabelReviewCount = new javax.swing.JLabel();</span>
+<span class="fc" id="L532">        jLabelCurrentReview = new javax.swing.JLabel();</span>
+<span class="fc" id="L533">        jLabeSlash = new javax.swing.JLabel();</span>
+<span class="fc" id="L534">        jLabelRate1 = new javax.swing.JLabel();</span>
+<span class="fc" id="L535">        jSeparator9 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L536">        jSeparator10 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L537">        jSeparator11 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L538">        jButtonNextReview = new javax.swing.JButton();</span>
+<span class="fc" id="L539">        jtextUserName = new javax.swing.JTextField();</span>
+<span class="fc" id="L540">        jtextUserRate = new javax.swing.JTextField();</span>
+<span class="fc" id="L541">        jScrollPaneView = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L542">        jTextAreaViewReview = new javax.swing.JTextArea();</span>
+<span class="fc" id="L543">        jLabel8 = new javax.swing.JLabel();</span>
+<span class="fc" id="L544">        addMoviesP = new javax.swing.JPanel();</span>
+<span class="fc" id="L545">        jSeparator13 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L546">        jSeparator4 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L547">        jSeparator3 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L548">        jtextname = new javax.swing.JTextField();</span>
+<span class="fc" id="L549">        jtextrating = new javax.swing.JTextField();</span>
+<span class="fc" id="L550">        jtextgenre = new javax.swing.JTextField();</span>
+<span class="fc" id="L551">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="fc" id="L552">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="fc" id="L553">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="fc" id="L554">        jLabel5 = new javax.swing.JLabel();</span>
+<span class="fc" id="L555">        jadd = new javax.swing.JButton();</span>
+<span class="fc" id="L556">        jLabel9 = new javax.swing.JLabel();</span>
+<span class="fc" id="L557">        ReportTypeP = new reviewBackground();</span>
+<span class="fc" id="L558">        ReportType = new javax.swing.JComboBox&lt;&gt;();</span>
+<span class="fc" id="L559">        Oreder = new javax.swing.JButton();</span>
+<span class="fc" id="L560">        jLabel12 = new javax.swing.JLabel();</span>
+<span class="fc" id="L561">        actors = new javax.swing.JPanel();</span>
+<span class="fc" id="L562">        jScrollPane4 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L563">        jActorTable = new javax.swing.JTable();</span>
+<span class="fc" id="L564">        jButtonRefresh = new javax.swing.JButton();</span>
+<span class="fc" id="L565">        jButtonAddActor = new javax.swing.JButton();</span>
+<span class="fc" id="L566">        jButtonDeleteSelectedActor = new javax.swing.JButton();</span>
+<span class="fc" id="L567">        jTextSearch1 = new javax.swing.JTextField();</span>
+<span class="fc" id="L568">        jButtonSearch = new javax.swing.JButton();</span>
+
+<span class="fc" id="L570">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="fc" id="L571">        setTitle(&quot;Navigation Window&quot;);</span>
+<span class="fc" id="L572">        setResizable(false);</span>
+
+<span class="fc" id="L574">        mainPanel.setBackground(new java.awt.Color(51, 51, 51));</span>
+
+<span class="fc" id="L576">        base1.setLayout(new java.awt.CardLayout());</span>
+
+<span class="fc" id="L578">        adminPanel.setBackground(new java.awt.Color(51, 51, 51));</span>
+
+<span class="fc" id="L580">        adminIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/admin.png&quot;))); // NOI18N</span>
+
+<span class="fc" id="L582">        moviesTableBa.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L583">        moviesTableBa.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L584">        moviesTableBa.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L585">        moviesTableBa.setText(&quot;Movies Table&quot;);</span>
+<span class="fc" id="L586">        moviesTableBa.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L588">                moviesTableBaActionPerformed(evt);</span>
+<span class="nc" id="L589">            }</span>
+        });
+
+<span class="fc" id="L592">        signOutButton.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L593">        signOutButton.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L594">        signOutButton.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L595">        signOutButton.setText(&quot;Sign Out&quot;);</span>
+<span class="fc" id="L596">        signOutButton.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L598">                signOutButtonActionPerformed(evt);</span>
+<span class="nc" id="L599">            }</span>
+        });
+
+<span class="fc" id="L602">        adminNameL.setFont(new java.awt.Font(&quot;Tahoma&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L603">        adminNameL.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L604">        adminNameL.setText(&quot;Admin name&quot;);</span>
+
+<span class="fc" id="L606">        adminIdL.setFont(new java.awt.Font(&quot;Tahoma&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L607">        adminIdL.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L608">        adminIdL.setText(&quot;ID&quot;);</span>
+
+<span class="fc" id="L610">        moviesTableBa1.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L611">        moviesTableBa1.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L612">        moviesTableBa1.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L613">        moviesTableBa1.setText(&quot;System Logs&quot;);</span>
+<span class="fc" id="L614">        moviesTableBa1.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L616">                moviesTableBa1ActionPerformed(evt);</span>
+<span class="nc" id="L617">            }</span>
+        });
+
+<span class="fc" id="L620">        ReportListButton.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L621">        ReportListButton.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L622">        ReportListButton.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L623">        ReportListButton.setText(&quot;Report List&quot;);</span>
+<span class="fc" id="L624">        ReportListButton.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L626">                ReportListButtonActionPerformed(evt);</span>
+<span class="nc" id="L627">            }</span>
+        });
+
+<span class="fc" id="L630">        CreateReport.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L631">        CreateReport.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L632">        CreateReport.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L633">        CreateReport.setText(&quot;Create Report &quot;);</span>
+<span class="fc" id="L634">        CreateReport.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L636">                CreateReportActionPerformed(evt);</span>
+<span class="nc" id="L637">            }</span>
+        });
+
+<span class="fc" id="L640">        actorsTablebutton.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L641">        actorsTablebutton.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L642">        actorsTablebutton.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L643">        actorsTablebutton.setText(&quot;Actors Table&quot;);</span>
+<span class="fc" id="L644">        actorsTablebutton.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L646">                actorsTablebuttonActionPerformed(evt);</span>
+<span class="nc" id="L647">            }</span>
+        });
+
+<span class="fc" id="L650">        javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);</span>
+<span class="fc" id="L651">        adminPanel.setLayout(adminPanelLayout);</span>
+<span class="fc" id="L652">        adminPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L653">            adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L654">            .addGroup(adminPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L655">                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L656">                    .addGroup(adminPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L657">                        .addGap(78, 78, 78)</span>
+<span class="fc" id="L658">                        .addComponent(adminIcon))</span>
+<span class="fc" id="L659">                    .addGroup(adminPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L660">                        .addGap(23, 23, 23)</span>
+<span class="fc" id="L661">                        .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L662">                            .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L663">                            .addGroup(adminPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L664">                                .addGap(14, 14, 14)</span>
+<span class="fc" id="L665">                                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="fc" id="L666">                                    .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L667">                                    .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="fc" id="L668">                            .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L669">                            .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L670">                            .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L671">                            .addComponent(actorsTablebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L672">                            .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))</span>
+<span class="fc" id="L673">                .addContainerGap(22, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L675">        adminPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L676">            adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L677">            .addGroup(adminPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L678">                .addContainerGap()</span>
+<span class="fc" id="L679">                .addComponent(adminIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L680">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L681">                .addComponent(adminNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L682">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L683">                .addComponent(adminIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L684">                .addGap(67, 67, 67)</span>
+<span class="fc" id="L685">                .addComponent(moviesTableBa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L686">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L687">                .addComponent(actorsTablebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L688">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L689">                .addComponent(moviesTableBa1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L690">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L691">                .addComponent(ReportListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L692">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L693">                .addComponent(CreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L694">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L695">                .addComponent(signOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L696">                .addContainerGap(115, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L699">        base1.add(adminPanel, &quot;card3&quot;);</span>
+
+<span class="fc" id="L701">        UserPanel.setBackground(new java.awt.Color(51, 51, 51));</span>
+
+<span class="fc" id="L703">        userIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/Userm.png&quot;))); // NOI18N</span>
+
+<span class="fc" id="L705">        moviesTableB.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L706">        moviesTableB.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L707">        moviesTableB.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L708">        moviesTableB.setText(&quot;Movies Table&quot;);</span>
+<span class="fc" id="L709">        moviesTableB.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L711">                moviesTableBActionPerformed(evt);</span>
+<span class="nc" id="L712">            }</span>
+        });
+
+<span class="fc" id="L715">        signOutButton1.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L716">        signOutButton1.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L717">        signOutButton1.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L718">        signOutButton1.setText(&quot;Sign Out&quot;);</span>
+<span class="fc" id="L719">        signOutButton1.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L721">                signOutButton1ActionPerformed(evt);</span>
+<span class="nc" id="L722">            }</span>
+        });
+
+<span class="fc" id="L725">        userNameL.setFont(new java.awt.Font(&quot;Tahoma&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L726">        userNameL.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L727">        userNameL.setText(&quot;Username&quot;);</span>
+
+<span class="fc" id="L729">        userIdL.setFont(new java.awt.Font(&quot;Tahoma&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L730">        userIdL.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L731">        userIdL.setText(&quot;ID&quot;);</span>
+
+<span class="fc" id="L733">        actorsTablebutton1.setBackground(new java.awt.Color(255, 153, 0));</span>
+<span class="fc" id="L734">        actorsTablebutton1.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L735">        actorsTablebutton1.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L736">        actorsTablebutton1.setText(&quot;Actors Table&quot;);</span>
+<span class="fc" id="L737">        actorsTablebutton1.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L739">                actorsTablebutton1ActionPerformed(evt);</span>
+<span class="nc" id="L740">            }</span>
+        });
+
+<span class="fc" id="L743">        javax.swing.GroupLayout UserPanelLayout = new javax.swing.GroupLayout(UserPanel);</span>
+<span class="fc" id="L744">        UserPanel.setLayout(UserPanelLayout);</span>
+<span class="fc" id="L745">        UserPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L746">            UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L747">            .addGroup(UserPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L748">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L749">                .addComponent(userIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L750">                .addGap(72, 72, 72))</span>
+<span class="fc" id="L751">            .addGroup(UserPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L752">                .addGap(23, 23, 23)</span>
+<span class="fc" id="L753">                .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L754">                    .addComponent(actorsTablebutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L755">                    .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L756">                    .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L757">                    .addGroup(UserPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L758">                        .addGap(10, 10, 10)</span>
+<span class="fc" id="L759">                        .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L760">                            .addComponent(userIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L761">                            .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))</span>
+<span class="fc" id="L762">                .addContainerGap(22, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L764">        UserPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L765">            UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L766">            .addGroup(UserPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L767">                .addContainerGap()</span>
+<span class="fc" id="L768">                .addComponent(userIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L769">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L770">                .addComponent(userNameL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L771">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L772">                .addComponent(userIdL, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L773">                .addGap(29, 29, 29)</span>
+<span class="fc" id="L774">                .addComponent(moviesTableB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L775">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L776">                .addComponent(actorsTablebutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L777">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L778">                .addComponent(signOutButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L779">                .addContainerGap(267, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L782">        base1.add(UserPanel, &quot;card2&quot;);</span>
+
+<span class="fc" id="L784">        secondaryPanel.setBackground(new java.awt.Color(255, 255, 0));</span>
+
+<span class="fc" id="L786">        contentBase.setLayout(new java.awt.CardLayout());</span>
+
+<span class="fc" id="L788">        backGroundP.setBackground(new java.awt.Color(51, 255, 204));</span>
+
+<span class="fc" id="L790">        movieTableP.setBackground(new java.awt.Color(43, 43, 43));</span>
+
+<span class="fc" id="L792">        jmovieTable.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L793">        jmovieTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));</span>
+<span class="fc" id="L794">        jmovieTable.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L795">        jmovieTable.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L796">        jmovieTable.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;ID&quot;, &quot;Name&quot;, &quot;Genre&quot;, &quot;Rating&quot;
+            }
+<span class="fc" id="L803">        ) {</span>
+<span class="fc" id="L804">            Class[] types = new Class [] {</span>
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+<span class="fc" id="L807">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+<span class="nc" id="L812">                return types [columnIndex];</span>
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L816">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="fc" id="L819">        jmovieTable.setGridColor(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L820">        jmovieTable.setName(&quot;Movies&quot;); // NOI18N</span>
+<span class="fc" id="L821">        jmovieTable.getTableHeader().setReorderingAllowed(false);</span>
+<span class="fc" id="L822">        jScrollPane3.setViewportView(jmovieTable);</span>
+
+<span class="fc" id="L824">        refreshB.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L825">        refreshB.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L826">        refreshB.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L827">        refreshB.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-find-and-replace-64.png&quot;))); // NOI18N</span>
+<span class="fc" id="L828">        refreshB.setText(&quot;Refresh          &quot;);</span>
+<span class="fc" id="L829">        refreshB.setActionCommand(&quot;&quot;);</span>
+<span class="fc" id="L830">        refreshB.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L832">                refreshBActionPerformed(evt);</span>
+<span class="nc" id="L833">            }</span>
+        });
+
+<span class="fc" id="L836">        addDeleteB.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L837">        addDeleteB.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L838">        addDeleteB.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L839">        addDeleteB.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-plus-64.png&quot;))); // NOI18N</span>
+<span class="fc" id="L840">        addDeleteB.setText(&quot;      Add Movie      &quot;);</span>
+<span class="fc" id="L841">        addDeleteB.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L843">                addDeleteBActionPerformed(evt);</span>
+<span class="nc" id="L844">            }</span>
+        });
+
+<span class="fc" id="L847">        deleteMovieB.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L848">        deleteMovieB.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L849">        deleteMovieB.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L850">        deleteMovieB.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-delete-64.png&quot;))); // NOI18N</span>
+<span class="fc" id="L851">        deleteMovieB.setText(&quot;Delete Selected   &quot;);</span>
+<span class="fc" id="L852">        deleteMovieB.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L854">                deleteMovieBActionPerformed(evt);</span>
+<span class="nc" id="L855">            }</span>
+        });
+
+<span class="fc" id="L858">        jTextSearch.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L860">                jTextSearchActionPerformed(evt);</span>
+<span class="nc" id="L861">            }</span>
+        });
+
+<span class="fc" id="L864">        jSearch.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L865">        jSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-search-30.png&quot;))); // NOI18N</span>
+<span class="fc" id="L866">        jSearch.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L868">                jSearchActionPerformed(evt);</span>
+<span class="nc" id="L869">            }</span>
+        });
+
+<span class="fc" id="L872">        revRateViewB.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L873">        revRateViewB.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L874">        revRateViewB.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L875">        revRateViewB.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-view-64.png&quot;))); // NOI18N</span>
+<span class="fc" id="L876">        revRateViewB.setText(&quot;View  User Review&quot;);</span>
+<span class="fc" id="L877">        revRateViewB.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L879">                revRateViewBActionPerformed(evt);</span>
+<span class="nc" id="L880">            }</span>
+        });
+
+<span class="fc" id="L883">        revRateSubmitB.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L884">        revRateSubmitB.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L885">        revRateSubmitB.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L886">        revRateSubmitB.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/submit.png&quot;))); // NOI18N</span>
+<span class="fc" id="L887">        revRateSubmitB.setText(&quot;Submit a Review     &quot;);</span>
+<span class="fc" id="L888">        revRateSubmitB.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L890">                revRateSubmitBActionPerformed(evt);</span>
+<span class="nc" id="L891">            }</span>
+        });
+
+<span class="fc" id="L894">        javax.swing.GroupLayout movieTablePLayout = new javax.swing.GroupLayout(movieTableP);</span>
+<span class="fc" id="L895">        movieTableP.setLayout(movieTablePLayout);</span>
+<span class="fc" id="L896">        movieTablePLayout.setHorizontalGroup(</span>
+<span class="fc" id="L897">            movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L898">            .addGroup(movieTablePLayout.createSequentialGroup()</span>
+<span class="fc" id="L899">                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)</span>
+<span class="fc" id="L900">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L901">                .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L902">                    .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)</span>
+<span class="fc" id="L903">                        .addComponent(revRateSubmitB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L904">                        .addComponent(refreshB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L905">                        .addComponent(addDeleteB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L906">                        .addComponent(revRateViewB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L907">                        .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L908">                    .addGroup(movieTablePLayout.createSequentialGroup()</span>
+<span class="fc" id="L909">                        .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L910">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L911">                        .addComponent(jSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="fc" id="L912">                .addContainerGap())</span>
+        );
+<span class="fc" id="L914">        movieTablePLayout.setVerticalGroup(</span>
+<span class="fc" id="L915">            movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L916">            .addGroup(movieTablePLayout.createSequentialGroup()</span>
+<span class="fc" id="L917">                .addContainerGap()</span>
+<span class="fc" id="L918">                .addGroup(movieTablePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L919">                    .addComponent(jTextSearch)</span>
+<span class="fc" id="L920">                    .addComponent(jSearch))</span>
+<span class="fc" id="L921">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L922">                .addComponent(refreshB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L923">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L924">                .addComponent(revRateSubmitB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L925">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L926">                .addComponent(revRateViewB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L927">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L928">                .addComponent(addDeleteB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L929">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L930">                .addComponent(deleteMovieB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L931">                .addContainerGap(208, Short.MAX_VALUE))</span>
+<span class="fc" id="L932">            .addComponent(jScrollPane3)</span>
+        );
+
+<span class="fc" id="L935">        javax.swing.GroupLayout backGroundPLayout = new javax.swing.GroupLayout(backGroundP);</span>
+<span class="fc" id="L936">        backGroundP.setLayout(backGroundPLayout);</span>
+<span class="fc" id="L937">        backGroundPLayout.setHorizontalGroup(</span>
+<span class="fc" id="L938">            backGroundPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L939">            .addComponent(movieTableP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+<span class="fc" id="L941">        backGroundPLayout.setVerticalGroup(</span>
+<span class="fc" id="L942">            backGroundPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L943">            .addComponent(movieTableP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+
+<span class="fc" id="L946">        contentBase.add(backGroundP, &quot;card2&quot;);</span>
+
+<span class="fc" id="L948">        jlogTable.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L949">        jlogTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));</span>
+<span class="fc" id="L950">        jlogTable.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L951">        jlogTable.setForeground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L952">        jlogTable.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;ID&quot;, &quot;UserID&quot;, &quot;AdminID&quot;, &quot;MovieID&quot;, &quot;ActorID&quot;, &quot;TimeStamp&quot;, &quot;Operation&quot;, &quot;LogMessage&quot;
+            }
+<span class="fc" id="L959">        ) {</span>
+<span class="fc" id="L960">            Class[] types = new Class [] {</span>
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+<span class="fc" id="L963">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+<span class="nc" id="L968">                return types [columnIndex];</span>
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L972">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="fc" id="L975">        jlogTable.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L976">        jlogTable.setGridColor(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L977">        jlogTable.setName(&quot;Movies&quot;); // NOI18N</span>
+<span class="fc" id="L978">        jlogTable.getTableHeader().setReorderingAllowed(false);</span>
+<span class="fc" id="L979">        jScrollPane1.setViewportView(jlogTable);</span>
+
+<span class="fc" id="L981">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
+<span class="fc" id="L982">        jPanel1.setLayout(jPanel1Layout);</span>
+<span class="fc" id="L983">        jPanel1Layout.setHorizontalGroup(</span>
+<span class="fc" id="L984">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L985">            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)</span>
+        );
+<span class="fc" id="L987">        jPanel1Layout.setVerticalGroup(</span>
+<span class="fc" id="L988">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L989">            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)</span>
+        );
+
+<span class="fc" id="L992">        javax.swing.GroupLayout backGroundP3aLayout = new javax.swing.GroupLayout(backGroundP3a);</span>
+<span class="fc" id="L993">        backGroundP3a.setLayout(backGroundP3aLayout);</span>
+<span class="fc" id="L994">        backGroundP3aLayout.setHorizontalGroup(</span>
+<span class="fc" id="L995">            backGroundP3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L996">            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+<span class="fc" id="L998">        backGroundP3aLayout.setVerticalGroup(</span>
+<span class="fc" id="L999">            backGroundP3aLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1000">            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+
+<span class="fc" id="L1003">        contentBase.add(backGroundP3a, &quot;card7&quot;);</span>
+
+<span class="fc" id="L1005">        reviewRatingSubmitP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="fc" id="L1007">        jLabelReview.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 36)); // NOI18N</span>
+<span class="fc" id="L1008">        jLabelReview.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1009">        jLabelReview.setText(&quot;Write Review&quot;);</span>
+<span class="fc" id="L1010">        reviewRatingSubmitP.add(jLabelReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 390, 30));</span>
+
+<span class="fc" id="L1012">        jLabelRate.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 36)); // NOI18N</span>
+<span class="fc" id="L1013">        jLabelRate.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1014">        jLabelRate.setText(&quot;Rating:&quot;);</span>
+<span class="fc" id="L1015">        reviewRatingSubmitP.add(jLabelRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 140, 40));</span>
+
+<span class="fc" id="L1017">        movieIdL.setText(&quot;ID&quot;);</span>
+<span class="fc" id="L1018">        reviewRatingSubmitP.add(movieIdL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));</span>
+
+<span class="fc" id="L1020">        jComboBoxRate.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1021">        jComboBoxRate.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1022">        jComboBoxRate.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Select&quot;, &quot;(1) Appalling&quot;, &quot;(2) Horrible&quot;, &quot;(3) Very Bad&quot;, &quot;(4) Bad&quot;, &quot;(5) Average&quot;, &quot;(6) Fine&quot;, &quot;(7) Good&quot;, &quot;(8) Very Good&quot;, &quot;(9) Great&quot;, &quot;(10) Masterpiece&quot; }));</span>
+<span class="fc" id="L1023">        jComboBoxRate.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1025">                jComboBoxRateActionPerformed(evt);</span>
+<span class="nc" id="L1026">            }</span>
+        });
+<span class="fc" id="L1028">        reviewRatingSubmitP.add(jComboBoxRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 80, 170, -1));</span>
+
+<span class="fc" id="L1030">        jSeparator8.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1031">        reviewRatingSubmitP.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 680, -1));</span>
+
+<span class="fc" id="L1033">        jSeparator6.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1034">        reviewRatingSubmitP.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 680, 10));</span>
+
+<span class="fc" id="L1036">        jSeparator5.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1037">        reviewRatingSubmitP.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 680, 10));</span>
+
+<span class="fc" id="L1039">        jSeparator7.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1040">        reviewRatingSubmitP.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 680, 10));</span>
+
+<span class="fc" id="L1042">        jButtonSubmit.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="fc" id="L1043">        jButtonSubmit.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1044">        jButtonSubmit.setForeground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1045">        jButtonSubmit.setText(&quot;Submit&quot;);</span>
+<span class="fc" id="L1046">        jButtonSubmit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L1047">        jButtonSubmit.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1049">                jButtonSubmitActionPerformed(evt);</span>
+<span class="nc" id="L1050">            }</span>
+        });
+<span class="fc" id="L1052">        reviewRatingSubmitP.add(jButtonSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 530, 180, 40));</span>
+
+<span class="fc" id="L1054">        jScrollPaneSubmit.setFocusable(false);</span>
+<span class="fc" id="L1055">        jScrollPaneSubmit.setOpaque(false);</span>
+
+<span class="fc" id="L1057">        jTextAreaSubmitReview.setColumns(20);</span>
+<span class="fc" id="L1058">        jTextAreaSubmitReview.setFont(new java.awt.Font(&quot;Palatino Linotype&quot;, 3, 24)); // NOI18N</span>
+<span class="fc" id="L1059">        jTextAreaSubmitReview.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1060">        jTextAreaSubmitReview.setLineWrap(true);</span>
+<span class="fc" id="L1061">        jTextAreaSubmitReview.setRows(5);</span>
+<span class="fc" id="L1062">        jTextAreaSubmitReview.setText(&quot;Your review here........&quot;);</span>
+<span class="fc" id="L1063">        jTextAreaSubmitReview.setBorder(null);</span>
+<span class="fc" id="L1064">        jTextAreaSubmitReview.setHighlighter(null);</span>
+<span class="fc" id="L1065">        jTextAreaSubmitReview.setOpaque(false);</span>
+<span class="fc" id="L1066">        jTextAreaSubmitReview.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L1068">                jTextAreaSubmitReviewFocusGained(evt);</span>
+<span class="nc" id="L1069">            }</span>
+        });
+<span class="fc" id="L1071">        jScrollPaneSubmit.setViewportView(jTextAreaSubmitReview);</span>
+
+<span class="fc" id="L1073">        reviewRatingSubmitP.add(jScrollPaneSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 660, 220));</span>
+
+<span class="fc" id="L1075">        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L1076">        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1077">        jLabel7.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L1078">        reviewRatingSubmitP.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 640));</span>
+
+<span class="fc" id="L1080">        contentBase.add(reviewRatingSubmitP, &quot;card9&quot;);</span>
+
+<span class="fc" id="L1082">        addActor.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L1083">        addActor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="fc" id="L1085">        jtextName.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1086">        jtextName.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1087">        jtextName.setText(&quot;eg: Keanu Reeves&quot;);</span>
+<span class="fc" id="L1088">        jtextName.setBorder(null);</span>
+<span class="fc" id="L1089">        jtextName.setOpaque(false);</span>
+<span class="fc" id="L1090">        jtextName.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L1092">                jtextNameFocusGained(evt);</span>
+<span class="nc" id="L1093">            }</span>
+        });
+<span class="fc" id="L1095">        jtextName.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1097">                jtextNameActionPerformed(evt);</span>
+<span class="nc" id="L1098">            }</span>
+        });
+<span class="fc" id="L1100">        addActor.add(jtextName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 650, 20));</span>
+
+<span class="fc" id="L1102">        jtextDate.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1103">        jtextDate.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1104">        jtextDate.setText(&quot;eg: YYYY-MM-DD&quot;);</span>
+<span class="fc" id="L1105">        jtextDate.setBorder(null);</span>
+<span class="fc" id="L1106">        jtextDate.setOpaque(false);</span>
+<span class="fc" id="L1107">        jtextDate.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L1109">                jtextDateFocusGained(evt);</span>
+<span class="nc" id="L1110">            }</span>
+        });
+<span class="fc" id="L1112">        jtextDate.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1114">                jtextDateActionPerformed(evt);</span>
+<span class="nc" id="L1115">            }</span>
+        });
+<span class="fc" id="L1117">        addActor.add(jtextDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 650, 20));</span>
+
+<span class="fc" id="L1119">        jSeparator12.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1120">        jSeparator12.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1121">        addActor.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 650, -1));</span>
+
+<span class="fc" id="L1123">        jSeparator14.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1124">        addActor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 650, -1));</span>
+
+<span class="fc" id="L1126">        jButtonAddActor1.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="fc" id="L1127">        jButtonAddActor1.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1128">        jButtonAddActor1.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1129">        jButtonAddActor1.setText(&quot;Add&quot;);</span>
+<span class="fc" id="L1130">        jButtonAddActor1.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1132">                jButtonAddActor1ActionPerformed(evt);</span>
+<span class="nc" id="L1133">            }</span>
+        });
+<span class="fc" id="L1135">        addActor.add(jButtonAddActor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 180, 40));</span>
+
+<span class="fc" id="L1137">        jLabel4.setBackground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1138">        jLabel4.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L1139">        jLabel4.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1140">        jLabel4.setText(&quot;Date of Birth&quot;);</span>
+<span class="fc" id="L1141">        addActor.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 130, -1));</span>
+
+<span class="fc" id="L1143">        jLabel6.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L1144">        jLabel6.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1145">        jLabel6.setText(&quot;Name&quot;);</span>
+<span class="fc" id="L1146">        addActor.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 92, -1));</span>
+
+<span class="fc" id="L1148">        jLabel10.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1149">        jLabel10.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1150">        jLabel10.setText(&quot;Add Actor&quot;);</span>
+<span class="fc" id="L1151">        addActor.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 138, 73));</span>
+
+<span class="fc" id="L1153">        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L1154">        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1155">        jLabel11.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L1156">        jLabel11.setMaximumSize(new java.awt.Dimension(1920, 1080));</span>
+<span class="fc" id="L1157">        jLabel11.setPreferredSize(new java.awt.Dimension(1920, 1080));</span>
+<span class="fc" id="L1158">        addActor.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 640));</span>
+
+<span class="fc" id="L1160">        contentBase.add(addActor, &quot;card9&quot;);</span>
+
+<span class="fc" id="L1162">        reviewRatingViewP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="fc" id="L1164">        jLabelReview1.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 36)); // NOI18N</span>
+<span class="fc" id="L1165">        jLabelReview1.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1166">        jLabelReview1.setText(&quot;Review&quot;);</span>
+<span class="fc" id="L1167">        reviewRatingViewP.add(jLabelReview1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 190, 30));</span>
+
+<span class="fc" id="L1169">        jLabelReviewCount.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1170">        jLabelReviewCount.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1171">        jLabelReviewCount.setText(&quot;Max&quot;);</span>
+<span class="fc" id="L1172">        reviewRatingViewP.add(jLabelReviewCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 540, -1, 40));</span>
+
+<span class="fc" id="L1174">        jLabelCurrentReview.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1175">        jLabelCurrentReview.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1176">        jLabelCurrentReview.setText(&quot;1&quot;);</span>
+<span class="fc" id="L1177">        reviewRatingViewP.add(jLabelCurrentReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 540, -1, 40));</span>
+
+<span class="fc" id="L1179">        jLabeSlash.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1180">        jLabeSlash.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1181">        jLabeSlash.setText(&quot;/&quot;);</span>
+<span class="fc" id="L1182">        reviewRatingViewP.add(jLabeSlash, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 540, -1, 40));</span>
+
+<span class="fc" id="L1184">        jLabelRate1.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 36)); // NOI18N</span>
+<span class="fc" id="L1185">        jLabelRate1.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1186">        jLabelRate1.setText(&quot;Rating:&quot;);</span>
+<span class="fc" id="L1187">        reviewRatingViewP.add(jLabelRate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, 140, 40));</span>
+
+<span class="fc" id="L1189">        jSeparator9.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1190">        reviewRatingViewP.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 670, -1));</span>
+
+<span class="fc" id="L1192">        jSeparator10.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1193">        reviewRatingViewP.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 670, 10));</span>
+
+<span class="fc" id="L1195">        jSeparator11.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1196">        reviewRatingViewP.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 670, 10));</span>
+
+<span class="fc" id="L1198">        jButtonNextReview.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="fc" id="L1199">        jButtonNextReview.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1200">        jButtonNextReview.setForeground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1201">        jButtonNextReview.setText(&quot;Next Review&quot;);</span>
+<span class="fc" id="L1202">        jButtonNextReview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L1203">        jButtonNextReview.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1205">                jButtonNextReviewActionPerformed(evt);</span>
+<span class="nc" id="L1206">            }</span>
+        });
+<span class="fc" id="L1208">        reviewRatingViewP.add(jButtonNextReview, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 510, 180, 40));</span>
+
+<span class="fc" id="L1210">        jtextUserName.setEditable(false);</span>
+<span class="fc" id="L1211">        jtextUserName.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1212">        jtextUserName.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1213">        jtextUserName.setText(&quot;User XXXX&quot;);</span>
+<span class="fc" id="L1214">        jtextUserName.setBorder(null);</span>
+<span class="fc" id="L1215">        jtextUserName.setOpaque(false);</span>
+<span class="fc" id="L1216">        reviewRatingViewP.add(jtextUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 640, 30));</span>
+
+<span class="fc" id="L1218">        jtextUserRate.setEditable(false);</span>
+<span class="fc" id="L1219">        jtextUserRate.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 36)); // NOI18N</span>
+<span class="fc" id="L1220">        jtextUserRate.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1221">        jtextUserRate.setText(&quot;x&quot;);</span>
+<span class="fc" id="L1222">        jtextUserRate.setBorder(null);</span>
+<span class="fc" id="L1223">        jtextUserRate.setOpaque(false);</span>
+<span class="fc" id="L1224">        reviewRatingViewP.add(jtextUserRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, 50, 40));</span>
+
+<span class="fc" id="L1226">        jScrollPaneView.setFocusable(false);</span>
+<span class="fc" id="L1227">        jScrollPaneView.setOpaque(false);</span>
+
+<span class="fc" id="L1229">        jTextAreaViewReview.setEditable(false);</span>
+<span class="fc" id="L1230">        jTextAreaViewReview.setColumns(20);</span>
+<span class="fc" id="L1231">        jTextAreaViewReview.setFont(new java.awt.Font(&quot;Palatino Linotype&quot;, 3, 24)); // NOI18N</span>
+<span class="fc" id="L1232">        jTextAreaViewReview.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1233">        jTextAreaViewReview.setLineWrap(true);</span>
+<span class="fc" id="L1234">        jTextAreaViewReview.setRows(5);</span>
+<span class="fc" id="L1235">        jTextAreaViewReview.setText(&quot;No one has reviewd this movie yet, be the first to.&quot;);</span>
+<span class="fc" id="L1236">        jTextAreaViewReview.setBorder(null);</span>
+<span class="fc" id="L1237">        jTextAreaViewReview.setHighlighter(null);</span>
+<span class="fc" id="L1238">        jTextAreaViewReview.setOpaque(false);</span>
+<span class="fc" id="L1239">        jScrollPaneView.setViewportView(jTextAreaViewReview);</span>
+
+<span class="fc" id="L1241">        reviewRatingViewP.add(jScrollPaneView, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 650, 220));</span>
+
+<span class="fc" id="L1243">        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L1244">        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1245">        jLabel8.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L1246">        reviewRatingViewP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 640));</span>
+
+<span class="fc" id="L1248">        contentBase.add(reviewRatingViewP, &quot;card9&quot;);</span>
+
+<span class="fc" id="L1250">        addMoviesP.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L1251">        addMoviesP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="fc" id="L1253">        jSeparator13.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1254">        addMoviesP.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 610, 10));</span>
+
+<span class="fc" id="L1256">        jSeparator4.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1257">        jSeparator4.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1258">        addMoviesP.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 610, -1));</span>
+
+<span class="fc" id="L1260">        jSeparator3.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L1261">        addMoviesP.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 610, -1));</span>
+
+<span class="fc" id="L1263">        jtextname.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1264">        jtextname.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1265">        jtextname.setText(&quot;eg: spiderman&quot;);</span>
+<span class="fc" id="L1266">        jtextname.setBorder(null);</span>
+<span class="fc" id="L1267">        jtextname.setOpaque(false);</span>
+<span class="fc" id="L1268">        jtextname.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L1270">                jtextnameFocusGained(evt);</span>
+<span class="nc" id="L1271">            }</span>
+        });
+<span class="fc" id="L1273">        jtextname.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1275">                jtextnameActionPerformed(evt);</span>
+<span class="nc" id="L1276">            }</span>
+        });
+<span class="fc" id="L1278">        addMoviesP.add(jtextname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 610, 20));</span>
+
+<span class="fc" id="L1280">        jtextrating.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1281">        jtextrating.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1282">        jtextrating.setText(&quot;eg: 10, 3.5 , 6&quot;);</span>
+<span class="fc" id="L1283">        jtextrating.setBorder(null);</span>
+<span class="fc" id="L1284">        jtextrating.setOpaque(false);</span>
+<span class="fc" id="L1285">        jtextrating.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L1287">                jtextratingFocusGained(evt);</span>
+<span class="nc" id="L1288">            }</span>
+        });
+<span class="fc" id="L1290">        jtextrating.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1292">                jtextratingActionPerformed(evt);</span>
+<span class="nc" id="L1293">            }</span>
+        });
+<span class="fc" id="L1295">        addMoviesP.add(jtextrating, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 610, 20));</span>
+
+<span class="fc" id="L1297">        jtextgenre.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1298">        jtextgenre.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1299">        jtextgenre.setText(&quot;eg: action/comedy/adventure&quot;);</span>
+<span class="fc" id="L1300">        jtextgenre.setBorder(null);</span>
+<span class="fc" id="L1301">        jtextgenre.setOpaque(false);</span>
+<span class="fc" id="L1302">        jtextgenre.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L1304">                jtextgenreFocusGained(evt);</span>
+<span class="nc" id="L1305">            }</span>
+        });
+<span class="fc" id="L1307">        jtextgenre.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1309">                jtextgenreActionPerformed(evt);</span>
+<span class="nc" id="L1310">            }</span>
+        });
+<span class="fc" id="L1312">        addMoviesP.add(jtextgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 610, 20));</span>
+
+<span class="fc" id="L1314">        jLabel1.setBackground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1315">        jLabel1.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L1316">        jLabel1.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1317">        jLabel1.setText(&quot;Genre&quot;);</span>
+<span class="fc" id="L1318">        addMoviesP.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 130, -1));</span>
+
+<span class="fc" id="L1320">        jLabel2.setBackground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1321">        jLabel2.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L1322">        jLabel2.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1323">        jLabel2.setText(&quot;Rating&quot;);</span>
+<span class="fc" id="L1324">        addMoviesP.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 130, -1));</span>
+
+<span class="fc" id="L1326">        jLabel3.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L1327">        jLabel3.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1328">        jLabel3.setText(&quot;Name&quot;);</span>
+<span class="fc" id="L1329">        addMoviesP.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 92, -1));</span>
+
+<span class="fc" id="L1331">        jLabel5.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1332">        jLabel5.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L1333">        jLabel5.setText(&quot;Add Movie&quot;);</span>
+<span class="fc" id="L1334">        addMoviesP.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 138, 73));</span>
+
+<span class="fc" id="L1336">        jadd.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="fc" id="L1337">        jadd.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1338">        jadd.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1339">        jadd.setText(&quot;Add&quot;);</span>
+<span class="fc" id="L1340">        jadd.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1342">                jaddActionPerformed(evt);</span>
+<span class="nc" id="L1343">            }</span>
+        });
+<span class="fc" id="L1345">        addMoviesP.add(jadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 540, 180, 40));</span>
+
+<span class="fc" id="L1347">        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L1348">        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1349">        jLabel9.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L1350">        jLabel9.setMaximumSize(new java.awt.Dimension(1920, 1080));</span>
+<span class="fc" id="L1351">        jLabel9.setPreferredSize(new java.awt.Dimension(1920, 1080));</span>
+<span class="fc" id="L1352">        addMoviesP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 720, 640));</span>
+
+<span class="fc" id="L1354">        contentBase.add(addMoviesP, &quot;card8&quot;);</span>
+
+<span class="fc" id="L1356">        ReportType.setModel(new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;--&quot;, &quot;Genre Report&quot;, &quot;Rate Report&quot; }));</span>
+
+<span class="fc" id="L1358">        Oreder.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="fc" id="L1359">        Oreder.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1360">        Oreder.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1361">        Oreder.setText(&quot;Order&quot;);</span>
+<span class="fc" id="L1362">        Oreder.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1364">                OrederActionPerformed(evt);</span>
+<span class="nc" id="L1365">            }</span>
+        });
+
+<span class="fc" id="L1368">        jLabel12.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1369">        jLabel12.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1370">        jLabel12.setText(&quot;Choose the report type&quot;);</span>
+
+<span class="fc" id="L1372">        javax.swing.GroupLayout ReportTypePLayout = new javax.swing.GroupLayout(ReportTypeP);</span>
+<span class="fc" id="L1373">        ReportTypeP.setLayout(ReportTypePLayout);</span>
+<span class="fc" id="L1374">        ReportTypePLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1375">            ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1376">            .addGroup(ReportTypePLayout.createSequentialGroup()</span>
+<span class="fc" id="L1377">                .addGroup(ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1378">                    .addGroup(ReportTypePLayout.createSequentialGroup()</span>
+<span class="fc" id="L1379">                        .addContainerGap()</span>
+<span class="fc" id="L1380">                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1381">                    .addGroup(ReportTypePLayout.createSequentialGroup()</span>
+<span class="fc" id="L1382">                        .addContainerGap()</span>
+<span class="fc" id="L1383">                        .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1384">                    .addGroup(ReportTypePLayout.createSequentialGroup()</span>
+<span class="fc" id="L1385">                        .addGap(86, 86, 86)</span>
+<span class="fc" id="L1386">                        .addComponent(Oreder, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="fc" id="L1387">                .addContainerGap(412, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1389">        ReportTypePLayout.setVerticalGroup(</span>
+<span class="fc" id="L1390">            ReportTypePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1391">            .addGroup(ReportTypePLayout.createSequentialGroup()</span>
+<span class="fc" id="L1392">                .addGap(37, 37, 37)</span>
+<span class="fc" id="L1393">                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1394">                .addGap(33, 33, 33)</span>
+<span class="fc" id="L1395">                .addComponent(ReportType, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1396">                .addGap(60, 60, 60)</span>
+<span class="fc" id="L1397">                .addComponent(Oreder, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1398">                .addContainerGap(376, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L1401">        contentBase.add(ReportTypeP, &quot;card6&quot;);</span>
+
+<span class="fc" id="L1403">        actors.setBackground(new java.awt.Color(43, 43, 43));</span>
+
+<span class="fc" id="L1405">        jActorTable.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L1406">        jActorTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));</span>
+<span class="fc" id="L1407">        jActorTable.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L1408">        jActorTable.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1409">        jActorTable.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;ID&quot;, &quot;Name&quot;, &quot;Date of Birth&quot;, &quot;Age&quot;
+            }
+<span class="fc" id="L1416">        ) {</span>
+<span class="fc" id="L1417">            Class[] types = new Class [] {</span>
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+<span class="fc" id="L1420">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+<span class="nc" id="L1425">                return types [columnIndex];</span>
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L1429">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="fc" id="L1432">        jActorTable.setGridColor(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L1433">        jActorTable.setName(&quot;Movies&quot;); // NOI18N</span>
+<span class="fc" id="L1434">        jActorTable.getTableHeader().setReorderingAllowed(false);</span>
+<span class="fc" id="L1435">        jScrollPane4.setViewportView(jActorTable);</span>
+
+<span class="fc" id="L1437">        jButtonRefresh.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L1438">        jButtonRefresh.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1439">        jButtonRefresh.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1440">        jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-find-and-replace-64.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1441">        jButtonRefresh.setText(&quot;Refresh          &quot;);</span>
+<span class="fc" id="L1442">        jButtonRefresh.setActionCommand(&quot;&quot;);</span>
+<span class="fc" id="L1443">        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1445">                jButtonRefreshActionPerformed(evt);</span>
+<span class="nc" id="L1446">            }</span>
+        });
+
+<span class="fc" id="L1449">        jButtonAddActor.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L1450">        jButtonAddActor.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L1451">        jButtonAddActor.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1452">        jButtonAddActor.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-plus-64.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1453">        jButtonAddActor.setText(&quot;      Add Actor      &quot;);</span>
+<span class="fc" id="L1454">        jButtonAddActor.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1456">                jButtonAddActorActionPerformed(evt);</span>
+<span class="nc" id="L1457">            }</span>
+        });
+
+<span class="fc" id="L1460">        jButtonDeleteSelectedActor.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L1461">        jButtonDeleteSelectedActor.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L1462">        jButtonDeleteSelectedActor.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1463">        jButtonDeleteSelectedActor.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-delete-64.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1464">        jButtonDeleteSelectedActor.setText(&quot;Delete Selected   &quot;);</span>
+<span class="fc" id="L1465">        jButtonDeleteSelectedActor.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1467">                jButtonDeleteSelectedActorActionPerformed(evt);</span>
+<span class="nc" id="L1468">            }</span>
+        });
+
+<span class="fc" id="L1471">        jTextSearch1.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1473">                jTextSearch1ActionPerformed(evt);</span>
+<span class="nc" id="L1474">            }</span>
+        });
+
+<span class="fc" id="L1477">        jButtonSearch.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L1478">        jButtonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/icons8-search-30.png&quot;))); // NOI18N</span>
+<span class="fc" id="L1479">        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1481">                jButtonSearchActionPerformed(evt);</span>
+<span class="nc" id="L1482">            }</span>
+        });
+
+<span class="fc" id="L1485">        javax.swing.GroupLayout actorsLayout = new javax.swing.GroupLayout(actors);</span>
+<span class="fc" id="L1486">        actors.setLayout(actorsLayout);</span>
+<span class="fc" id="L1487">        actorsLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1488">            actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1489">            .addGroup(actorsLayout.createSequentialGroup()</span>
+<span class="fc" id="L1490">                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)</span>
+<span class="fc" id="L1491">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1492">                .addGroup(actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L1493">                    .addGroup(actorsLayout.createSequentialGroup()</span>
+<span class="fc" id="L1494">                        .addComponent(jTextSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1495">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1496">                        .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1497">                    .addComponent(jButtonAddActor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1498">                    .addComponent(jButtonDeleteSelectedActor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1499">                    .addComponent(jButtonRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1500">                .addContainerGap())</span>
+        );
+<span class="fc" id="L1502">        actorsLayout.setVerticalGroup(</span>
+<span class="fc" id="L1503">            actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1504">            .addGroup(actorsLayout.createSequentialGroup()</span>
+<span class="fc" id="L1505">                .addContainerGap()</span>
+<span class="fc" id="L1506">                .addGroup(actorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L1507">                    .addComponent(jTextSearch1)</span>
+<span class="fc" id="L1508">                    .addComponent(jButtonSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L1509">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1510">                .addComponent(jButtonRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1511">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1512">                .addComponent(jButtonAddActor, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1513">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1514">                .addComponent(jButtonDeleteSelectedActor, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1515">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L1516">            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)</span>
+        );
+
+<span class="fc" id="L1519">        contentBase.add(actors, &quot;card8&quot;);</span>
+
+<span class="fc" id="L1521">        javax.swing.GroupLayout secondaryPanelLayout = new javax.swing.GroupLayout(secondaryPanel);</span>
+<span class="fc" id="L1522">        secondaryPanel.setLayout(secondaryPanelLayout);</span>
+<span class="fc" id="L1523">        secondaryPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1524">            secondaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1525">            .addComponent(contentBase, javax.swing.GroupLayout.Alignment.TRAILING)</span>
+        );
+<span class="fc" id="L1527">        secondaryPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1528">            secondaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1529">            .addComponent(contentBase)</span>
+        );
+
+<span class="fc" id="L1532">        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);</span>
+<span class="fc" id="L1533">        mainPanel.setLayout(mainPanelLayout);</span>
+<span class="fc" id="L1534">        mainPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1535">            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1536">            .addGroup(mainPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1537">                .addComponent(base1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1538">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1539">                .addComponent(secondaryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1541">        mainPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1542">            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1543">            .addComponent(base1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)</span>
+<span class="fc" id="L1544">            .addComponent(secondaryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+
+<span class="fc" id="L1547">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="fc" id="L1548">        getContentPane().setLayout(layout);</span>
+<span class="fc" id="L1549">        layout.setHorizontalGroup(</span>
+<span class="fc" id="L1550">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1551">            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+<span class="fc" id="L1553">        layout.setVerticalGroup(</span>
+<span class="fc" id="L1554">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1555">            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+
+<span class="fc" id="L1558">        pack();</span>
+<span class="fc" id="L1559">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void moviesTableBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBActionPerformed
+<span class="nc" id="L1562">        this.LoadPanel(backGroundP);</span>
+<span class="nc" id="L1563">    }//GEN-LAST:event_moviesTableBActionPerformed</span>
+
+    private void moviesTableBaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBaActionPerformed
+<span class="nc" id="L1566">        this.LoadPanel(backGroundP);</span>
+<span class="nc" id="L1567">    }//GEN-LAST:event_moviesTableBaActionPerformed</span>
+
+    private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
+<span class="nc" id="L1570">        RegisterLoginWindow loginFrame = new RegisterLoginWindow();</span>
+<span class="nc" id="L1571">        this.setVisible(false);</span>
+<span class="nc" id="L1572">        loginFrame.setVisible(true);</span>
+<span class="nc" id="L1573">    }//GEN-LAST:event_signOutButtonActionPerformed</span>
+
+    private void signOutButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButton1ActionPerformed
+<span class="nc" id="L1576">        RegisterLoginWindow loginFrame = new RegisterLoginWindow();</span>
+<span class="nc" id="L1577">        this.setVisible(false);</span>
+<span class="nc" id="L1578">        loginFrame.setVisible(true);</span>
+<span class="nc" id="L1579">    }//GEN-LAST:event_signOutButton1ActionPerformed</span>
+
+    private void jtextratingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextratingActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1583">    }//GEN-LAST:event_jtextratingActionPerformed</span>
+
+    private void jtextgenreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextgenreActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1587">    }//GEN-LAST:event_jtextgenreActionPerformed</span>
+
+    private void jaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaddActionPerformed
+<span class="nc" id="L1590">        String name = jtextname.getText();</span>
+<span class="nc" id="L1591">        String genre = jtextgenre.getText();</span>
+<span class="nc" id="L1592">        String rating = jtextrating.getText();</span>
+
+<span class="nc" id="L1594">        double rate = 0;</span>
+<span class="nc" id="L1595">        int movieId = 0;</span>
+<span class="nc" id="L1596">        int adminId = 0;</span>
+
+        //check if values are null/empty
+<span class="nc bnc" id="L1599" title="All 2 branches missed.">        if (checkEmptyMovie(name, genre, rating)) {</span>
+
+            //display error message
+<span class="nc" id="L1602">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Values can't be set to empty or null!&quot;,
+                    &quot;Empty/Null Error!&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc bnc" id="L1606" title="All 2 branches missed.">        } else if (checkDouble(rating)) {</span>
+<span class="nc" id="L1607">            rate = Double.parseDouble(rating);</span>
+
+<span class="nc bnc" id="L1609" title="All 2 branches missed.">            if (!checkRating(rate)) {</span>
+
+<span class="nc" id="L1611">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Enter a rating from 0 to 10 &quot;,
+                        &quot;Rating error&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+
+            } else {
+
+                try {
+
+                    //check if movie already exists by counting if a row exists
+<span class="nc" id="L1621">                    int count = checkMovieExist(name);</span>
+<span class="nc" id="L1622">                    System.out.println(count);</span>
+<span class="nc bnc" id="L1623" title="All 2 branches missed.">                    if (count != 0) {</span>
+
+<span class="nc" id="L1625">                        updateMovie(name, genre, rate);</span>
+<span class="nc" id="L1626">                        System.out.println(&quot;Success 1&quot;);</span>
+
+                        //code for system logs.
+                        // first retrieve the id of the inserted movie.
+<span class="nc" id="L1630">                        stat = con.createStatement();</span>
+<span class="nc" id="L1631">                        res = stat.executeQuery(&quot;SELECT ID FROM movies WHERE name = '&quot; + name + &quot;'&quot;);</span>
+<span class="nc bnc" id="L1632" title="All 2 branches missed.">                        if (res.next()) {</span>
+<span class="nc" id="L1633">                            movieId = res.getInt(&quot;ID&quot;);</span>
+                        }
+<span class="nc" id="L1635">                        System.out.println(&quot;done2&quot;);</span>
+                        // Write the logs in the table
+<span class="nc" id="L1637">                        adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L1638">                        String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has updated a movie with movieId = &quot; + movieId;</span>
+
+<span class="nc" id="L1640">                        insertUpdateMovieSystemLogs(adminId, movieId, &quot;Update&quot;, logMessage);</span>
+
+<span class="nc" id="L1642">                        JOptionPane.showMessageDialog(null,</span>
+                                &quot;Success&quot;,
+                                &quot;Successfully Updated&quot;,
+                                JOptionPane.INFORMATION_MESSAGE);
+
+<span class="nc" id="L1647">                    } else {</span>
+                        // query to insert data into movie table
+
+<span class="nc" id="L1650">                        insertMovie(name, genre, rate);</span>
+<span class="nc" id="L1651">                        System.out.println(&quot;done1&quot;);</span>
+
+                        //code for system logs.
+                        // first retrieve the id of the inserted movie.
+<span class="nc" id="L1655">                        stat = con.createStatement();</span>
+<span class="nc" id="L1656">                        res = stat.executeQuery(&quot;SELECT ID FROM movies WHERE name = '&quot; + name + &quot;'&quot;);</span>
+<span class="nc bnc" id="L1657" title="All 2 branches missed.">                        if (res.next()) {</span>
+<span class="nc" id="L1658">                            movieId = res.getInt(&quot;ID&quot;);</span>
+                        }
+<span class="nc" id="L1660">                        System.out.println(&quot;done2&quot;);</span>
+                        // Write the logs in the table
+<span class="nc" id="L1662">                        adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L1663">                        String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added a movie with movieId = &quot; + movieId;</span>
+<span class="nc" id="L1664">                        insertUpdateMovieSystemLogs(adminId, movieId, &quot;Add&quot;, logMessage);</span>
+
+<span class="nc" id="L1666">                        JOptionPane.showMessageDialog(null,</span>
+                                &quot;Success&quot;,
+                                &quot;Successfully Added&quot;,
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+<span class="nc" id="L1673">                } catch (SQLException e) {</span>
+<span class="nc" id="L1674">                    e.printStackTrace();</span>
+<span class="nc" id="L1675">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Unable to submit&quot;,
+                            &quot;Database error&quot;,
+                            JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1679">                } catch (Exception e1) {</span>
+<span class="nc" id="L1680">                    e1.printStackTrace();</span>
+<span class="nc" id="L1681">                }</span>
+            }
+        } else {
+<span class="nc" id="L1684">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Enter a numeric rating&quot;,
+                    &quot;Rating error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+
+        }
+
+
+<span class="nc" id="L1692">    }//GEN-LAST:event_jaddActionPerformed</span>
+
+    private void refreshBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBActionPerformed
+        try {
+            //button to refresh the data in the movie table
+
+<span class="nc" id="L1698">            stat = con.createStatement();</span>
+            // query to select table
+<span class="nc" id="L1700">            res = stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
+
+            //model to update movie table values
+<span class="nc" id="L1703">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L1704">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L1705">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L1706">            model.addColumn(&quot;Genre&quot;);</span>
+<span class="nc" id="L1707">            model.addColumn(&quot;Rating&quot;);</span>
+            int id;
+            String name;
+            String genre;
+            double rating;
+<span class="nc" id="L1712">            int row = 0;</span>
+            //loop to aquire data from the DB
+<span class="nc bnc" id="L1714" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L1715">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L1716">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L1717">                genre = res.getString(&quot;genre&quot;);</span>
+<span class="nc" id="L1718">                rating = res.getDouble(&quot;rating&quot;);</span>
+<span class="nc" id="L1719">                movieArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L1720">                movieArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L1721">                movieArray[row][2] = String.valueOf(genre);</span>
+<span class="nc" id="L1722">                movieArray[row][3] = String.valueOf(rating);</span>
+<span class="nc" id="L1723">                model.addRow(movieArray[row]);</span>
+<span class="nc" id="L1724">                row++;</span>
+            }
+            //set model to table
+<span class="nc" id="L1727">            jmovieTable.setModel(model);</span>
+
+<span class="nc" id="L1729">        } catch (Exception e) {</span>
+<span class="nc" id="L1730">            e.printStackTrace();</span>
+<span class="nc" id="L1731">        }</span>
+<span class="nc" id="L1732">        jmovieTable.setAutoCreateRowSorter(true);</span>
+
+<span class="nc" id="L1734">    }//GEN-LAST:event_refreshBActionPerformed</span>
+
+    private void addDeleteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDeleteBActionPerformed
+<span class="nc" id="L1737">        this.LoadPanel(addMoviesP);</span>
+<span class="nc" id="L1738">    }//GEN-LAST:event_addDeleteBActionPerformed</span>
+
+    private void deleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMovieBActionPerformed
+        //button to delete selected row without entering id works for id set to column 0
+
+        //geting selected id value
+        //you have to typecast to String in order to parse int
+        //try catch block for when no row is selected
+        try {
+
+<span class="nc" id="L1748">            int id = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));</span>
+
+            PreparedStatement mystatement;
+            try {
+<span class="nc" id="L1752">                mystatement = con.prepareStatement(&quot;DELETE FROM movies WHERE id = ?&quot;);</span>
+<span class="nc" id="L1753">                mystatement.setInt(1, id);</span>
+<span class="nc" id="L1754">                mystatement.execute();</span>
+
+                // code for system logs.
+<span class="nc" id="L1757">                int adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L1758">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added a deleted a movie with movieId = &quot; + id;</span>
+<span class="nc" id="L1759">                insertUpdateMovieSystemLogs(adminId, id, &quot;Delete&quot;, logMessage);</span>
+
+<span class="nc" id="L1761">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Success&quot;,
+                        &quot;Successfully Deleted&quot;,
+                        JOptionPane.INFORMATION_MESSAGE);
+
+<span class="nc" id="L1766">            } catch (SQLException ex) {</span>
+<span class="nc" id="L1767">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Enter a numeric rating&quot;,
+                        &quot;Rating error&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+
+<span class="nc" id="L1772">            }</span>
+<span class="nc" id="L1773">        } catch (IndexOutOfBoundsException e) {</span>
+<span class="nc" id="L1774">            e.printStackTrace();</span>
+<span class="nc" id="L1775">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Please select a row to delete&quot;,
+                    &quot;Selection error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1779">        }</span>
+
+<span class="nc" id="L1781">    }//GEN-LAST:event_deleteMovieBActionPerformed</span>
+
+    private void jTextSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSearchActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1785">    }//GEN-LAST:event_jTextSearchActionPerformed</span>
+
+    private void jSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchActionPerformed
+<span class="nc" id="L1788">        String search = jTextSearch.getText();</span>
+        PreparedStatement myStatement;
+        ResultSet res;
+
+        try {
+
+            // myStatement = con.prepareStatement(&quot;SELECT * FROM movies WHERE name LIKE ?'%'&quot;);
+            //  myStatement.setString(1, search);
+            // res=  myStatement.executeQuery();
+<span class="nc" id="L1797">            stat = con.createStatement();</span>
+<span class="nc" id="L1798">            res = stat.executeQuery(&quot;SELECT * FROM movies WHERE name LIKE '&quot; + search + &quot;%'&quot;);</span>
+
+<span class="nc" id="L1800">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L1801">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L1802">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L1803">            model.addColumn(&quot;Genre&quot;);</span>
+<span class="nc" id="L1804">            model.addColumn(&quot;Rating&quot;);</span>
+            int id;
+            String name;
+            String genre;
+            double rating;
+<span class="nc" id="L1809">            int row = 0;</span>
+            //loop to aquire data from the DB
+<span class="nc bnc" id="L1811" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L1812">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L1813">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L1814">                genre = res.getString(&quot;genre&quot;);</span>
+<span class="nc" id="L1815">                rating = res.getDouble(&quot;rating&quot;);</span>
+<span class="nc" id="L1816">                movieArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L1817">                movieArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L1818">                movieArray[row][2] = String.valueOf(genre);</span>
+<span class="nc" id="L1819">                movieArray[row][3] = String.valueOf(rating);</span>
+<span class="nc" id="L1820">                model.addRow(movieArray[row]);</span>
+<span class="nc" id="L1821">                row++;</span>
+            }
+            //set model to table
+<span class="nc" id="L1824">            jmovieTable.setModel(model);</span>
+
+<span class="nc" id="L1826">            jmovieTable.setAutoCreateRowSorter(true);</span>
+
+<span class="nc" id="L1828">        } catch (SQLException ex) {</span>
+<span class="nc" id="L1829">        }</span>
+<span class="nc" id="L1830">    }//GEN-LAST:event_jSearchActionPerformed</span>
+
+    private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
+        //button to view reviews of selected movie
+
+        try {
+
+<span class="nc" id="L1837">            int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));</span>
+
+            //join review table and rate table to get review,rate and userid
+<span class="nc" id="L1840">            joinStatement = con.prepareStatement(&quot;SELECT userreview.review, userrating.userrating, userrating.userid&quot;</span>
+                    + &quot; FROM userreview INNER JOIN userrating ON userrating.UserID = userreview.UserID&quot;
+                    + &quot; WHERE userrating.MovieID = ? AND userreview.MovieID = ?&quot;);
+
+<span class="nc" id="L1844">            joinStatement.setInt(1, movieID);</span>
+<span class="nc" id="L1845">            joinStatement.setInt(2, movieID);</span>
+<span class="nc" id="L1846">            resJoin = joinStatement.executeQuery();</span>
+<span class="nc" id="L1847">            resJoin.next();</span>
+<span class="nc" id="L1848">            review = resJoin.getString(&quot;review&quot;);</span>
+<span class="nc" id="L1849">            rate = resJoin.getInt(&quot;userrating&quot;);</span>
+<span class="nc" id="L1850">            uID = resJoin.getInt(&quot;userid&quot;);</span>
+
+            //get count of reviews
+<span class="nc" id="L1853">            PreparedStatement getCount = con.prepareStatement(&quot;SELECT count(*) FROM userreview&quot;</span>
+                    + &quot; INNER JOIN userrating ON userrating.UserID = userreview.UserID&quot;
+                    + &quot; WHERE userrating.MovieID = ? AND userreview.MovieID = ?&quot;);
+<span class="nc" id="L1856">            getCount.setInt(1, movieID);</span>
+<span class="nc" id="L1857">            getCount.setInt(2, movieID);</span>
+<span class="nc" id="L1858">            res = getCount.executeQuery();</span>
+<span class="nc" id="L1859">            res.next();</span>
+<span class="nc" id="L1860">            count = res.getInt(&quot;COUNT(*)&quot;);</span>
+
+            //set review,rate,count and currentRevPage
+<span class="nc" id="L1863">            jTextAreaViewReview.setText(review);</span>
+<span class="nc" id="L1864">            jtextUserRate.setText(Integer.toString(rate));</span>
+<span class="nc" id="L1865">            jLabelReviewCount.setText(Integer.toString(count));</span>
+<span class="nc" id="L1866">            currentRevPage = 1;</span>
+<span class="nc" id="L1867">            jLabelCurrentReview.setText(Integer.toString(currentRevPage));</span>
+
+            //get username from user table
+<span class="nc" id="L1870">            fetchNameStatement = con.prepareStatement(&quot;SELECT name FROM users WHERE id = ?&quot;);</span>
+<span class="nc" id="L1871">            fetchNameStatement.setInt(1, uID);</span>
+<span class="nc" id="L1872">            resName = fetchNameStatement.executeQuery();</span>
+
+            //set name of user
+<span class="nc" id="L1875">            resName.next();</span>
+<span class="nc" id="L1876">            name = resName.getString(&quot;name&quot;);</span>
+<span class="nc" id="L1877">            jtextUserName.setText(name);</span>
+<span class="nc" id="L1878">            this.LoadPanel(reviewRatingViewP);</span>
+<span class="nc" id="L1879">        } catch (SQLException e) {</span>
+<span class="nc" id="L1880">            e.printStackTrace();</span>
+
+<span class="nc" id="L1882">            jTextAreaViewReview.setText(&quot;No one has reviewd this movie yet, be the first to.&quot;);</span>
+<span class="nc" id="L1883">            jtextUserRate.setText(&quot;X&quot;);</span>
+<span class="nc" id="L1884">            jtextUserName.setText(&quot;XXXX&quot;);</span>
+<span class="nc" id="L1885">            jLabelReviewCount.setText(&quot;MAX&quot;);</span>
+<span class="nc" id="L1886">            jLabelCurrentReview.setText(&quot;1&quot;);</span>
+<span class="nc" id="L1887">            this.LoadPanel(reviewRatingViewP);</span>
+<span class="nc" id="L1888">        } catch (Exception ex) {</span>
+<span class="nc" id="L1889">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Please select a movie to view its reviews&quot;,
+                    &quot;Selection error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1893">        }</span>
+
+
+<span class="nc" id="L1896">    }//GEN-LAST:event_revRateViewBActionPerformed</span>
+
+    private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
+        try {
+<span class="nc" id="L1900">            movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));</span>
+<span class="nc" id="L1901">            this.LoadPanel(reviewRatingSubmitP);</span>
+<span class="nc" id="L1902">        } catch (Exception e) {</span>
+<span class="nc" id="L1903">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Please select a movie to review&quot;,
+                    &quot;Selection error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1907">        }</span>
+
+<span class="nc" id="L1909">    }//GEN-LAST:event_revRateSubmitBActionPerformed</span>
+
+    private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
+
+        PreparedStatement mystatement;
+        String review, username, logMessage;
+        int movieID, userID, rate;
+
+<span class="nc" id="L1917">        movieID = Integer.parseInt(movieIdL.getText());</span>
+<span class="nc" id="L1918">        userID = Integer.parseInt(userIdL.getText().substring(9));</span>
+<span class="nc" id="L1919">        username = userNameL.getText().substring(10);</span>
+<span class="nc" id="L1920">        rate = jComboBoxRate.getSelectedIndex();</span>
+<span class="nc" id="L1921">        review = jTextAreaSubmitReview.getText();</span>
+<span class="nc bnc" id="L1922" title="All 2 branches missed.">        if(checkRating2(rate) == 0)</span>
+        {
+<span class="nc" id="L1924">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Please select a rating&quot;,
+                    &quot;Please select a value&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+<span class="nc bnc" id="L1929" title="All 2 branches missed.">        else if(checkReview(review) == 0)</span>
+        {
+<span class="nc" id="L1931">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Please write a review&quot;,
+                    &quot;Empty review isn't accepeted&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+<span class="nc bnc" id="L1936" title="All 2 branches missed.">        else if(checkReviewLength(review) == 0)</span>
+        {
+<span class="nc" id="L1938">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;You exceeded the 1000 character limit in the review&quot;,
+                    &quot;Limit exceeded&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+
+            try {
+                //check if review already exists by counting if a row exists
+
+<span class="nc" id="L1948">                mystatement = con.prepareStatement(&quot;SELECT COUNT(*) FROM userreview  WHERE movieid = ? AND userid = ?&quot;);</span>
+<span class="nc" id="L1949">                mystatement.setInt(1, movieID);</span>
+<span class="nc" id="L1950">                mystatement.setInt(2, userID);</span>
+<span class="nc" id="L1951">                res = mystatement.executeQuery();</span>
+<span class="nc" id="L1952">                res.next();</span>
+<span class="nc" id="L1953">                int count = res.getInt(&quot;COUNT(*)&quot;);</span>
+<span class="nc" id="L1954">                System.out.println(count);</span>
+<span class="nc bnc" id="L1955" title="All 2 branches missed.">                if (count != 0) {</span>
+
+<span class="nc" id="L1957">                    mystatement = con.prepareStatement(&quot;UPDATE userrating SET userrating = ? WHERE movieid = ? AND userid = ?&quot;);</span>
+<span class="nc" id="L1958">                    mystatement.setInt(1, rate);</span>
+<span class="nc" id="L1959">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1960">                    mystatement.setInt(3, userID);</span>
+<span class="nc" id="L1961">                    mystatement.execute();</span>
+<span class="nc" id="L1962">                    System.out.println(&quot;Success 1&quot;);</span>
+
+<span class="nc" id="L1964">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has updated rating for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L1965">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L1966">                    mystatement.setInt(1, userID);</span>
+<span class="nc" id="L1967">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1968">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L1969">                    mystatement.setString(4, &quot;Update&quot;);</span>
+<span class="nc" id="L1970">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L1971">                    mystatement.execute();</span>
+
+<span class="nc" id="L1973">                    mystatement = con.prepareStatement(&quot;UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?&quot;);</span>
+<span class="nc" id="L1974">                    mystatement.setString(1, review);</span>
+<span class="nc" id="L1975">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1976">                    mystatement.setInt(3, userID);</span>
+<span class="nc" id="L1977">                    mystatement.execute();</span>
+
+<span class="nc" id="L1979">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has updated review for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L1980">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L1981">                    mystatement.setInt(1, userID);</span>
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+<span class="nc" id="L1983">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1984">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L1985">                    mystatement.setString(4, &quot;Update&quot;);</span>
+<span class="nc" id="L1986">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L1987">                    mystatement.execute();</span>
+<span class="nc" id="L1988">                    System.out.println(&quot;Success 4&quot;);</span>
+
+<span class="nc" id="L1990">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Success!&quot;,
+                            &quot;Review and rate have been updated.&quot;,
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                } 
+                else {
+                    //insert rate into userrate table
+<span class="nc" id="L1998">                    mystatement = con.prepareStatement(&quot;INSERT INTO userrating (id,movieid,userid,userrating) VALUES(DEFAULT,?,?,?)&quot;);</span>
+<span class="nc" id="L1999">                    mystatement.setInt(1, movieID);</span>
+<span class="nc" id="L2000">                    mystatement.setInt(2, userID);</span>
+<span class="nc" id="L2001">                    mystatement.setInt(3, rate);</span>
+<span class="nc" id="L2002">                    mystatement.execute();</span>
+
+<span class="nc" id="L2004">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has added rating for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L2005">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L2006">                    mystatement.setInt(1, userID);</span>
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+<span class="nc" id="L2008">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L2009">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L2010">                    mystatement.setString(4, &quot;Add&quot;);</span>
+<span class="nc" id="L2011">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L2012">                    mystatement.execute();</span>
+
+                    //insert review into userreview table
+<span class="nc" id="L2015">                    mystatement = con.prepareStatement(&quot;INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)&quot;);</span>
+<span class="nc" id="L2016">                    mystatement.setInt(1, movieID);</span>
+<span class="nc" id="L2017">                    mystatement.setInt(2, userID);</span>
+<span class="nc" id="L2018">                    mystatement.setString(3, review);</span>
+<span class="nc" id="L2019">                    mystatement.execute();</span>
+
+<span class="nc" id="L2021">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has added review for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L2022">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L2023">                    mystatement.setInt(1, userID);</span>
+                    //mystatement.setInt(2, java.sql.Types.INTEGER);
+<span class="nc" id="L2025">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L2026">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L2027">                    mystatement.setString(4, &quot;Add&quot;);</span>
+<span class="nc" id="L2028">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L2029">                    mystatement.execute();</span>
+
+<span class="nc" id="L2031">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Success!&quot;,
+                            &quot;Success&quot;,
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+
+<span class="nc" id="L2037">            } catch (SQLException ex) {</span>
+<span class="nc" id="L2038">                ex.printStackTrace();</span>
+
+<span class="nc" id="L2040">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Unable to submit&quot;,
+                        &quot;Error&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+
+<span class="nc" id="L2045">            }</span>
+
+        }
+
+
+<span class="nc" id="L2050">    }//GEN-LAST:event_jButtonSubmitActionPerformed</span>
+
+    private void jComboBoxRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRateActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L2054">    }//GEN-LAST:event_jComboBoxRateActionPerformed</span>
+
+    private void jButtonNextReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextReviewActionPerformed
+        //button to get next user rate/review from global result variable resJoin and resName
+        try {
+<span class="nc" id="L2059">            resJoin.next();</span>
+<span class="nc" id="L2060">            review = resJoin.getString(&quot;review&quot;);</span>
+<span class="nc" id="L2061">            rate = resJoin.getInt(&quot;userrating&quot;);</span>
+<span class="nc" id="L2062">            uID = resJoin.getInt(&quot;userid&quot;);</span>
+
+            //set review,rate,count and currentRevPage
+<span class="nc" id="L2065">            jTextAreaViewReview.setText(review);</span>
+<span class="nc" id="L2066">            jtextUserRate.setText(Integer.toString(rate));</span>
+<span class="nc bnc" id="L2067" title="All 2 branches missed.">            if ((currentRevPage + 1) &lt;= count) {</span>
+<span class="nc" id="L2068">                jLabelCurrentReview.setText(Integer.toString(++currentRevPage));</span>
+            }
+
+            //this query has to be re written beacuse it depends on the value taken from the previous query
+<span class="nc" id="L2072">            fetchNameStatement = con.prepareStatement(&quot;SELECT name FROM users WHERE id = ?&quot;);</span>
+<span class="nc" id="L2073">            fetchNameStatement.setInt(1, uID);</span>
+<span class="nc" id="L2074">            resName = fetchNameStatement.executeQuery();</span>
+
+            //set name of user
+<span class="nc" id="L2077">            resName.next();</span>
+<span class="nc" id="L2078">            name = resName.getString(&quot;name&quot;);</span>
+<span class="nc" id="L2079">            jtextUserName.setText(name);</span>
+
+<span class="nc" id="L2081">        } catch (SQLException e) {</span>
+
+<span class="nc" id="L2083">        }</span>
+<span class="nc" id="L2084">    }//GEN-LAST:event_jButtonNextReviewActionPerformed</span>
+
+    private void jTextAreaSubmitReviewFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextAreaSubmitReviewFocusGained
+<span class="nc" id="L2087">        jTextAreaSubmitReview.setText(&quot;&quot;);</span>
+<span class="nc" id="L2088">    }//GEN-LAST:event_jTextAreaSubmitReviewFocusGained</span>
+
+    private void jtextnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextnameActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L2092">    }//GEN-LAST:event_jtextnameActionPerformed</span>
+
+    private void jtextnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextnameFocusGained
+<span class="nc" id="L2095">        jtextname.setText(&quot;&quot;);</span>
+<span class="nc" id="L2096">    }//GEN-LAST:event_jtextnameFocusGained</span>
+
+    private void jtextgenreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextgenreFocusGained
+<span class="nc" id="L2099">        jtextgenre.setText(&quot;&quot;);</span>
+<span class="nc" id="L2100">    }//GEN-LAST:event_jtextgenreFocusGained</span>
+
+    private void jtextratingFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextratingFocusGained
+<span class="nc" id="L2103">        jtextrating.setText(&quot;&quot;);</span>
+<span class="nc" id="L2104">    }//GEN-LAST:event_jtextratingFocusGained</span>
+
+    private void moviesTableBa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBa1ActionPerformed
+        try {
+            //button to refresh the data in the movie table
+
+<span class="nc" id="L2110">            stat = con.createStatement();</span>
+            // query to select table
+<span class="nc" id="L2112">            res = stat.executeQuery(&quot;SELECT * FROM system_logs&quot;);</span>
+
+            //model to update movie table values
+<span class="nc" id="L2115">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L2116">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L2117">            model.addColumn(&quot;UserID&quot;);</span>
+<span class="nc" id="L2118">            model.addColumn(&quot;AdminID&quot;);</span>
+<span class="nc" id="L2119">            model.addColumn(&quot;MovieID&quot;);</span>
+<span class="nc" id="L2120">            model.addColumn(&quot;ActorID&quot;);</span>
+<span class="nc" id="L2121">            model.addColumn(&quot;TimeStamp&quot;);</span>
+<span class="nc" id="L2122">            model.addColumn(&quot;Opeartion&quot;);</span>
+<span class="nc" id="L2123">            model.addColumn(&quot;LogMessage&quot;);</span>
+
+            int id;
+            int userID;
+            int adminID;
+            int movieID;
+            int actorID;
+            String timeStamp;
+            String operation;
+            String logMessage;
+
+<span class="nc" id="L2134">            int row = 0;</span>
+            //loop to aquire data from the DB
+<span class="nc bnc" id="L2136" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L2137">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L2138">                userID = res.getInt(&quot;UserID&quot;);</span>
+<span class="nc" id="L2139">                adminID = res.getInt(&quot;AdminID&quot;);</span>
+<span class="nc" id="L2140">                movieID = res.getInt(&quot;MovieID&quot;);</span>
+<span class="nc" id="L2141">                actorID = res.getInt(&quot;actorID&quot;);</span>
+<span class="nc" id="L2142">                timeStamp = res.getString(&quot;TimeStamp&quot;);</span>
+<span class="nc" id="L2143">                operation = res.getString(&quot;Operation&quot;);</span>
+<span class="nc" id="L2144">                logMessage = res.getString(&quot;LogMessage&quot;);</span>
+
+<span class="nc" id="L2146">                logsArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L2147">                logsArray[row][1] = String.valueOf(userID);</span>
+<span class="nc" id="L2148">                logsArray[row][2] = String.valueOf(adminID);</span>
+<span class="nc" id="L2149">                logsArray[row][3] = String.valueOf(movieID);</span>
+<span class="nc" id="L2150">                logsArray[row][4] = String.valueOf(actorID);</span>
+<span class="nc" id="L2151">                logsArray[row][5] = String.valueOf(timeStamp);</span>
+<span class="nc" id="L2152">                logsArray[row][6] = String.valueOf(operation);</span>
+<span class="nc" id="L2153">                logsArray[row][7] = String.valueOf(logMessage);</span>
+
+<span class="nc" id="L2155">                model.addRow(logsArray[row]);</span>
+<span class="nc" id="L2156">                row++;</span>
+            }
+            //set model to table
+
+<span class="nc" id="L2160">            jlogTable.setModel(model);</span>
+            //set prefered width size
+<span class="nc" id="L2162">            jlogTable.getColumnModel().getColumn(0).setPreferredWidth(100);</span>
+<span class="nc" id="L2163">            jlogTable.getColumnModel().getColumn(1).setPreferredWidth(100);</span>
+<span class="nc" id="L2164">            jlogTable.getColumnModel().getColumn(2).setPreferredWidth(100);</span>
+<span class="nc" id="L2165">            jlogTable.getColumnModel().getColumn(3).setPreferredWidth(100);</span>
+<span class="nc" id="L2166">            jlogTable.getColumnModel().getColumn(4).setPreferredWidth(100);</span>
+<span class="nc" id="L2167">            jlogTable.getColumnModel().getColumn(5).setPreferredWidth(150);</span>
+<span class="nc" id="L2168">            jlogTable.getColumnModel().getColumn(6).setPreferredWidth(100);</span>
+<span class="nc" id="L2169">            jlogTable.getColumnModel().getColumn(7).setPreferredWidth(750);</span>
+
+<span class="nc" id="L2171">        } catch (Exception e) {</span>
+<span class="nc" id="L2172">            e.printStackTrace();</span>
+<span class="nc" id="L2173">        }</span>
+<span class="nc" id="L2174">        jlogTable.setAutoCreateRowSorter(true);</span>
+
+<span class="nc" id="L2176">        this.LoadPanel(backGroundP3a);</span>
+<span class="nc" id="L2177">    }//GEN-LAST:event_moviesTableBa1ActionPerformed</span>
+
+    private void ReportListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportListButtonActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L2181">        Statistics.showList();</span>
+<span class="nc" id="L2182">    }//GEN-LAST:event_ReportListButtonActionPerformed</span>
+
+    private void CreateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateReportActionPerformed
+<span class="nc" id="L2185">        this.LoadPanel(ReportTypeP);</span>
+<span class="nc" id="L2186">    }//GEN-LAST:event_CreateReportActionPerformed</span>
+
+    private void OrederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrederActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L2190">        Statistics R = new Statistics();</span>
+<span class="nc" id="L2191">        int ID = Integer.parseInt(adminIdL.getText().substring(10));</span>
+        //int ID = 1;
+<span class="nc" id="L2193">        int Type = ReportType.getSelectedIndex();</span>
+
+<span class="nc" id="L2195">        R.orderReport(ID, Type);</span>
+
+<span class="nc" id="L2197">    }//GEN-LAST:event_OrederActionPerformed</span>
+
+    private void actorsTablebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actorsTablebuttonActionPerformed
+<span class="nc" id="L2200">        this.LoadPanel(actors);</span>
+<span class="nc" id="L2201">    }//GEN-LAST:event_actorsTablebuttonActionPerformed</span>
+
+    private void actorsTablebutton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actorsTablebutton1ActionPerformed
+<span class="nc" id="L2204">        this.LoadPanel(actors);</span>
+<span class="nc" id="L2205">    }//GEN-LAST:event_actorsTablebutton1ActionPerformed</span>
+
+    private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+        try {
+            //button to refresh the data in the movie table
+
+<span class="nc" id="L2211">            stat = con.createStatement();</span>
+            // query to select table
+<span class="nc" id="L2213">            res = stat.executeQuery(&quot;SELECT * FROM actors&quot;);</span>
+
+            //model to update movie table values
+<span class="nc" id="L2216">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L2217">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L2218">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L2219">            model.addColumn(&quot;Date of Birth&quot;);</span>
+<span class="nc" id="L2220">            model.addColumn(&quot;Age&quot;);</span>
+            int id;
+            String name;
+            String DoB;
+            String age;
+<span class="nc" id="L2225">            int row = 0;</span>
+            //loop to aquire data from the DB
+<span class="nc bnc" id="L2227" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L2228">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L2229">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L2230">                DoB = res.getString(&quot;dateOfBirth&quot;);</span>
+<span class="nc" id="L2231">                age = res.getString(&quot;age&quot;);</span>
+<span class="nc" id="L2232">                actorArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L2233">                actorArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L2234">                actorArray[row][2] = String.valueOf(DoB);</span>
+<span class="nc" id="L2235">                actorArray[row][3] = String.valueOf(age);</span>
+<span class="nc" id="L2236">                model.addRow(actorArray[row]);</span>
+<span class="nc" id="L2237">                row++;</span>
+            }
+            //set model to table
+<span class="nc" id="L2240">            jActorTable.setModel(model);</span>
+
+<span class="nc" id="L2242">        } catch (Exception e) {</span>
+<span class="nc" id="L2243">            e.printStackTrace();</span>
+<span class="nc" id="L2244">        }</span>
+<span class="nc" id="L2245">        jmovieTable.setAutoCreateRowSorter(true);</span>
+<span class="nc" id="L2246">    }//GEN-LAST:event_jButtonRefreshActionPerformed</span>
+
+    private void jButtonAddActorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActorActionPerformed
+<span class="nc" id="L2249">        this.LoadPanel(addActor);</span>
+<span class="nc" id="L2250">    }//GEN-LAST:event_jButtonAddActorActionPerformed</span>
+
+    private void jButtonDeleteSelectedActorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteSelectedActorActionPerformed
+        //button to delete selected row without entering id works for id set to column 0
+
+        //geting selected id value
+        //you have to typecast to String in order to parse int
+        //try catch block for when no row is selected
+        try {
+
+<span class="nc" id="L2260">            int id = Integer.parseInt((String) jActorTable.getValueAt(jActorTable.getSelectedRow(), 0));</span>
+<span class="nc" id="L2261">            int actorId = id;</span>
+            PreparedStatement mystatement;
+            try {
+<span class="nc" id="L2264">                mystatement = con.prepareStatement(&quot;DELETE FROM actors WHERE id = ?&quot;);</span>
+<span class="nc" id="L2265">                mystatement.setInt(1, id);</span>
+<span class="nc" id="L2266">                mystatement.execute();</span>
+                
+                //System log
+<span class="nc" id="L2269">                int adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L2270">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has delted an actor with actorId = &quot; + actorId;</span>
+<span class="nc" id="L2271">                insertActorSystemLogs(adminId, actorId, &quot;Delete&quot;, logMessage);</span>
+<span class="nc" id="L2272">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Success&quot;,
+                        &quot;Successfully Deleted&quot;,
+                        JOptionPane.INFORMATION_MESSAGE);
+
+<span class="nc" id="L2277">            } catch (SQLException ex) {</span>
+
+<span class="nc" id="L2279">            }</span>
+<span class="nc" id="L2280">        } catch (IndexOutOfBoundsException e) {</span>
+<span class="nc" id="L2281">            e.printStackTrace();</span>
+<span class="nc" id="L2282">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Please select a row to delete&quot;,
+                    &quot;Selection error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L2286">        }</span>
+<span class="nc" id="L2287">    }//GEN-LAST:event_jButtonDeleteSelectedActorActionPerformed</span>
+
+    private void jTextSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSearch1ActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L2291">    }//GEN-LAST:event_jTextSearch1ActionPerformed</span>
+
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
+<span class="nc" id="L2294">        String search = jTextSearch.getText();</span>
+
+        ResultSet res;
+
+        try {
+
+            // myStatement = con.prepareStatement(&quot;SELECT * FROM movies WHERE name LIKE ?'%'&quot;);
+            //  myStatement.setString(1, search);
+            // res=  myStatement.executeQuery();
+<span class="nc" id="L2303">            stat = con.createStatement();</span>
+<span class="nc" id="L2304">            res = stat.executeQuery(&quot;SELECT * FROM actors WHERE name LIKE '&quot; + search + &quot;%'&quot;);</span>
+
+            //model to update movie table values
+<span class="nc" id="L2307">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L2308">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L2309">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L2310">            model.addColumn(&quot;Date of Birth&quot;);</span>
+<span class="nc" id="L2311">            model.addColumn(&quot;Age&quot;);</span>
+            int id;
+            String name;
+            String DoB;
+            String age;
+<span class="nc" id="L2316">            int row = 0;</span>
+            //loop to aquire data from the DB
+<span class="nc bnc" id="L2318" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L2319">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L2320">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L2321">                DoB = res.getString(&quot;dateOfBirth&quot;);</span>
+<span class="nc" id="L2322">                age = res.getString(&quot;age&quot;);</span>
+<span class="nc" id="L2323">                actorArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L2324">                actorArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L2325">                actorArray[row][2] = String.valueOf(DoB);</span>
+<span class="nc" id="L2326">                actorArray[row][3] = String.valueOf(age);</span>
+<span class="nc" id="L2327">                model.addRow(actorArray[row]);</span>
+<span class="nc" id="L2328">                row++;</span>
+            }
+            //set model to table
+<span class="nc" id="L2331">            jActorTable.setModel(model);</span>
+<span class="nc" id="L2332">        } catch (SQLException ex) {</span>
+<span class="nc" id="L2333">        }</span>
+<span class="nc" id="L2334">    }//GEN-LAST:event_jButtonSearchActionPerformed</span>
+
+    private void jButtonAddActor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActor1ActionPerformed
+<span class="nc" id="L2337">         String name = jtextName.getText();</span>
+<span class="nc" id="L2338">        String DoB = jtextDate.getText();</span>
+
+        //check if values are null/empty
+<span class="nc bnc" id="L2341" title="All 2 branches missed.">        if(addActorNameField(name) == 0)</span>
+        {
+            //display error message
+<span class="nc" id="L2344">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Name field can't be set to empty or null!&quot;,
+                    &quot;Empty/Null Error!&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+        }
+<span class="nc bnc" id="L2349" title="All 2 branches missed.">        else if(addActorDoBField(DoB) == 0)</span>
+        {
+           //display error message
+<span class="nc" id="L2352">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Date of birth field can't be set to empty or null!&quot;,
+                    &quot;Empty/Null Error!&quot;,
+                    JOptionPane.ERROR_MESSAGE); 
+        }
+<span class="nc bnc" id="L2357" title="All 2 branches missed.">        else if(addActorNameLength(name) == 0)</span>
+        {
+            //display error message
+<span class="nc" id="L2360">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Enter a name less than 45 character&quot;,
+                    &quot;Empty/Null Error!&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+        }
+<span class="nc bnc" id="L2365" title="All 2 branches missed.">        else if(addActorDoBValid(DoB) == 0)</span>
+        {
+             //display error message
+<span class="nc" id="L2368">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Enter a valid date format&quot;,
+                    &quot;Empty/Null Error!&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+
+            try {
+
+                // query to insert data into movie table
+<span class="nc" id="L2378">                int actorId = 0;</span>
+<span class="nc" id="L2379">                int adminId = 0;</span>
+
+                //get time
+<span class="nc" id="L2382">                long millis = System.currentTimeMillis();</span>
+<span class="nc" id="L2383">                java.sql.Date date = new java.sql.Date(millis);</span>
+<span class="nc" id="L2384">                System.out.println(date);</span>
+<span class="nc" id="L2385">                String dateString = String.valueOf(date);</span>
+
+<span class="nc" id="L2387">                PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO actors (id,name,dateOfBirth,age) VALUES(DEFAULT,?,?,FLOOR(DATEDIFF( ?, ?)/365))&quot;);</span>
+<span class="nc" id="L2388">                myStatement.setString(1, name);</span>
+<span class="nc" id="L2389">                myStatement.setString(2, DoB);</span>
+<span class="nc" id="L2390">                myStatement.setString(3, dateString);</span>
+<span class="nc" id="L2391">                myStatement.setString(4, DoB);</span>
+<span class="nc" id="L2392">                myStatement.execute();</span>
+<span class="nc" id="L2393">                System.out.println(&quot;done1&quot;);</span>
+
+                //code for system logs.
+                // first retrieve the id of the inserted movie.
+<span class="nc" id="L2397">                stat = con.createStatement();</span>
+<span class="nc" id="L2398">                res = stat.executeQuery(&quot;SELECT ID FROM actors ORDER BY ID DESC LIMIT 1&quot;);</span>
+<span class="nc bnc" id="L2399" title="All 2 branches missed.">                if (res.next()) {</span>
+<span class="nc" id="L2400">                    actorId = res.getInt(&quot;ID&quot;);</span>
+                }
+<span class="nc" id="L2402">                System.out.println(&quot;done2&quot;);</span>
+                // Write the logs in the table
+<span class="nc" id="L2404">                adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L2405">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added an actor with actorId = &quot; + actorId;</span>
+<span class="nc" id="L2406">                myStatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID,actorID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?,?, ?, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L2407">                myStatement.setNull(1, java.sql.Types.INTEGER);</span>
+<span class="nc" id="L2408">                myStatement.setInt(2, adminId);</span>
+<span class="nc" id="L2409">                myStatement.setNull(3, java.sql.Types.INTEGER);</span>
+<span class="nc" id="L2410">                myStatement.setInt(4, actorId);</span>
+<span class="nc" id="L2411">                myStatement.setString(5, getDateTime());</span>
+<span class="nc" id="L2412">                myStatement.setString(6, &quot;Add&quot;);</span>
+<span class="nc" id="L2413">                myStatement.setString(7, logMessage);</span>
+<span class="nc" id="L2414">                myStatement.execute();</span>
+<span class="nc" id="L2415">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Success&quot;,
+                        &quot;Successfully Added&quot;,
+                        JOptionPane.INFORMATION_MESSAGE);
+
+<span class="nc" id="L2420">            } catch (MysqlDataTruncation e) {</span>
+<span class="nc" id="L2421">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Error&quot;,
+                        &quot;Enter a valid date of birth&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+
+<span class="nc" id="L2426">                e.printStackTrace();</span>
+
+<span class="nc" id="L2428">            } catch (SQLException ex) {</span>
+<span class="nc" id="L2429">                ex.printStackTrace();</span>
+
+<span class="nc" id="L2431">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Unable to submit&quot;,
+                        &quot;Error&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+
+<span class="nc" id="L2436">            }</span>
+        }
+<span class="nc" id="L2438">    }//GEN-LAST:event_jButtonAddActor1ActionPerformed</span>
+
+    private void jtextDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextDateActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L2442">    }//GEN-LAST:event_jtextDateActionPerformed</span>
+
+    private void jtextDateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextDateFocusGained
+<span class="nc" id="L2445">        jtextDate.setText(&quot;&quot;);</span>
+<span class="nc" id="L2446">    }//GEN-LAST:event_jtextDateFocusGained</span>
+
+    private void jtextNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextNameActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L2450">    }//GEN-LAST:event_jtextNameActionPerformed</span>
+
+    private void jtextNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextNameFocusGained
+<span class="nc" id="L2453">        jtextName.setText(&quot;&quot;);</span>
+<span class="nc" id="L2454">    }//GEN-LAST:event_jtextNameFocusGained</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L2466" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L2467" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L2468">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L2469">                    break;</span>
+                }
+            }
+<span class="nc" id="L2472">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L2473">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2474">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L2475">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2476">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L2477">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2478">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L2479">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2480">        }</span>
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L2484">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L2486">                new FrameUI().setVisible(true);</span>
+<span class="nc" id="L2487">            }</span>
+        });
+<span class="nc" id="L2489">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CreateReport;
+    private javax.swing.JButton Oreder;
+    private javax.swing.JButton ReportListButton;
+    private javax.swing.JComboBox&lt;String&gt; ReportType;
+    private javax.swing.JPanel ReportTypeP;
+    public javax.swing.JPanel UserPanel;
+    private javax.swing.JPanel actors;
+    private javax.swing.JButton actorsTablebutton;
+    private javax.swing.JButton actorsTablebutton1;
+    private javax.swing.JPanel addActor;
+    private javax.swing.JButton addDeleteB;
+    private javax.swing.JPanel addMoviesP;
+    private javax.swing.JLabel adminIcon;
+    private javax.swing.JLabel adminIdL;
+    private javax.swing.JLabel adminNameL;
+    public javax.swing.JPanel adminPanel;
+    public javax.swing.JPanel backGroundP;
+    private javax.swing.JPanel backGroundP3a;
+    private javax.swing.JLayeredPane base1;
+    private javax.swing.JLayeredPane contentBase;
+    private javax.swing.JButton deleteMovieB;
+    private javax.swing.JTable jActorTable;
+    private javax.swing.JButton jButtonAddActor;
+    private javax.swing.JButton jButtonAddActor1;
+    private javax.swing.JButton jButtonDeleteSelectedActor;
+    private javax.swing.JButton jButtonNextReview;
+    private javax.swing.JButton jButtonRefresh;
+    private javax.swing.JButton jButtonSearch;
+    private javax.swing.JButton jButtonSubmit;
+    private javax.swing.JComboBox&lt;String&gt; jComboBoxRate;
+    private javax.swing.JLabel jLabeSlash;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelCurrentReview;
+    private javax.swing.JLabel jLabelRate;
+    private javax.swing.JLabel jLabelRate1;
+    private javax.swing.JLabel jLabelReview;
+    private javax.swing.JLabel jLabelReview1;
+    private javax.swing.JLabel jLabelReviewCount;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPaneSubmit;
+    private javax.swing.JScrollPane jScrollPaneView;
+    private javax.swing.JButton jSearch;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JTextArea jTextAreaSubmitReview;
+    private javax.swing.JTextArea jTextAreaViewReview;
+    private javax.swing.JTextField jTextSearch;
+    private javax.swing.JTextField jTextSearch1;
+    private javax.swing.JButton jadd;
+    private javax.swing.JTable jlogTable;
+    private javax.swing.JTable jmovieTable;
+    private javax.swing.JTextField jtextDate;
+    private javax.swing.JTextField jtextName;
+    private javax.swing.JTextField jtextUserName;
+    private javax.swing.JTextField jtextUserRate;
+    private javax.swing.JTextField jtextgenre;
+    private javax.swing.JTextField jtextname;
+    private javax.swing.JTextField jtextrating;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel movieIdL;
+    private javax.swing.JPanel movieTableP;
+    private javax.swing.JButton moviesTableB;
+    private javax.swing.JButton moviesTableBa;
+    private javax.swing.JButton moviesTableBa1;
+    private javax.swing.JButton refreshB;
+    private javax.swing.JButton revRateSubmitB;
+    private javax.swing.JButton revRateViewB;
+    private javax.swing.JPanel reviewRatingSubmitP;
+    private javax.swing.JPanel reviewRatingViewP;
+    private javax.swing.JPanel secondaryPanel;
+    private javax.swing.JButton signOutButton;
+    private javax.swing.JButton signOutButton1;
+    private javax.swing.JLabel userIcon;
+    private javax.swing.JLabel userIdL;
+    private javax.swing.JLabel userNameL;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

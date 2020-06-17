@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Registration.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Cinema&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ProjectPackage</a> &gt; <span class="el_source">Registration.java</span></div><h1>Registration.java</h1><pre class="source lang-java linenums">package ProjectPackage;
+
+
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+/**
+ *
+ * @author OSM
+ */
+public class Registration extends javax.swing.JFrame {
+
+    /**
+     * Creates new form register
+     */
+<span class="fc" id="L29">    public Registration() {</span>
+<span class="fc" id="L30">        initComponents();</span>
+<span class="fc" id="L31">        jPasswordFeild.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L32">        jTextName.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L33">    }</span>
+
+    Connection con;
+    Statement stat;
+    ResultSet res;
+
+    private void getConnection() {
+        try {
+<span class="nc" id="L41">            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
+<span class="nc" id="L42">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L43">            e.printStackTrace();</span>
+<span class="nc" id="L44">        }</span>
+        try {
+            //con = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;, &quot;Mohab&quot;, &quot;qwa220zxs18MN313&quot;);
+<span class="nc" id="L47">                        con = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;, &quot;root&quot;, &quot;root&quot;);</span>
+
+<span class="nc" id="L49">        } catch (SQLException e) {</span>
+<span class="nc" id="L50">            e.printStackTrace();</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">        System.out.println(&quot;connected&quot;);</span>
+<span class="nc" id="L53">    }</span>
+
+    private void addUser(String name , String password) throws SQLException{
+<span class="nc" id="L56">                getConnection();</span>
+<span class="nc" id="L57">                PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO users (id,name,password) VALUES (DEFAULT,?,?)&quot;);</span>
+<span class="nc" id="L58">                myStatement.setString(1, name);</span>
+<span class="nc" id="L59">                myStatement.setString(2, password);</span>
+<span class="nc" id="L60">                myStatement.execute();</span>
+<span class="nc" id="L61">    }</span>
+    
+    public int verfiyName(String name, String password) {
+
+<span class="pc bpc" id="L65" title="2 of 8 branches missed.">        if ((name.isEmpty() || name == null) || password.isEmpty() || password == null) {</span>
+<span class="fc" id="L66">            return 1;</span>
+<span class="fc bfc" id="L67" title="All 4 branches covered.">        } else if (name.length() &lt; 3 || name.length() &gt; 12) {</span>
+<span class="fc" id="L68">            return 2;</span>
+<span class="fc bfc" id="L69" title="All 4 branches covered.">        } else if (password.length() &lt; 3 || password.length() &gt; 6) {</span>
+<span class="fc" id="L70">            return 3;</span>
+        }
+<span class="fc" id="L72">        return 0;</span>
+    }    
+    
+    
+    public void close() {
+
+<span class="nc" id="L78">        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);</span>
+<span class="nc" id="L79">        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);</span>
+
+<span class="nc" id="L81">    }</span>
+
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="fc" id="L93">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="fc" id="L94">        jLabelRegister = new javax.swing.JLabel();</span>
+<span class="fc" id="L95">        jLabelUserName = new javax.swing.JLabel();</span>
+<span class="fc" id="L96">        jTextName = new javax.swing.JTextField();</span>
+<span class="fc" id="L97">        jSeparator5 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L98">        jSeparator3 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L99">        jButtonLogin = new javax.swing.JButton();</span>
+<span class="fc" id="L100">        jButtonRegiset = new javax.swing.JButton();</span>
+<span class="fc" id="L101">        jLabelPassword = new javax.swing.JLabel();</span>
+<span class="fc" id="L102">        jPasswordFeild = new javax.swing.JPasswordField();</span>
+<span class="fc" id="L103">        jSeparator4 = new javax.swing.JSeparator();</span>
+<span class="fc" id="L104">        jLabel2 = new javax.swing.JLabel();</span>
+
+<span class="fc" id="L106">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="fc" id="L107">        setResizable(false);</span>
+<span class="fc" id="L108">        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="fc" id="L110">        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="fc" id="L112">        jLabelRegister.setFont(new java.awt.Font(&quot;SansSerif&quot;, 1, 36)); // NOI18N</span>
+<span class="fc" id="L113">        jLabelRegister.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L114">        jLabelRegister.setText(&quot;Register:&quot;);</span>
+<span class="fc" id="L115">        jPanel1.add(jLabelRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));</span>
+
+<span class="fc" id="L117">        jLabelUserName.setFont(new java.awt.Font(&quot;SansSerif&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L118">        jLabelUserName.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L119">        jLabelUserName.setText(&quot;User Name&quot;);</span>
+<span class="fc" id="L120">        jPanel1.add(jLabelUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));</span>
+
+<span class="fc" id="L122">        jTextName.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 20)); // NOI18N</span>
+<span class="fc" id="L123">        jTextName.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L124">        jTextName.setText(&quot;Enter User Name&quot;);</span>
+<span class="fc" id="L125">        jTextName.setBorder(null);</span>
+<span class="fc" id="L126">        jTextName.setOpaque(false);</span>
+<span class="fc" id="L127">        jTextName.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L129">                jTextNameFocusGained(evt);</span>
+<span class="nc" id="L130">            }</span>
+        });
+<span class="fc" id="L132">        jTextName.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L134">                jTextNameActionPerformed(evt);</span>
+<span class="nc" id="L135">            }</span>
+        });
+<span class="fc" id="L137">        jPanel1.add(jTextName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 260, 20));</span>
+
+<span class="fc" id="L139">        jSeparator5.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L140">        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 290, 30));</span>
+
+<span class="fc" id="L142">        jSeparator3.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L143">        jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 290, 30));</span>
+
+<span class="fc" id="L145">        jButtonLogin.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="fc" id="L146">        jButtonLogin.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L147">        jButtonLogin.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L148">        jButtonLogin.setText(&quot;Back&quot;);</span>
+<span class="fc" id="L149">        jButtonLogin.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L151">                jButtonLoginActionPerformed(evt);</span>
+<span class="nc" id="L152">            }</span>
+        });
+<span class="fc" id="L154">        jPanel1.add(jButtonLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, 180, 40));</span>
+<span class="fc" id="L155">        jButtonRegiset.setContentAreaFilled(true);</span>
+<span class="fc" id="L156">        jButtonRegiset.setFocusPainted(false);</span>
+<span class="fc" id="L157">        jButtonRegiset.setBorderPainted(false);</span>
+
+<span class="fc" id="L159">        jButtonRegiset.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="fc" id="L160">        jButtonRegiset.setFont(new java.awt.Font(&quot;Times New Roman&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L161">        jButtonRegiset.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L162">        jButtonRegiset.setText(&quot;Register&quot;);</span>
+<span class="fc" id="L163">        jButtonRegiset.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L165">                jButtonRegisetActionPerformed(evt);</span>
+<span class="nc" id="L166">            }</span>
+        });
+<span class="fc" id="L168">        jPanel1.add(jButtonRegiset, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 450, 180, 40));</span>
+<span class="fc" id="L169">        jButtonRegiset.setContentAreaFilled(true);</span>
+<span class="fc" id="L170">        jButtonRegiset.setFocusPainted(false);</span>
+<span class="fc" id="L171">        jButtonRegiset.setBorderPainted(false);</span>
+
+<span class="fc" id="L173">        jLabelPassword.setFont(new java.awt.Font(&quot;SansSerif&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L174">        jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L175">        jLabelPassword.setText(&quot;Password&quot;);</span>
+<span class="fc" id="L176">        jPanel1.add(jLabelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, -1));</span>
+
+<span class="fc" id="L178">        jPasswordFeild.setFont(new java.awt.Font(&quot;SansSerif&quot;, 3, 16)); // NOI18N</span>
+<span class="fc" id="L179">        jPasswordFeild.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L180">        jPasswordFeild.setText(&quot;dafdaadafadfafa&quot;);</span>
+<span class="fc" id="L181">        jPasswordFeild.setBorder(null);</span>
+<span class="fc" id="L182">        jPasswordFeild.setOpaque(false);</span>
+<span class="fc" id="L183">        jPasswordFeild.addFocusListener(new java.awt.event.FocusAdapter() {</span>
+            public void focusGained(java.awt.event.FocusEvent evt) {
+<span class="nc" id="L185">                jPasswordFeildFocusGained(evt);</span>
+<span class="nc" id="L186">            }</span>
+        });
+<span class="fc" id="L188">        jPasswordFeild.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L190">                jPasswordFeildActionPerformed(evt);</span>
+<span class="nc" id="L191">            }</span>
+        });
+<span class="fc" id="L193">        jPanel1.add(jPasswordFeild, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 260, 20));</span>
+
+<span class="fc" id="L195">        jSeparator4.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="fc" id="L196">        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 290, -1));</span>
+
+<span class="fc" id="L198">        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L199">        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;))); // NOI18N</span>
+<span class="fc" id="L200">        jLabel2.setToolTipText(&quot;&quot;);</span>
+<span class="fc" id="L201">        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 560));</span>
+
+<span class="fc" id="L203">        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));</span>
+
+<span class="fc" id="L205">        pack();</span>
+<span class="fc" id="L206">        setLocationRelativeTo(null);</span>
+<span class="fc" id="L207">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void jTextNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextNameFocusGained
+<span class="nc" id="L210">        jTextName.setText(&quot;&quot;);</span>
+<span class="nc" id="L211">    }//GEN-LAST:event_jTextNameFocusGained</span>
+
+    private void jTextNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNameActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L215">    }//GEN-LAST:event_jTextNameActionPerformed</span>
+
+    private void jPasswordFeildFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFeildFocusGained
+<span class="nc" id="L218">        jPasswordFeild.setText(&quot;&quot;);</span>
+<span class="nc" id="L219">    }//GEN-LAST:event_jPasswordFeildFocusGained</span>
+
+    private void jPasswordFeildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFeildActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L223">    }//GEN-LAST:event_jPasswordFeildActionPerformed</span>
+
+    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
+<span class="nc" id="L226">        close();</span>
+<span class="nc" id="L227">        RegisterLoginWindow registerLoginWindow = new RegisterLoginWindow();</span>
+<span class="nc" id="L228">        registerLoginWindow.setVisible(true);</span>
+<span class="nc" id="L229">    }//GEN-LAST:event_jButtonLoginActionPerformed</span>
+
+    private void jButtonRegisetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisetActionPerformed
+
+        
+            String name;
+            String password;
+
+<span class="nc" id="L237">            name = jTextName.getText();</span>
+<span class="nc" id="L238">            password = jPasswordFeild.getText();</span>
+
+<span class="nc" id="L240">            int code = verfiyName(name, password);</span>
+            
+            //check if any of the feilds are empty
+<span class="nc bnc" id="L243" title="All 5 branches missed.">        switch (code) {</span>
+
+            case 1:
+<span class="nc" id="L246">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Please fill both feilds&quot;,
+                        &quot;Missing information&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L250">                break;</span>
+
+            case 2:
+<span class="nc" id="L253">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;name must be between 3 and 12 characters&quot;,
+                        &quot;User Info error&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+
+<span class="nc" id="L258">                break;</span>
+                
+            case 3:
+<span class="nc" id="L261">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Password must be between 3 and 6 characters&quot;,
+                        &quot;User Info error&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+
+<span class="nc" id="L266">                break;</span>
+            
+            case 0:
+
+        try {
+
+<span class="nc" id="L272">                addUser(name, password);</span>
+
+<span class="nc" id="L274">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;Successfully Registered!&quot;,
+                        &quot;Success&quot;,
+                        JOptionPane.DEFAULT_OPTION);
+
+<span class="nc" id="L279">            } catch (SQLException e) {</span>
+<span class="nc" id="L280">                e.printStackTrace();</span>
+<span class="nc" id="L281">                JOptionPane.showMessageDialog(null,</span>
+                        &quot;User name is already taken.&quot;,
+                        &quot;User name is taken&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L285">            }</span>
+            break;
+        }
+<span class="nc" id="L288">    }//GEN-LAST:event_jButtonRegisetActionPerformed</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L300" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L302">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L303">                    break;</span>
+                }
+            }
+<span class="nc" id="L306">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L307">            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L308">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L309">            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L310">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L311">            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L312">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L313">            java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L314">        }</span>
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L319">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L321">                new Registration().setVisible(true);</span>
+<span class="nc" id="L322">            }</span>
+        });
+<span class="nc" id="L324">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonLogin;
+    private javax.swing.JButton jButtonRegiset;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelPassword;
+    private javax.swing.JLabel jLabelRegister;
+    private javax.swing.JLabel jLabelUserName;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordFeild;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JTextField jTextName;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
