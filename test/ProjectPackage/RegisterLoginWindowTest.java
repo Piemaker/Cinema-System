@@ -151,6 +151,20 @@ public class RegisterLoginWindowTest {
         assertEquals(0, expResult);
     }
     
+    @Test
+    public void testcheckUsernameLengthLessThanThree()
+    {
+        System.out.println("testcheckUsernameLengthLessThanThree");
+        
+        String name = "12";
+        RegisterLoginWindow instance = new RegisterLoginWindow();
+        
+        int expResult = instance.checkUsernameLength(name);
+        
+        assertEquals(0, expResult);
+    }
+    
+    
     
      /**
      * Test of checkPassword method, of class RegisterLoginWindow.
@@ -246,6 +260,22 @@ public class RegisterLoginWindowTest {
         int expResult = instance.checkPasswordLength(password);
         
         assertEquals(1, expResult);
+    }
+    
+      /**
+     * Test of checkpasswordLength method, of class RegisterLoginWindow.
+     */
+    @Test
+    public void testcheckpasswordLengthLessThanThree()
+    {
+        System.out.println("testcheckpasswordLengthLessThanThree");
+        
+        String password = "12";
+        RegisterLoginWindow instance = new RegisterLoginWindow();
+        
+        int expResult = instance.checkPasswordLength(password);
+        
+        assertEquals(0, expResult);
     }
 }
     
