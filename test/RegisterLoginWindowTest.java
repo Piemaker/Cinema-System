@@ -94,7 +94,14 @@ public class RegisterLoginWindowTest {
     {
         System.out.println("testcheckUsernameLengthOverflow");
         
-        String name = "a".repeat(20);
+        int n = 0;
+        String name ="";
+        while(n < 50){
+        name = name.concat("n");
+        n++;
+        }
+        System.out.println(name.length());
+        System.out.println(name);
         RegisterLoginWindow instance = new RegisterLoginWindow();
         
         int expResult = instance.checkUsernameLength(name);
@@ -110,7 +117,7 @@ public class RegisterLoginWindowTest {
     {
         System.out.println("testcheckUsernameLengthOverflowLowerBoundary");
         
-        String name = "a".repeat(3);
+        String name = "aaa";
         RegisterLoginWindow instance = new RegisterLoginWindow();
         
         int expResult = instance.checkUsernameLength(name);
@@ -126,7 +133,14 @@ public class RegisterLoginWindowTest {
     {
         System.out.println("testcheckUsernameLengthOverflowLowerBoundary");
         
-        String name = "a".repeat(18);
+        int n = 0;
+        String name ="";
+        while(n < 50){
+        name = name.concat("n");
+        n++;
+        }
+        System.out.println(name.length());
+        System.out.println(name);
         RegisterLoginWindow instance = new RegisterLoginWindow();
         
         int expResult = instance.checkUsernameLength(name);

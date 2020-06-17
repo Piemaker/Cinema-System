@@ -476,7 +476,14 @@ public class FrameUITest {
         System.out.println("testcheckReviewLengthOverflow");
 
         //ARRANGE
-        String review = "A".repeat(1500);
+        int n = 0;
+        String name ="";
+        while(n < 1150){
+        name = name.concat("n");
+        n++;
+        }
+        System.out.println(name.length());
+        System.out.println(name);
         FrameUI instance = new FrameUI();
 
         //ACT
@@ -554,7 +561,14 @@ public class FrameUITest {
          System.out.println("testaddActorNameLength");
          
         //ARRANGE
-        String name = "n".repeat(50); // 50 character name which exceed limit.
+        int n = 0;
+        String name ="";
+        while(n < 50){
+        name = name.concat("n");
+        n++;
+        }
+        System.out.println(name.length());
+        System.out.println(name); 
         
         FrameUI instance = new FrameUI();
         int expResult = instance.addActorNameLength(name);
