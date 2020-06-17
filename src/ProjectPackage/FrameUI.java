@@ -72,8 +72,8 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -388,7 +388,7 @@ public class FrameUI extends javax.swing.JFrame {
     
     public int addActorDoBValid(String DoB)
     {
-        if(DoB.matches("^\\d{4}-\\d{2}-\\d{2}$"))
+        if(DoB.matches("^\\d*-\\d*-\\d*$"))
         {
             return 1;
         }
