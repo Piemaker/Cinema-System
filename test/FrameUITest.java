@@ -477,13 +477,13 @@ public class FrameUITest {
 
         //ARRANGE
         int n = 0;
-        String name ="";
+        String review ="";
         while(n < 1150){
-        name = name.concat("n");
+        review = review.concat("n");
         n++;
         }
-        System.out.println(name.length());
-        System.out.println(name);
+        System.out.println(review.length());
+        System.out.println(review);
         FrameUI instance = new FrameUI();
 
         //ACT

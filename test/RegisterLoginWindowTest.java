@@ -145,7 +145,7 @@ public class RegisterLoginWindowTest {
         
         int expResult = instance.checkUsernameLength(name);
         
-        assertEquals(1, expResult);
+        assertEquals(0, expResult);
     }
     
     

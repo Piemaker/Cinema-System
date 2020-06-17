@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AddDeleteMovie.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Cinema&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">AddDeleteMovie.java</span></div><h1>AddDeleteMovie.java</h1><pre class="source lang-java linenums">
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+/**
+ *
+ * @author OSM
+ */
+public class AddDeleteMovie extends javax.swing.JFrame {
+
+    Connection con;
+    Statement stat;
+    ResultSet res;
+
+<span class="nc" id="L29">    public AddDeleteMovie() {</span>
+<span class="nc" id="L30">        initComponents();</span>
+<span class="nc" id="L31">        jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="nc" id="L32">        jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+
+<span class="nc" id="L34">        jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+
+<span class="nc" id="L36">        jtextid.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+
+<span class="nc" id="L38">        getConnection();</span>
+<span class="nc" id="L39">    }</span>
+
+    void getConnection() {
+        try {
+<span class="nc" id="L43">            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
+<span class="nc" id="L44">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L45">            e.printStackTrace();</span>
+<span class="nc" id="L46">        }</span>
+        try {
+<span class="nc" id="L48">            con = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;, &quot;Mohab&quot;, &quot;qwa220zxs18MN313&quot;);</span>
+<span class="nc" id="L49">        } catch (SQLException e) {</span>
+<span class="nc" id="L50">            e.printStackTrace();</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">        System.out.println(&quot;connected&quot;);</span>
+<span class="nc" id="L53">    }</span>
+
+    public void close() {
+
+<span class="nc" id="L57">        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);</span>
+<span class="nc" id="L58">        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);</span>
+
+<span class="nc" id="L60">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L66">        jPanel2 = new javax.swing.JPanel();</span>
+<span class="nc" id="L67">        jSeparator5 = new javax.swing.JSeparator();</span>
+<span class="nc" id="L68">        jSeparator6 = new javax.swing.JSeparator();</span>
+<span class="nc" id="L69">        jSeparator4 = new javax.swing.JSeparator();</span>
+<span class="nc" id="L70">        jSeparator3 = new javax.swing.JSeparator();</span>
+<span class="nc" id="L71">        jtextname = new javax.swing.JTextField();</span>
+<span class="nc" id="L72">        jtextrating = new javax.swing.JTextField();</span>
+<span class="nc" id="L73">        jtextgenre = new javax.swing.JTextField();</span>
+<span class="nc" id="L74">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L75">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="nc" id="L76">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="nc" id="L77">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="nc" id="L78">        jdelete = new javax.swing.JButton();</span>
+<span class="nc" id="L79">        jLabel5 = new javax.swing.JLabel();</span>
+<span class="nc" id="L80">        jtextid = new javax.swing.JTextField();</span>
+<span class="nc" id="L81">        jLabel6 = new javax.swing.JLabel();</span>
+<span class="nc" id="L82">        jadd = new javax.swing.JButton();</span>
+<span class="nc" id="L83">        jback = new javax.swing.JButton();</span>
+<span class="nc" id="L84">        jLabel7 = new javax.swing.JLabel();</span>
+
+<span class="nc" id="L86">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L87">        setResizable(false);</span>
+
+<span class="nc" id="L89">        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="nc" id="L91">        jSeparator5.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="nc" id="L92">        jPanel2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 320, 10));</span>
+
+<span class="nc" id="L94">        jSeparator6.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="nc" id="L95">        jPanel2.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 320, 10));</span>
+
+<span class="nc" id="L97">        jSeparator4.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="nc" id="L98">        jSeparator4.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L99">        jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 320, -1));</span>
+
+<span class="nc" id="L101">        jSeparator3.setBackground(new java.awt.Color(200, 200, 200));</span>
+<span class="nc" id="L102">        jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 320, -1));</span>
+
+<span class="nc" id="L104">        jtextname.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="nc" id="L105">        jtextname.setBorder(null);</span>
+<span class="nc" id="L106">        jtextname.setOpaque(false);</span>
+<span class="nc" id="L107">        jPanel2.add(jtextname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 320, 20));</span>
+
+<span class="nc" id="L109">        jtextrating.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="nc" id="L110">        jtextrating.setBorder(null);</span>
+<span class="nc" id="L111">        jtextrating.setOpaque(false);</span>
+<span class="nc" id="L112">        jtextrating.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L114">                jtextratingActionPerformed(evt);</span>
+<span class="nc" id="L115">            }</span>
+        });
+<span class="nc" id="L117">        jPanel2.add(jtextrating, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 320, 20));</span>
+
+<span class="nc" id="L119">        jtextgenre.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="nc" id="L120">        jtextgenre.setBorder(null);</span>
+<span class="nc" id="L121">        jtextgenre.setOpaque(false);</span>
+<span class="nc" id="L122">        jtextgenre.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L124">                jtextgenreActionPerformed(evt);</span>
+<span class="nc" id="L125">            }</span>
+        });
+<span class="nc" id="L127">        jPanel2.add(jtextgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 320, 20));</span>
+
+<span class="nc" id="L129">        jLabel1.setBackground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L130">        jLabel1.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="nc" id="L131">        jLabel1.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L132">        jLabel1.setText(&quot;Genre&quot;);</span>
+<span class="nc" id="L133">        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 92, -1));</span>
+
+<span class="nc" id="L135">        jLabel2.setBackground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L136">        jLabel2.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="nc" id="L137">        jLabel2.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L138">        jLabel2.setText(&quot;Rating&quot;);</span>
+<span class="nc" id="L139">        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 92, -1));</span>
+
+<span class="nc" id="L141">        jLabel3.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="nc" id="L142">        jLabel3.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L143">        jLabel3.setText(&quot;Name&quot;);</span>
+<span class="nc" id="L144">        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 92, -1));</span>
+
+<span class="nc" id="L146">        jLabel4.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="nc" id="L147">        jLabel4.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L148">        jLabel4.setText(&quot;Delete Movie&quot;);</span>
+<span class="nc" id="L149">        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, 48));</span>
+
+<span class="nc" id="L151">        jdelete.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="nc" id="L152">        jdelete.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L153">        jdelete.setForeground(new java.awt.Color(200, 200, 200));</span>
+<span class="nc" id="L154">        jdelete.setText(&quot;Delete&quot;);</span>
+<span class="nc" id="L155">        jdelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);</span>
+<span class="nc" id="L156">        jdelete.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L158">                jdeleteActionPerformed(evt);</span>
+<span class="nc" id="L159">            }</span>
+        });
+<span class="nc" id="L161">        jPanel2.add(jdelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 470, 180, 40));</span>
+
+<span class="nc" id="L163">        jLabel5.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="nc" id="L164">        jLabel5.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L165">        jLabel5.setText(&quot;Add Movie&quot;);</span>
+<span class="nc" id="L166">        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 16, 138, 73));</span>
+
+<span class="nc" id="L168">        jtextid.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="nc" id="L169">        jtextid.setBorder(null);</span>
+<span class="nc" id="L170">        jtextid.setOpaque(false);</span>
+<span class="nc" id="L171">        jPanel2.add(jtextid, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 320, 20));</span>
+
+<span class="nc" id="L173">        jLabel6.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="nc" id="L174">        jLabel6.setForeground(new java.awt.Color(204, 204, 204));</span>
+<span class="nc" id="L175">        jLabel6.setText(&quot;ID&quot;);</span>
+<span class="nc" id="L176">        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 92, -1));</span>
+
+<span class="nc" id="L178">        jadd.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="nc" id="L179">        jadd.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L180">        jadd.setForeground(new java.awt.Color(200, 200, 200));</span>
+<span class="nc" id="L181">        jadd.setText(&quot;Add&quot;);</span>
+<span class="nc" id="L182">        jadd.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L184">                jaddActionPerformed(evt);</span>
+<span class="nc" id="L185">            }</span>
+        });
+<span class="nc" id="L187">        jPanel2.add(jadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, 180, 40));</span>
+
+<span class="nc" id="L189">        jback.setBackground(new java.awt.Color(115, 0, 0));</span>
+<span class="nc" id="L190">        jback.setForeground(new java.awt.Color(200, 200, 200));</span>
+<span class="nc" id="L191">        jback.setText(&quot;Back&quot;);</span>
+<span class="nc" id="L192">        jback.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L194">                jbackActionPerformed(evt);</span>
+<span class="nc" id="L195">            }</span>
+        });
+<span class="nc" id="L197">        jPanel2.add(jback, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 510, 90, 40));</span>
+
+<span class="nc" id="L199">        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);</span>
+<span class="nc" id="L200">        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;))); // NOI18N</span>
+<span class="nc" id="L201">        jLabel7.setToolTipText(&quot;&quot;);</span>
+<span class="nc" id="L202">        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 580));</span>
+
+<span class="nc" id="L204">        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);</span>
+
+<span class="nc" id="L206">        pack();</span>
+<span class="nc" id="L207">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void jbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbackActionPerformed
+<span class="nc" id="L210">        close();</span>
+<span class="nc" id="L211">        MovieTable tableWindow = new MovieTable();</span>
+<span class="nc" id="L212">        tableWindow.setVisible(true);</span>
+<span class="nc" id="L213">    }//GEN-LAST:event_jbackActionPerformed</span>
+
+    private void jtextgenreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextgenreActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L217">    }//GEN-LAST:event_jtextgenreActionPerformed</span>
+
+    private void jtextratingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextratingActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L221">    }//GEN-LAST:event_jtextratingActionPerformed</span>
+
+    private void jaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaddActionPerformed
+<span class="nc" id="L224">        String name = jtextname.getText();</span>
+<span class="nc" id="L225">        String genre = jtextgenre.getText();</span>
+<span class="nc" id="L226">        String rating = jtextrating.getText();</span>
+
+        //check if values are null/empty
+<span class="nc bnc" id="L229" title="All 12 branches missed.">        if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {</span>
+
+            //display error message
+<span class="nc" id="L232">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Values can't be set to empty or null!&quot;,
+                    &quot;Empty/Null Error!&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            try {
+                try {
+<span class="nc" id="L240">                    stat = con.createStatement();</span>
+                    // query to insert data into movie table
+
+<span class="nc" id="L243">                    double rate = Double.parseDouble(rating);</span>
+
+<span class="nc" id="L245">                    PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO movies (id,name,genre,rating) VALUES(DEFAULT,?,?,?)&quot;);</span>
+<span class="nc" id="L246">                    myStatement.setString(1, name);</span>
+<span class="nc" id="L247">                    myStatement.setString(2, genre);</span>
+<span class="nc" id="L248">                    myStatement.setDouble(3, rate);</span>
+<span class="nc" id="L249">                    myStatement.execute();</span>
+
+<span class="nc" id="L251">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Success&quot;,
+                            &quot;Successfully Added&quot;,
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                    // res = stat.executeQuery(&quot;INSERT INTO movies (id,name,genre,rating) VALUES ( DEFAULT,'&quot; + name + &quot;','&quot; + genre + &quot;','&quot; + rate + &quot;') &quot;);
+<span class="nc" id="L257">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L258">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Enter a numeric rating&quot;,
+                            &quot;Rating error&quot;,
+                            JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L262">                }</span>
+<span class="nc" id="L263">            } catch (Exception e) {</span>
+<span class="nc" id="L264">                e.printStackTrace();</span>
+<span class="nc" id="L265">            }</span>
+        }
+
+
+<span class="nc" id="L269">    }//GEN-LAST:event_jaddActionPerformed</span>
+
+    private void jdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdeleteActionPerformed
+<span class="nc" id="L272">        String idText = jtextid.getText();</span>
+        try {
+
+<span class="nc" id="L275">            int id = Integer.parseInt(idText);</span>
+<span class="nc" id="L276">            PreparedStatement mystatement = con.prepareStatement(&quot;DELETE FROM movies WHERE id = ?&quot;);</span>
+
+<span class="nc" id="L278">            mystatement.setInt(1, id);</span>
+<span class="nc" id="L279">            mystatement.execute();</span>
+
+<span class="nc" id="L281">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Success&quot;,
+                    &quot;Successfully Deleted&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+
+<span class="nc" id="L286">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L287">            e.printStackTrace();</span>
+<span class="nc" id="L288">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Enter a numeric ID&quot;,
+                    &quot;ID error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L292">        } catch (SQLException ex) {</span>
+<span class="nc" id="L293">            Logger.getLogger(AddDeleteMovie.class.getName()).log(Level.SEVERE, null, ex);</span>
+
+<span class="nc" id="L295">            JOptionPane.showMessageDialog(null,</span>
+                    &quot;Unable to delete&quot;,
+                    &quot;Error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L299">        }</span>
+<span class="nc" id="L300">    }//GEN-LAST:event_jdeleteActionPerformed</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L312" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L314">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L315">                    break;</span>
+                }
+            }
+<span class="nc" id="L318">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L319">            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L320">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L321">            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L322">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L323">            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L324">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L325">            java.util.logging.Logger.getLogger(AddDeleteMovie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L326">        }</span>
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L331">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L333">                new AddDeleteMovie().setVisible(true);</span>
+<span class="nc" id="L334">            }</span>
+        });
+<span class="nc" id="L336">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JButton jadd;
+    private javax.swing.JButton jback;
+    private javax.swing.JButton jdelete;
+    private javax.swing.JTextField jtextgenre;
+    private javax.swing.JTextField jtextid;
+    private javax.swing.JTextField jtextname;
+    private javax.swing.JTextField jtextrating;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
