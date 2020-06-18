@@ -1,3 +1,4 @@
+import static DataBase.Database.Connect;
 import javax.xml.namespace.QName;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -9,20 +10,9 @@ import java.sql.*;
 
     public class Cinema {
        static private Connection con;
-        static   void getConnection(){
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "Mohab", "qwa220zxs18MN313");
-                //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root","root");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println("connected");
-        }
+     private static void getConnection(){
+    Cinema.con = Connect();
+    }
 
        // private static User users[] = new User[50]; //allocates 50 users spaces
 

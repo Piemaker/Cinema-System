@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Statistics.Report.*;
-
+import static DataBase.Database.Connect;
 /**
  * Version : alpha
  *
@@ -33,8 +33,12 @@ public class Statistics {
     HashMap Rate;
     
    String DateFormat="yyyy-MM-dd hh:mm:ss";
+  
+   boolean fake;
   //int GenreRepot= 1;
   //int RateRepot= 2;
+
+
             
             
     public Statistics() {
@@ -43,6 +47,7 @@ public class Statistics {
         this.Rate = new HashMap();
         this.Genre_counter = 0;
         this.Movies = getMovies();
+        fake= false;
         Process();
     }
    
@@ -52,13 +57,17 @@ public class Statistics {
         this.Rate = new HashMap();
         this.Genre_counter =0;
         this.Movies = Movies;
+        fake=false;
         Process();
     }
     
     private void Process() {
     
     }
-
+    // fake for testing without talking to database
+    public void Fakeit() {
+        this.fake = true;
+    }
 
  //* date */   
     private String getDate() {
@@ -165,25 +174,7 @@ ReportList L = new ReportList();
 }
 
 ////*  db  */
-/* connect to db 
-override it to connect to the data base u want. 
 
-*/
-    public static Connection Connect() {
-        Connection con = null;
-        String Password = "root";
-                 try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-            }
-            try {
-                //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Cinema","Mohab","qwa220zxs18MN313");
-                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema","root",Password);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return con;
-   }
 
     /*   get Result set from data base       */
     private ResultSet getMovies() {
@@ -202,8 +193,10 @@ try{
         }
 
    public void updateMovies(){
+       if (!fake){
    this.Movies=getMovies();
-   }
+       }
+       }
     
     public static String getName(int ID){
     String owner="" ; 

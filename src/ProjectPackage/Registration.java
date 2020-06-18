@@ -1,6 +1,7 @@
 package ProjectPackage;
 
 
+import static DataBase.Database.Connect;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -36,6 +37,7 @@ public class Registration extends javax.swing.JFrame {
     Statement stat;
     ResultSet res;
 
+    /*
     private void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -51,7 +53,11 @@ public class Registration extends javax.swing.JFrame {
         }
         System.out.println("connected");
     }
-
+    */
+     private void getConnection(){
+    this.con = Connect();
+    }
+    
     private void addUser(String name , String password) throws SQLException{
                 getConnection();
                 PreparedStatement myStatement = con.prepareStatement("INSERT INTO users (id,name,password) VALUES (DEFAULT,?,?)");

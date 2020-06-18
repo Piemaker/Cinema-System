@@ -1,6 +1,6 @@
 package Statistics.Report;
 
-import static Statistics.Statistics.Connect;
+import static DataBase.Database.Connect;
 import static Statistics.Statistics.getName;
 import java.sql.Connection;
 import java.util.Date;
