@@ -2,7 +2,6 @@ package ProjectPackage;
 
 
 import Statistics.Statistics;
-import static DataBase.Database.Connect;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import javax.swing.*;
 import java.awt.*;
@@ -66,7 +65,6 @@ public class FrameUI extends javax.swing.JFrame {
     ResultSet resJoin;
     ResultSet resName;
 
-/*
     void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -81,10 +79,7 @@ public class FrameUI extends javax.swing.JFrame {
         }
         System.out.println("connected");
     }
-*/
-     private void getConnection(){
-    this.con = Connect();
-    }
+
     public void close() {
 
         WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);

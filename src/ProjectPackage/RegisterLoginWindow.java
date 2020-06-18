@@ -1,7 +1,6 @@
 package ProjectPackage;
 
 
-import static DataBase.Database.Connect;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -13,6 +12,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /**
  *
@@ -34,7 +38,7 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
     Statement stat;
     ResultSet res;
 
-  /*  
+    
      void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -49,11 +53,6 @@ public class RegisterLoginWindow extends javax.swing.JFrame {
         }
         System.out.println("connected");
     }
-    */
-     private void getConnection(){
-    this.con = Connect();
-    }
-    
      
        public void close() {
 
