@@ -116,9 +116,9 @@ public class RegisterLoginWindowTest {
      * Test of checkUsernameLength method, of class RegisterLoginWindow.
      */
     @Test
-    public void testcheckUsernameLengthOverflowLowerBoundary()
+    public void testcheckUsernameLengthLowerBoundary()
     {
-        System.out.println("testcheckUsernameLengthOverflowLowerBoundary");
+        System.out.println("testcheckUsernameLengthLowerBoundary");
         
         String name = "aaa";
         RegisterLoginWindow instance = new RegisterLoginWindow();
@@ -132,18 +132,13 @@ public class RegisterLoginWindowTest {
      * Test of checkUsernameLength method, of class RegisterLoginWindow.
      */
     @Test
-    public void testcheckUsernameLengthOverflowUpperBoundary()
+    public void testcheckUsernameLengthUpperBoundary()
     {
-        System.out.println("testcheckUsernameLengthOverflowLowerBoundary");
+        System.out.println("testcheckUsernameLengthLowerBoundary");
         
-        int n = 0;
-        String name ="";
-        while(n < 50){
-        name = name.concat("n");
-        n++;
-        }
-        System.out.println(name.length());
-        System.out.println(name);
+        
+        String name ="123456";
+        
         RegisterLoginWindow instance = new RegisterLoginWindow();
         
         int expResult = instance.checkUsernameLength(name);
@@ -234,7 +229,7 @@ public class RegisterLoginWindowTest {
      * Test of checkpasswordLength method, of class RegisterLoginWindow.
      */
     @Test
-    public void testcheckpasswordLengthOverflowLowerBoundary()
+    public void testcheckpasswordLengthLowerBoundary()
     {
         System.out.println("testcheckpasswordOverflowLowerBoundary");
         
@@ -250,7 +245,7 @@ public class RegisterLoginWindowTest {
      * Test of checkpasswordLength method, of class RegisterLoginWindow.
      */
     @Test
-    public void testcheckpasswordLengthOverflowUpperBoundary()
+    public void testcheckpasswordLengthUpperBoundary()
     {
         System.out.println("testcheckpasswordOverflowUpperBoundary");
         
