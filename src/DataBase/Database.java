@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class Database {
     
         static String Name = "root";
-        static String Password = "miko2099";
+        static String Password = "root";
         static String URL="jdbc:mysql://localhost:3306/cinema";
     
     
