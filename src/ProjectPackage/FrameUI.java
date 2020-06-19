@@ -178,15 +178,14 @@ public class FrameUI extends javax.swing.JFrame {
 
     //method to check if movie feilds are empty
     public boolean checkEmptyMovie(String name, String genre, String rating) {
-        try {
+       
             if (name.isEmpty() || genre.isEmpty() || rating.isEmpty() ) {
                 return true;
             } else {
                 return false;
             }
-        } catch (NullPointerException e) {
-            return true;
-        }
+        
+        
     }
 
     public boolean checkRating(double rate) {

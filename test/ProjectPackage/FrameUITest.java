@@ -5,7 +5,6 @@ package ProjectPackage;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import ProjectPackage.FrameUI;
 import java.sql.SQLException;
 import javax.swing.JPanel;
@@ -16,7 +15,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
-
 
 /**
  *
@@ -87,24 +85,31 @@ public class FrameUITest {
         System.out.println("checkEmptyMovie");
         //ARRANGE
         String nameEmpty = "";
-        String genreEmpty ="";
-        String ratingEmpty ="";
-        String nameNull = null;
-        String genreNull = null;
-        String ratingNull = null;
-        
+        String genreEmpty = "";
+        String ratingEmpty = "";
+        String namenotEmpty = "a";
+        String genrenotEmpty = "a";
+        String ratingnotEmpty = "a";
+
         FrameUI instance = new FrameUI();
 
         //ACT
         boolean expResultTrue1 = instance.checkEmptyMovie(nameEmpty, genreEmpty, ratingEmpty);
-        boolean expResultTrue2 = instance.checkEmptyMovie(nameNull, genreNull, ratingNull);
-        
-
+        boolean expResultTrue2 = instance.checkEmptyMovie(nameEmpty, genreEmpty, ratingnotEmpty);
+        boolean expResultTrue3 = instance.checkEmptyMovie(nameEmpty, genrenotEmpty, ratingEmpty);
+        boolean expResultTrue4 = instance.checkEmptyMovie(nameEmpty, genrenotEmpty, ratingnotEmpty);
+        boolean expResultTrue5 = instance.checkEmptyMovie(namenotEmpty, genreEmpty, ratingEmpty);
+        boolean expResultTrue6 = instance.checkEmptyMovie(namenotEmpty, genreEmpty, ratingnotEmpty);
+        boolean expResultTrue7 = instance.checkEmptyMovie(namenotEmpty, genrenotEmpty, ratingEmpty);
 
         //ASSERT
         assertTrue("The inputs are not empty or null", expResultTrue1);
         assertTrue("The inputs are not empty or null", expResultTrue2);
-       
+        assertTrue("The inputs are not empty or null", expResultTrue3);
+        assertTrue("The inputs are not empty or null", expResultTrue4);
+        assertTrue("The inputs are not empty or null", expResultTrue5);
+        assertTrue("The inputs are not empty or null", expResultTrue6);
+        assertTrue("The inputs are not empty or null", expResultTrue7);
 
     }
 
@@ -325,7 +330,7 @@ public class FrameUITest {
             System.out.println("FrameUITest.testUpdateMovie()");
         }
     }
-    
+
     /**
      * Test of delteSelectedMovie method, of class FrameUI.
      */
@@ -379,7 +384,7 @@ public class FrameUITest {
         assertEquals(0, expResultZero);
 
     }
-    
+
     /**
      * Test of checkRating method, of class FrameUI.
      */
@@ -393,13 +398,12 @@ public class FrameUITest {
         FrameUI instance = new FrameUI();
 
         //ACT
-        
         int expResult = instance.checkRating2(rating);
-        
+
         //ASSERT
         assertEquals(1, expResult);
     }
-    
+
     /**
      * Test of checkRating method, of class FrameUI.
      */
@@ -413,9 +417,8 @@ public class FrameUITest {
         FrameUI instance = new FrameUI();
 
         //ACT
-        
         int expResult = instance.checkRating2(rating);
-        
+
         //ASSERT
         assertEquals(0, expResult);
     }
@@ -424,8 +427,7 @@ public class FrameUITest {
      * Test of testcheckReview method, of class FrameUI.
      */
     @Test
-    public void testcheckReviewNotEmpty()
-    {
+    public void testcheckReviewNotEmpty() {
         System.out.println("testcheckRatingFalse");
 
         //ARRANGE
@@ -433,19 +435,17 @@ public class FrameUITest {
         FrameUI instance = new FrameUI();
 
         //ACT
-        
         int expResult = instance.checkReview(review);
-        
+
         //ASSERT
         assertEquals(1, expResult);
     }
-    
-     /**
+
+    /**
      * Test of testcheckReview method, of class FrameUI.
      */
     @Test
-    public void testcheckReviewEmpty()
-    {
+    public void testcheckReviewEmpty() {
         System.out.println("testcheckReviewEmpty");
 
         //ARRANGE
@@ -453,19 +453,17 @@ public class FrameUITest {
         FrameUI instance = new FrameUI();
 
         //ACT
-        
         int expResult = instance.checkReview(review);
-        
+
         //ASSERT
         assertEquals(0, expResult);
     }
-    
-     /**
+
+    /**
      * Test of testcheckReviewLength method, of class FrameUI.
      */
     @Test
-    public void testcheckReviewLength()
-    {
+    public void testcheckReviewLength() {
         System.out.println("testcheckReviewLength");
 
         //ARRANGE
@@ -473,241 +471,225 @@ public class FrameUITest {
         FrameUI instance = new FrameUI();
 
         //ACT
-        
         int expResult = instance.checkReviewLength(review);
-        
+
         //ASSERT
         assertEquals(1, expResult);
     }
-    
+
     /**
      * Test of testcheckReviewLength method, of class FrameUI.
      */
     @Test
-    public void testcheckReviewLengthOverflow()
-    {
+    public void testcheckReviewLengthOverflow() {
         System.out.println("testcheckReviewLengthOverflow");
 
         //ARRANGE
         int n = 0;
-        String review ="";
-        while(n < 1150){
-        review = review.concat("n");
-        n++;
+        String review = "";
+        while (n < 1150) {
+            review = review.concat("n");
+            n++;
         }
         System.out.println(review.length());
         System.out.println(review);
         FrameUI instance = new FrameUI();
 
         //ACT
-        
         int expResult = instance.checkReviewLength(review);
-        
+
         //ASSERT
         assertEquals(0, expResult);
     }
-    
+
     /**
      * Test of addActorNameField method, of class FrameUI.
      */
     @Test
-    public void testaddActorNameFieldNotEmpty()
-    {
+    public void testaddActorNameFieldNotEmpty() {
         System.out.println("testaddActorNameFieldNotEmpty");
-        
+
         //ARRANGE
         String name = "name";
-        
+
         //ACT
         FrameUI instance = new FrameUI();
         int expResult = instance.addActorNameField(name);
-        
-        //ASSERT
-        assertEquals(1, expResult);
-        
-    }
-    
-    /**
-     * Test of addActorNameField method, of class FrameUI.
-     */
-    @Test
-    public void testaddActorNameFieldEmpty()
-    {
-        System.out.println("testaddActorNameFieldEmpty");
-        
-        //ARRANGE
-        String name = "";
-        
-        //ACT
-        FrameUI instance = new FrameUI();
-        int expResult = instance.addActorNameField(name);
-        
-        //ASSERT
-        assertEquals(0, expResult);
-        
-    }
-    
-     /**
-     * Test of addActorNameLength method, of class FrameUI.
-     */
-    @Test
-    public void testaddActorNameLengthTrue()
-    {
-         System.out.println("testaddActorNameLength");
-         
-        //ARRANGE
-        String name = "name";
-        
-        FrameUI instance = new FrameUI();
-        int expResult = instance.addActorNameLength(name);
-        
-        assertEquals(1, expResult);
-         
-    }
-    
-     /**
-     * Test of addActorNameLength method, of class FrameUI.
-     */
-    @Test
-    public void testaddActorNameLengthFalse()
-    {
-         System.out.println("testaddActorNameLength");
-         
-        //ARRANGE
-        int n = 0;
-        String name ="";
-        while(n < 50){
-        name = name.concat("n");
-        n++;
-        }
-        System.out.println(name.length());
-        System.out.println(name); 
-        
-        FrameUI instance = new FrameUI();
-        int expResult = instance.addActorNameLength(name);
-        
-        assertEquals(0, expResult);
-         
-    }
-    
-    /**
-     * Test of addActorNameFieldValid method, of class FrameUI.
-     */
-    @Test
-    public void testaddActorNameValid()
-    {
-        System.out.println("testaddActorNameFieldValid");
-        
-        //ARRANGE
-        String name = "name";
-        
-        
-        //ACT
-        FrameUI instance = new FrameUI();
-        int expResult = instance.addActorNameValid(name);
-        
-        //ASSERT
-        assertEquals(1, expResult);
-        
-    }
-    
-    /**
-     * Test of addActorNameValid method, of class FrameUI.
-     */
-    @Test
-    public void testaddActorNameNotValid()
-    {
-        System.out.println("testaddActorFalse3");
-        
-        //ARRANGE
-        String name = "nam3";
-        
-        //ACT
-        FrameUI instance = new FrameUI();
-        int expResult = instance.addActorNameValid(name);
-        
-        //ASSERT
-        assertEquals(0, expResult);
-        
-    }
-    
-    /**
-     * Test of addActorDoBField method, of class FrameUI.
-     */
-    @Test
-    public void testaddActorDoBFieldNotEmpty()
-    {
-        System.out.println("testaddActorDoBFieldNotEmpty");
-        
-        //ARRANGE
-        String DoB = "1995-06-20"; 
-        
-        //ACT
-        FrameUI instance = new FrameUI();
-        int expResult = instance.addActorDoBField(DoB);
-        
+
         //ASSERT
         assertEquals(1, expResult);
 
     }
-    
+
+    /**
+     * Test of addActorNameField method, of class FrameUI.
+     */
+    @Test
+    public void testaddActorNameFieldEmpty() {
+        System.out.println("testaddActorNameFieldEmpty");
+
+        //ARRANGE
+        String name = "";
+
+        //ACT
+        FrameUI instance = new FrameUI();
+        int expResult = instance.addActorNameField(name);
+
+        //ASSERT
+        assertEquals(0, expResult);
+
+    }
+
+    /**
+     * Test of addActorNameLength method, of class FrameUI.
+     */
+    @Test
+    public void testaddActorNameLengthTrue() {
+        System.out.println("testaddActorNameLength");
+
+        //ARRANGE
+        String name = "name";
+
+        FrameUI instance = new FrameUI();
+        int expResult = instance.addActorNameLength(name);
+
+        assertEquals(1, expResult);
+
+    }
+
+    /**
+     * Test of addActorNameLength method, of class FrameUI.
+     */
+    @Test
+    public void testaddActorNameLengthFalse() {
+        System.out.println("testaddActorNameLength");
+
+        //ARRANGE
+        int n = 0;
+        String name = "";
+        while (n < 50) {
+            name = name.concat("n");
+            n++;
+        }
+        System.out.println(name.length());
+        System.out.println(name);
+
+        FrameUI instance = new FrameUI();
+        int expResult = instance.addActorNameLength(name);
+
+        assertEquals(0, expResult);
+
+    }
+
+    /**
+     * Test of addActorNameFieldValid method, of class FrameUI.
+     */
+    @Test
+    public void testaddActorNameValid() {
+        System.out.println("testaddActorNameFieldValid");
+
+        //ARRANGE
+        String name = "name";
+
+        //ACT
+        FrameUI instance = new FrameUI();
+        int expResult = instance.addActorNameValid(name);
+
+        //ASSERT
+        assertEquals(1, expResult);
+
+    }
+
+    /**
+     * Test of addActorNameValid method, of class FrameUI.
+     */
+    @Test
+    public void testaddActorNameNotValid() {
+        System.out.println("testaddActorFalse3");
+
+        //ARRANGE
+        String name = "nam3";
+
+        //ACT
+        FrameUI instance = new FrameUI();
+        int expResult = instance.addActorNameValid(name);
+
+        //ASSERT
+        assertEquals(0, expResult);
+
+    }
+
     /**
      * Test of addActorDoBField method, of class FrameUI.
      */
     @Test
-    public void testaddActorDoBFieldEmpty()
-    {
-        System.out.println("testaddActorDoBFieldEmpty");
-        
+    public void testaddActorDoBFieldNotEmpty() {
+        System.out.println("testaddActorDoBFieldNotEmpty");
+
         //ARRANGE
-        String DoB = ""; 
-        
+        String DoB = "1995-06-20";
+
         //ACT
         FrameUI instance = new FrameUI();
         int expResult = instance.addActorDoBField(DoB);
-        
+
+        //ASSERT
+        assertEquals(1, expResult);
+
+    }
+
+    /**
+     * Test of addActorDoBField method, of class FrameUI.
+     */
+    @Test
+    public void testaddActorDoBFieldEmpty() {
+        System.out.println("testaddActorDoBFieldEmpty");
+
+        //ARRANGE
+        String DoB = "";
+
+        //ACT
+        FrameUI instance = new FrameUI();
+        int expResult = instance.addActorDoBField(DoB);
+
         //ASSERT
         assertEquals(0, expResult);
     }
-    
+
     /**
      * Test of addActorDoBValid method, of class FrameUI.
      */
     @Test
-    public void testaddActorDoBValid()
-    {
+    public void testaddActorDoBValid() {
         System.out.println("testaddActorDoBValid");
-        
+
         //ARRANGE
-        String DoB = "1995-02-03"; 
-        
+        String DoB = "1995-02-03";
+
         //ACT
         FrameUI instance = new FrameUI();
         int expResult = instance.addActorDoBValid(DoB);
-        
+
         //ASSERT
         assertEquals(1, expResult);
     }
-    
+
     /**
      * Test of addActorDoBValid method, of class FrameUI.
      */
     @Test
-    public void testaddActorDoBNotValid()
-    {
+    public void testaddActorDoBNotValid() {
         System.out.println("testaddActorDoBValid");
-        
+
         //ARRANGE
-        String DoB = "19950302"; 
-        
+        String DoB = "19950302";
+
         //ACT
         FrameUI instance = new FrameUI();
         int expResult = instance.addActorDoBValid(DoB);
-        
+
         //ASSERT
         assertEquals(0, expResult);
     }
-    
-    
 
 }
