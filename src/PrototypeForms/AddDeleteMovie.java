@@ -1,4 +1,4 @@
-package trash;
+package PrototypeForms;
 
 
 import java.awt.Toolkit;
