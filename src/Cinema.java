@@ -79,6 +79,7 @@ catch (Exception e){
         
 */ 
 RegisterLoginWindow a = new RegisterLoginWindow();
+a.setVisible(true);
 
         }
     }
