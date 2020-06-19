@@ -1,6 +1,5 @@
 package ProjectPackage;
 
-
 import Statistics.Statistics;
 import static DataBase.Database.Connect;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
@@ -66,7 +65,7 @@ public class FrameUI extends javax.swing.JFrame {
     ResultSet resJoin;
     ResultSet resName;
 
-/*
+    /*
     void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -81,10 +80,11 @@ public class FrameUI extends javax.swing.JFrame {
         }
         System.out.println("connected");
     }
-*/
-     private void getConnection(){
-    this.con = Connect();
+     */
+    private void getConnection() {
+        this.con = Connect();
     }
+
     public void close() {
 
         WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
@@ -177,13 +177,16 @@ public class FrameUI extends javax.swing.JFrame {
 
     //method to check if movie feilds are empty
     public boolean checkEmptyMovie(String name, String genre, String rating) {
-
+try{
         if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {
             return true;
         } else {
             return false;
         }
-
+}
+catch (NullPointerException e){
+return true;
+}
     }
 
     public boolean checkRating(double rate) {
@@ -331,75 +334,64 @@ public class FrameUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-        public int checkRating2(int rating)
-    {
-         if (rating == 0) {
-            return 0;
-        }  
-        return 1;
-    }
-    
-    public int checkReview(String review)
-    {
-        if (review.equals("")) {
-            return 0;
-        }
-        return 1;
-    }
-    
-    public int checkReviewLength(String review)
-    {
-        if(review.length() > 1000)
-        {
+
+    public int checkRating2(int rating) {
+        if (rating == 0) {
             return 0;
         }
         return 1;
     }
 
-    public int addActorNameField(String name)
-    {
+    public int checkReview(String review) {
+        if (review.equals("")) {
+            return 0;
+        }
+        return 1;
+    }
+
+    public int checkReviewLength(String review) {
+        if (review.length() > 1000) {
+            return 0;
+        }
+        return 1;
+    }
+
+    public int addActorNameField(String name) {
         if ((name.isEmpty() || name == null)) {
 
             return 0;
         }
         return 1;
     }
-    public int addActorNameValid(String name)
-    {
-        if(name.matches(".*\\d.*"))
-        {
-             return 0;
+
+    public int addActorNameValid(String name) {
+        if (name.matches(".*\\d.*")) {
+            return 0;
         }
         return 1;
     }
-    
-    public int addActorNameLength(String name)
-    {
+
+    public int addActorNameLength(String name) {
         if (name.length() > 45) {
             return 0;
         }
         return 1;
     }
-    
-    public int addActorDoBField(String DoB)
-    {
+
+    public int addActorDoBField(String DoB) {
         if (DoB.isEmpty() || DoB == null) {
 
             return 0;
         }
         return 1;
     }
-    
-    public int addActorDoBValid(String DoB)
-    {
-        if(DoB.matches("^\\d*-\\d*-\\d*$"))
-        {
+
+    public int addActorDoBValid(String DoB) {
+        if (DoB.matches("^\\d*-\\d*-\\d*$")) {
             return 1;
         }
         return 0;
     }
-
 
     public void LoadControlPanel(JPanel panel, String username, int id, int userType) {
         base1.removeAll();
@@ -1924,28 +1916,22 @@ public class FrameUI extends javax.swing.JFrame {
         username = userNameL.getText().substring(10);
         rate = jComboBoxRate.getSelectedIndex();
         review = jTextAreaSubmitReview.getText();
-        if(checkRating2(rate) == 0)
-        {
+        if (checkRating2(rate) == 0) {
             JOptionPane.showMessageDialog(null,
                     "Please select a rating",
                     "Please select a value",
                     JOptionPane.INFORMATION_MESSAGE);
-        }
-        else if(checkReview(review) == 0)
-        {
+        } else if (checkReview(review) == 0) {
             JOptionPane.showMessageDialog(null,
                     "Please write a review",
                     "Empty review isn't accepeted",
                     JOptionPane.INFORMATION_MESSAGE);
-        }
-        else if(checkReviewLength(review) == 0)
-        {
+        } else if (checkReviewLength(review) == 0) {
             JOptionPane.showMessageDialog(null,
                     "You exceeded the 1000 character limit in the review",
                     "Limit exceeded",
                     JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
+        } else {
 
             try {
                 //check if review already exists by counting if a row exists
@@ -1997,8 +1983,7 @@ public class FrameUI extends javax.swing.JFrame {
                             "Review and rate have been updated.",
                             JOptionPane.INFORMATION_MESSAGE);
 
-                } 
-                else {
+                } else {
                     //insert rate into userrate table
                     mystatement = con.prepareStatement("INSERT INTO userrating (id,movieid,userid,userrating) VALUES(DEFAULT,?,?,?)");
                     mystatement.setInt(1, movieID);
@@ -2269,7 +2254,7 @@ public class FrameUI extends javax.swing.JFrame {
                 mystatement = con.prepareStatement("DELETE FROM actors WHERE id = ?");
                 mystatement.setInt(1, id);
                 mystatement.execute();
-                
+
                 //System log
                 int adminId = Integer.parseInt(adminIdL.getText().substring(10));
                 String logMessage = "Admin with adminID = " + adminId + " has delted an actor with actorId = " + actorId;
@@ -2339,43 +2324,35 @@ public class FrameUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jButtonAddActor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActor1ActionPerformed
-         String name = jtextName.getText();
+        String name = jtextName.getText();
         String DoB = jtextDate.getText();
 
         //check if values are null/empty
-        if(addActorNameField(name) == 0)
-        {
+        if (addActorNameField(name) == 0) {
             //display error message
             JOptionPane.showMessageDialog(null,
                     "Name field can't be set to empty or null!",
                     "Empty/Null Error!",
                     JOptionPane.ERROR_MESSAGE);
-        }
-        else if(addActorDoBField(DoB) == 0)
-        {
-           //display error message
+        } else if (addActorDoBField(DoB) == 0) {
+            //display error message
             JOptionPane.showMessageDialog(null,
                     "Date of birth field can't be set to empty or null!",
                     "Empty/Null Error!",
-                    JOptionPane.ERROR_MESSAGE); 
-        }
-        else if(addActorNameLength(name) == 0)
-        {
+                    JOptionPane.ERROR_MESSAGE);
+        } else if (addActorNameLength(name) == 0) {
             //display error message
             JOptionPane.showMessageDialog(null,
                     "Enter a name less than 45 character",
                     "Empty/Null Error!",
                     JOptionPane.ERROR_MESSAGE);
-        }
-        else if(addActorDoBValid(DoB) == 0)
-        {
-             //display error message
+        } else if (addActorDoBValid(DoB) == 0) {
+            //display error message
             JOptionPane.showMessageDialog(null,
                     "Enter a valid date format",
                     "Empty/Null Error!",
                     JOptionPane.ERROR_MESSAGE);
-        }
-        else {
+        } else {
 
             try {
 

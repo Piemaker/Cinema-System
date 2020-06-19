@@ -86,16 +86,26 @@ public class FrameUITest {
     public void testCheckEmptyMovie() {
         System.out.println("checkEmptyMovie");
         //ARRANGE
-        String name = "";
-        String genre = null;
-        String rating = "";
+        String nameEmpty = "";
+        String genreEmpty ="";
+        String ratingEmpty ="";
+        String nameNull = null;
+        String genreNull = null;
+        String ratingNull = null;
+        
         FrameUI instance = new FrameUI();
 
         //ACT
-        boolean expResultTrue = instance.checkEmptyMovie(name, genre, rating);
+        boolean expResultTrue1 = instance.checkEmptyMovie(nameEmpty, genreEmpty, ratingEmpty);
+        boolean expResultTrue2 = instance.checkEmptyMovie(nameNull, genreNull, ratingNull);
+        
+
 
         //ASSERT
-        assertTrue("The inputs are not empty", expResultTrue);
+        assertTrue("The inputs are not empty or null", expResultTrue1);
+        assertTrue("The inputs are not empty or null", expResultTrue2);
+       
+
     }
 
     /**
