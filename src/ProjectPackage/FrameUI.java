@@ -179,7 +179,7 @@ public class FrameUI extends javax.swing.JFrame {
     //method to check if movie feilds are empty
     public boolean checkEmptyMovie(String name, String genre, String rating) {
         try {
-            if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {
+            if (name.isEmpty() || genre.isEmpty() || rating.isEmpty() ) {
                 return true;
             } else {
                 return false;
@@ -357,7 +357,7 @@ public class FrameUI extends javax.swing.JFrame {
     }
 
     public int addActorNameField(String name) {
-        if ((name.isEmpty() || name == null)) {
+        if ((name.isEmpty())) {
 
             return 0;
         }
@@ -379,7 +379,7 @@ public class FrameUI extends javax.swing.JFrame {
     }
 
     public int addActorDoBField(String DoB) {
-        if (DoB.isEmpty() || DoB == null) {
+        if (DoB.isEmpty()) {
 
             return 0;
         }

@@ -179,7 +179,7 @@ public class FrameUI extends javax.swing.JFrame {
     //method to check if movie feilds are empty
     public boolean checkEmptyMovie(String name, String genre, String rating) {
         try {
-<span class="pc bpc" id="L182" title="5 of 12 branches missed.">            if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {</span>
+<span class="pc bpc" id="L182" title="2 of 6 branches missed.">            if (name.isEmpty() || genre.isEmpty() || rating.isEmpty() ) {</span>
 <span class="fc" id="L183">                return true;</span>
             } else {
 <span class="fc" id="L185">                return false;</span>
@@ -357,7 +357,7 @@ public class FrameUI extends javax.swing.JFrame {
     }
 
     public int addActorNameField(String name) {
-<span class="pc bpc" id="L360" title="1 of 4 branches missed.">        if ((name.isEmpty() || name == null)) {</span>
+<span class="fc bfc" id="L360" title="All 2 branches covered.">        if ((name.isEmpty())) {</span>
 
 <span class="fc" id="L362">            return 0;</span>
         }
@@ -379,7 +379,7 @@ public class FrameUI extends javax.swing.JFrame {
     }
 
     public int addActorDoBField(String DoB) {
-<span class="pc bpc" id="L382" title="1 of 4 branches missed.">        if (DoB.isEmpty() || DoB == null) {</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">        if (DoB.isEmpty()) {</span>
 
 <span class="fc" id="L384">            return 0;</span>
         }
