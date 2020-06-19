@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Statistics.Report.*;
-
+import static DataBase.Database.Connect;
 /**
  * Version : alpha
  *
@@ -33,234 +33,227 @@ public class Statistics {
     HashMap Rate;
     
 <span class="nc" id="L35">   String DateFormat=&quot;yyyy-MM-dd hh:mm:ss&quot;;</span>
+  
+   boolean fake;
   //int GenreRepot= 1;
   //int RateRepot= 2;
+
+
             
             
-<span class="nc" id="L40">    public Statistics() {</span>
-<span class="nc" id="L41">        this.Date = new Date();</span>
-<span class="nc" id="L42">        this.Genres = new HashMap();</span>
-<span class="nc" id="L43">        this.Rate = new HashMap();</span>
-<span class="nc" id="L44">        this.Genre_counter = 0;</span>
-<span class="nc" id="L45">        this.Movies = getMovies();</span>
-<span class="nc" id="L46">        Process();</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L44">    public Statistics() {</span>
+<span class="nc" id="L45">        this.Date = new Date();</span>
+<span class="nc" id="L46">        this.Genres = new HashMap();</span>
+<span class="nc" id="L47">        this.Rate = new HashMap();</span>
+<span class="nc" id="L48">        this.Genre_counter = 0;</span>
+<span class="nc" id="L49">        this.Movies = getMovies();</span>
+<span class="nc" id="L50">        fake= false;</span>
+<span class="nc" id="L51">        Process();</span>
+<span class="nc" id="L52">    }</span>
    
-<span class="nc" id="L49">    public Statistics(ResultSet Movies) {</span>
-<span class="nc" id="L50">        this.Date = new Date();</span>
-<span class="nc" id="L51">        this.Genres = new HashMap();</span>
-<span class="nc" id="L52">        this.Rate = new HashMap();</span>
-<span class="nc" id="L53">        this.Genre_counter =0;</span>
-<span class="nc" id="L54">        this.Movies = Movies;</span>
-<span class="nc" id="L55">        Process();</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L54">    public Statistics(ResultSet Movies) {</span>
+<span class="nc" id="L55">        this.Date = new Date();</span>
+<span class="nc" id="L56">        this.Genres = new HashMap();</span>
+<span class="nc" id="L57">        this.Rate = new HashMap();</span>
+<span class="nc" id="L58">        this.Genre_counter =0;</span>
+<span class="nc" id="L59">        this.Movies = Movies;</span>
+<span class="nc" id="L60">        fake=false;</span>
+<span class="nc" id="L61">        Process();</span>
+<span class="nc" id="L62">    }</span>
     
     private void Process() {
     
-<span class="nc" id="L60">    }</span>
-
+<span class="nc" id="L66">    }</span>
+    // fake for testing without talking to database
+    public void Fakeit() {
+<span class="nc" id="L69">        this.fake = true;</span>
+<span class="nc" id="L70">    }</span>
 
  //* date */   
     private String getDate() {
-<span class="nc" id="L65">        SimpleDateFormat sdf =  new SimpleDateFormat (DateFormat);</span>
-<span class="nc" id="L66">        return sdf.format(Date);</span>
+<span class="nc" id="L74">        SimpleDateFormat sdf =  new SimpleDateFormat (DateFormat);</span>
+<span class="nc" id="L75">        return sdf.format(Date);</span>
     }
     
     private String newDate() {
-<span class="nc" id="L70">        this.Date = new Date();</span>
-<span class="nc" id="L71">        return getDate(); </span>
+<span class="nc" id="L79">        this.Date = new Date();</span>
+<span class="nc" id="L80">        return getDate(); </span>
     }
  
     
 /////* Reports */
     /*order selector*/
     public void orderReport(int ID,int type){
-<span class="nc bnc" id="L78" title="All 3 branches missed.">    switch(type){</span>
+<span class="nc bnc" id="L87" title="All 3 branches missed.">    switch(type){</span>
         case 1 :
-<span class="nc" id="L80">            GenreReport(ID);</span>
-<span class="nc" id="L81">            break;</span>
+<span class="nc" id="L89">            GenreReport(ID);</span>
+<span class="nc" id="L90">            break;</span>
         case 2 :
-<span class="nc" id="L83">            RateReport(ID);</span>
+<span class="nc" id="L92">            RateReport(ID);</span>
             break;    
     }
-<span class="nc" id="L86">    }</span>
+<span class="nc" id="L95">    }</span>
 /*Genre*/    
     private void preGenre(){
         try {
-<span class="nc" id="L90">            updateMovies();</span>
+<span class="nc" id="L99">            updateMovies();</span>
             /* scan Genres */
-<span class="nc bnc" id="L92" title="All 2 branches missed.">            while (Movies.next()) {</span>
-<span class="nc" id="L93">                Movie xt = new Movie(Movies);</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">                if (Genres.get(xt.genre) == null) {</span>
-<span class="nc" id="L95">                    Genres.put(xt.genre, 1);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            while (Movies.next()) {</span>
+<span class="nc" id="L102">                Movie xt = new Movie(Movies);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                if (Genres.get(xt.genre) == null) {</span>
+<span class="nc" id="L104">                    Genres.put(xt.genre, 1);</span>
                 } else {
-<span class="nc" id="L97">                    Genres.put(xt.genre, (int) Genres.get(xt.genre) + 1);</span>
+<span class="nc" id="L106">                    Genres.put(xt.genre, (int) Genres.get(xt.genre) + 1);</span>
                 }
-<span class="nc" id="L99">            }</span>
-<span class="nc" id="L100">            Genre_counter=Genres.size();</span>
+<span class="nc" id="L108">            }</span>
+<span class="nc" id="L109">            Genre_counter=Genres.size();</span>
           
-<span class="nc" id="L102">        } catch (SQLException ex) {</span>
-<span class="nc" id="L103">            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L104">        }</span>
-<span class="nc" id="L105">    }    </span>
+<span class="nc" id="L111">        } catch (SQLException ex) {</span>
+<span class="nc" id="L112">            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L113">        }</span>
+<span class="nc" id="L114">    }    </span>
     
 private Report GenreReport(int ID){
-<span class="nc" id="L108">        preGenre();</span>
+<span class="nc" id="L117">        preGenre();</span>
 /*   report will be a separete function   */
-<span class="nc" id="L110">          String date=newDate(),data=&quot;&quot;,Type=&quot;Genre Report&quot;;</span>
+<span class="nc" id="L119">          String date=newDate(),data=&quot;&quot;,Type=&quot;Genre Report&quot;;</span>
           
-<span class="nc bnc" id="L112" title="All 2 branches missed.">          for (Object str : Genres.keySet()){</span>
-<span class="nc" id="L113">                data+=str + &quot;: \t&quot; + Genres.get(str)+&quot;\n&quot;;</span>
-<span class="nc" id="L114">        }</span>
-<span class="nc" id="L115">        data+=&quot;Total Number of Geners : &quot; + Genres.size()+&quot;\n&quot;;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">          for (Object str : Genres.keySet()){</span>
+<span class="nc" id="L122">                data+=str + &quot;: \t&quot; + Genres.get(str)+&quot;\n&quot;;</span>
+<span class="nc" id="L123">        }</span>
+<span class="nc" id="L124">        data+=&quot;Total Number of Geners : &quot; + Genres.size()+&quot;\n&quot;;</span>
             
-<span class="nc" id="L117">          Report R=new Report(date,getName(ID),Type,data);</span>
-<span class="nc" id="L118">            R.setID(SaveReport(R,ID));</span>
-<span class="nc" id="L119">            R.view();</span>
-<span class="nc" id="L120">            return R;</span>
+<span class="nc" id="L126">          Report R=new Report(date,getName(ID),Type,data);</span>
+<span class="nc" id="L127">            R.setID(SaveReport(R,ID));</span>
+<span class="nc" id="L128">            R.view();</span>
+<span class="nc" id="L129">            return R;</span>
 }
 
 ///* Rate report */
 private void preRate(){
         try {
-<span class="nc" id="L126">            updateMovies();</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">              for (int i=1;i&lt;11;i++) {</span>
-<span class="nc" id="L128">                   Rate.put(i , 0);</span>
+<span class="nc" id="L135">            updateMovies();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">              for (int i=1;i&lt;11;i++) {</span>
+<span class="nc" id="L137">                   Rate.put(i , 0);</span>
               }
             /* scan Rates */
-<span class="nc bnc" id="L131" title="All 2 branches missed.">            while (Movies.next()) {</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">            while (Movies.next()) {</span>
                 // d is for partial like in math in integration when u take a piece dx and work using it to get x
-<span class="nc" id="L133">             Movie dm = new Movie(Movies);</span>
-<span class="nc" id="L134">             Double d_Rate = dm.rating; </span>
-<span class="nc" id="L135">             int dr = d_Rate.intValue()+1;</span>
-<span class="nc" id="L136">             Rate.put(dr, (int) Rate.get(dr) + 1);</span>
+<span class="nc" id="L142">             Movie dm = new Movie(Movies);</span>
+<span class="nc" id="L143">             Double d_Rate = dm.rating; </span>
+<span class="nc" id="L144">             int dr = d_Rate.intValue()+1;</span>
+<span class="nc" id="L145">             Rate.put(dr, (int) Rate.get(dr) + 1);</span>
           
              
-<span class="nc" id="L139">            }</span>
-<span class="nc" id="L140">        } catch (SQLException ex) {</span>
-<span class="nc" id="L141">            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L142">        }</span>
-<span class="nc" id="L143">    }    </span>
+<span class="nc" id="L148">            }</span>
+<span class="nc" id="L149">        } catch (SQLException ex) {</span>
+<span class="nc" id="L150">            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L151">        }</span>
+<span class="nc" id="L152">    }    </span>
 
 private Report RateReport(int ID){
-<span class="nc" id="L146">    preRate();</span>
-<span class="nc" id="L147">      String date=newDate(),data=&quot;&quot;,Type=&quot;Rate Report&quot;;</span>
+<span class="nc" id="L155">    preRate();</span>
+<span class="nc" id="L156">      String date=newDate(),data=&quot;&quot;,Type=&quot;Rate Report&quot;;</span>
           
-<span class="nc" id="L149">          int TotalRates =0;</span>
-<span class="nc bnc" id="L150" title="All 2 branches missed.">          for (Object str : Rate.keySet()){</span>
-<span class="nc" id="L151">              TotalRates+= (int) Rate.get(str);  </span>
-<span class="nc" id="L152">              data+= &quot;from [&quot;+ ((int) str - 1) + &quot;] to &quot; + str + &quot;  :  \t &quot; + Rate.get(str).toString()+&quot;\n&quot;;</span>
-<span class="nc" id="L153">        }</span>
-<span class="nc" id="L154">          data+=&quot;\nTotal rates :\t&quot;+TotalRates;</span>
-<span class="nc" id="L155">            Report R=new Report(date,getName(ID),Type,data);</span>
-<span class="nc" id="L156">            R.setID(SaveReport(R,ID));</span>
-<span class="nc" id="L157">            R.view();</span>
-<span class="nc" id="L158">return R;</span>
+<span class="nc" id="L158">          int TotalRates =0;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">          for (Object str : Rate.keySet()){</span>
+<span class="nc" id="L160">              TotalRates+= (int) Rate.get(str);  </span>
+<span class="nc" id="L161">              data+= &quot;from [&quot;+ ((int) str - 1) + &quot;] to &quot; + str + &quot;  :  \t &quot; + Rate.get(str).toString()+&quot;\n&quot;;</span>
+<span class="nc" id="L162">        }</span>
+<span class="nc" id="L163">          data+=&quot;\nTotal rates :\t&quot;+TotalRates;</span>
+<span class="nc" id="L164">            Report R=new Report(date,getName(ID),Type,data);</span>
+<span class="nc" id="L165">            R.setID(SaveReport(R,ID));</span>
+<span class="nc" id="L166">            R.view();</span>
+<span class="nc" id="L167">return R;</span>
 }
 
 
 
 public static void showList(){
-<span class="nc" id="L164">ReportList L = new ReportList();</span>
-<span class="nc" id="L165">}</span>
+<span class="nc" id="L173">ReportList L = new ReportList();</span>
+<span class="nc" id="L174">}</span>
 
 ////*  db  */
-/* connect to db 
-override it to connect to the data base u want. 
 
-*/
-    public static Connection Connect() {
-<span class="nc" id="L173">        Connection con = null;</span>
-<span class="nc" id="L174">        String Password = &quot;root&quot;;</span>
-                 try {
-<span class="nc" id="L176">                Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
-<span class="nc" id="L177">            } catch (ClassNotFoundException e) {</span>
-<span class="nc" id="L178">            }</span>
-            try {
-                //con=DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/Cinema&quot;,&quot;Mohab&quot;,&quot;qwa220zxs18MN313&quot;);
-<span class="nc" id="L181">                con=DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;,&quot;root&quot;,Password);</span>
-<span class="nc" id="L182">            } catch (SQLException e) {</span>
-<span class="nc" id="L183">                e.printStackTrace();</span>
-<span class="nc" id="L184">            }</span>
-<span class="nc" id="L185">            return con;</span>
-   }
 
     /*   get Result set from data base       */
     private ResultSet getMovies() {
           
 try{
           Connection con;
-<span class="nc" id="L193">          con = Connect();</span>
-<span class="nc" id="L194">          Statement stat= con.createStatement();</span>
-<span class="nc" id="L195">          ResultSet out= stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
-<span class="nc" id="L196">          return out;  </span>
-<span class="nc" id="L197">}catch (Exception e){</span>
-<span class="nc" id="L198">    e.printStackTrace();</span>
+<span class="nc" id="L184">          con = Connect();</span>
+<span class="nc" id="L185">          Statement stat= con.createStatement();</span>
+<span class="nc" id="L186">          ResultSet out= stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
+<span class="nc" id="L187">          return out;  </span>
+<span class="nc" id="L188">}catch (Exception e){</span>
+<span class="nc" id="L189">    e.printStackTrace();</span>
 }
-<span class="nc" id="L200">        return null;</span>
+<span class="nc" id="L191">        return null;</span>
           
         }
 
    public void updateMovies(){
-<span class="nc" id="L205">   this.Movies=getMovies();</span>
-<span class="nc" id="L206">   }</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">       if (!fake){</span>
+<span class="nc" id="L197">   this.Movies=getMovies();</span>
+       }
+<span class="nc" id="L199">       }</span>
     
     public static String getName(int ID){
-<span class="nc" id="L209">    String owner=&quot;&quot; ; </span>
+<span class="nc" id="L202">    String owner=&quot;&quot; ; </span>
 try{
           Connection con;
-<span class="nc" id="L212">          con = Connect();</span>
-<span class="nc" id="L213">          Statement stat= con.createStatement();</span>
+<span class="nc" id="L205">          con = Connect();</span>
+<span class="nc" id="L206">          Statement stat= con.createStatement();</span>
           // adminID, admin_name, password FROM admins
-<span class="nc" id="L215">          ResultSet admin= stat.executeQuery(&quot;SELECT * FROM admins WHERE adminID = &quot;</span>
-<span class="nc" id="L216">                                                                        +Integer.toString(ID));</span>
-<span class="nc bnc" id="L217" title="All 2 branches missed.">         while(admin.next()){</span>
-<span class="nc" id="L218">          owner+=admin.getString(&quot;admin_name&quot;);</span>
+<span class="nc" id="L208">          ResultSet admin= stat.executeQuery(&quot;SELECT * FROM admins WHERE adminID = &quot;</span>
+<span class="nc" id="L209">                                                                        +Integer.toString(ID));</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">         while(admin.next()){</span>
+<span class="nc" id="L211">          owner+=admin.getString(&quot;admin_name&quot;);</span>
             }
-<span class="nc" id="L220">}catch (SQLException e){</span>
-<span class="nc" id="L221">    owner=&quot;Failed to get the name .&quot;;</span>
-<span class="nc" id="L222">}</span>
+<span class="nc" id="L213">}catch (SQLException e){</span>
+<span class="nc" id="L214">    owner=&quot;Failed to get the name .&quot;;</span>
+<span class="nc" id="L215">}</span>
     
-<span class="nc" id="L224">return owner;</span>
+<span class="nc" id="L217">return owner;</span>
     
     }
     /* aka save report and get report id . */
     private int SaveReport(Report R,int OwnerID) {
-<span class="nc" id="L229">       int ReportID=0;</span>
-<span class="nc" id="L230">       String query=&quot;insert into Report ( Owner , Type , Date , Report ) values ( ? ,?, ?,?)&quot;;</span>
+<span class="nc" id="L222">       int ReportID=0;</span>
+<span class="nc" id="L223">       String query=&quot;insert into Report ( Owner , Type , Date , Report ) values ( ? ,?, ?,?)&quot;;</span>
        
-<span class="nc" id="L232">      try(</span>
+<span class="nc" id="L225">      try(</span>
           
-<span class="nc" id="L234">              Connection con= Connect();</span>
+<span class="nc" id="L227">              Connection con= Connect();</span>
        // save 
-<span class="nc" id="L236">              PreparedStatement stat= con.prepareStatement(query,</span>
+<span class="nc" id="L229">              PreparedStatement stat= con.prepareStatement(query,</span>
                                       Statement.RETURN_GENERATED_KEYS);
               ){
-<span class="nc" id="L239">          stat.setString(1,Integer.toString(OwnerID));</span>
-<span class="nc" id="L240">          stat.setString(2,R.getType());</span>
-<span class="nc" id="L241">          stat.setString(3,newDate());</span>
-<span class="nc" id="L242">          stat.setString(4,R.getData());</span>
-<span class="nc" id="L243">          int affectedRows = stat.executeUpdate();</span>
+<span class="nc" id="L232">          stat.setString(1,Integer.toString(OwnerID));</span>
+<span class="nc" id="L233">          stat.setString(2,R.getType());</span>
+<span class="nc" id="L234">          stat.setString(3,newDate());</span>
+<span class="nc" id="L235">          stat.setString(4,R.getData());</span>
+<span class="nc" id="L236">          int affectedRows = stat.executeUpdate();</span>
           
-<span class="nc bnc" id="L245" title="All 2 branches missed.">            if (affectedRows == 0) {</span>
-<span class="nc" id="L246">            throw new SQLException(&quot;Creating Report failed, no rows affected.&quot;);</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">            if (affectedRows == 0) {</span>
+<span class="nc" id="L239">            throw new SQLException(&quot;Creating Report failed, no rows affected.&quot;);</span>
             }
 
-<span class="nc" id="L249">        try (ResultSet generatedKeys = stat.getGeneratedKeys()) {</span>
-<span class="nc bnc" id="L250" title="All 2 branches missed.">            if (generatedKeys.next()) {</span>
+<span class="nc" id="L242">        try (ResultSet generatedKeys = stat.getGeneratedKeys()) {</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">            if (generatedKeys.next()) {</span>
                 // get id
-<span class="nc" id="L252">                ReportID=generatedKeys.getInt(1);</span>
+<span class="nc" id="L245">                ReportID=generatedKeys.getInt(1);</span>
             }
             else {
-<span class="nc" id="L255">                throw new SQLException(&quot;Creating Report failed, no ID obtained.&quot;);</span>
+<span class="nc" id="L248">                throw new SQLException(&quot;Creating Report failed, no ID obtained.&quot;);</span>
             }
-<span class="nc bnc" id="L257" title="All 8 branches missed.">        }</span>
-<span class="nc bnc" id="L258" title="All 16 branches missed.">    }catch(Exception e){</span>
-<span class="nc" id="L259">    e.printStackTrace();</span>
-<span class="nc" id="L260">    }</span>
+<span class="nc bnc" id="L250" title="All 8 branches missed.">        }</span>
+<span class="nc bnc" id="L251" title="All 16 branches missed.">    }catch(Exception e){</span>
+<span class="nc" id="L252">    e.printStackTrace();</span>
+<span class="nc" id="L253">    }</span>
       
         
-<span class="nc" id="L263">        return ReportID;</span>
+<span class="nc" id="L256">        return ReportID;</span>
     }
 
 }

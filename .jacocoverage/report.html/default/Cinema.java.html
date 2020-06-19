@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cinema.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Cinema&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Cinema.java</span></div><h1>Cinema.java</h1><pre class="source lang-java linenums">import javax.xml.namespace.QName;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cinema.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Cinema&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Cinema.java</span></div><h1>Cinema.java</h1><pre class="source lang-java linenums">import static DataBase.Database.Connect;
+import javax.xml.namespace.QName;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -7,22 +8,11 @@ import java.sql.*;
 
 
 
-<span class="nc" id="L10">    public class Cinema {</span>
+<span class="nc" id="L11">    public class Cinema {</span>
        static private Connection con;
-        static   void getConnection(){
-            try {
-<span class="nc" id="L14">                Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
-<span class="nc" id="L15">            } catch (ClassNotFoundException e) {</span>
-<span class="nc" id="L16">                e.printStackTrace();</span>
-<span class="nc" id="L17">            }</span>
-            try {
-<span class="nc" id="L19">                con=DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;, &quot;Mohab&quot;, &quot;qwa220zxs18MN313&quot;);</span>
-                //con=DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/cinema&quot;,&quot;root&quot;,&quot;root&quot;);
-<span class="nc" id="L21">            } catch (SQLException e) {</span>
-<span class="nc" id="L22">                e.printStackTrace();</span>
-<span class="nc" id="L23">            }</span>
-<span class="nc" id="L24">            System.out.println(&quot;connected&quot;);</span>
-<span class="nc" id="L25">        }</span>
+     private static void getConnection(){
+<span class="nc" id="L14">    Cinema.con = Connect();</span>
+<span class="nc" id="L15">    }</span>
 
        // private static User users[] = new User[50]; //allocates 50 users spaces
 
@@ -71,22 +61,22 @@ import java.sql.*;
         public static void main(String args[]) {
 
 try{
-<span class="nc" id="L74">            getConnection();</span>
-<span class="nc" id="L75">            Statement stat= con.createStatement();</span>
-<span class="nc" id="L76">            ResultSet res= stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">               while(res.next()){</span>
-<span class="nc" id="L78">                   int id = res.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L79">                   String name = res.getString(&quot;name&quot;);</span>
-<span class="nc" id="L80">                   String genre = res.getString(&quot;genre&quot;);</span>
-<span class="nc" id="L81">                   double rating = res.getDouble(&quot;rating&quot;);</span>
-<span class="nc" id="L82">                   System.out.println(id+&quot; &quot;+ name+&quot; &quot;+genre + &quot; &quot;+ rating );</span>
-<span class="nc" id="L83">               }</span>
+<span class="nc" id="L64">            getConnection();</span>
+<span class="nc" id="L65">            Statement stat= con.createStatement();</span>
+<span class="nc" id="L66">            ResultSet res= stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">               while(res.next()){</span>
+<span class="nc" id="L68">                   int id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L69">                   String name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L70">                   String genre = res.getString(&quot;genre&quot;);</span>
+<span class="nc" id="L71">                   double rating = res.getDouble(&quot;rating&quot;);</span>
+<span class="nc" id="L72">                   System.out.println(id+&quot; &quot;+ name+&quot; &quot;+genre + &quot; &quot;+ rating );</span>
+<span class="nc" id="L73">               }</span>
 }
 
-<span class="nc" id="L86">catch (Exception e){</span>
-<span class="nc" id="L87">    e.printStackTrace();</span>
-<span class="nc" id="L88">}</span>
-<span class="nc" id="L89">        }</span>
+<span class="nc" id="L76">catch (Exception e){</span>
+<span class="nc" id="L77">    e.printStackTrace();</span>
+<span class="nc" id="L78">}</span>
+<span class="nc" id="L79">        }</span>
 
 
  

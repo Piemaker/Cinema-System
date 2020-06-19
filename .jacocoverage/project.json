@@ -1,7 +1,7 @@
 {
   "pkgclss.excludelist" : [ ],
   "preferences" : {
-    "JaCoCoverage.Editor.EnableCodeHighlighting" : "true",
+    "JaCoCoverage.Editor.EnableCodeHighlighting" : "false",
     "JaCoCoverage.Editor.EnableCodeHighlightingExtended" : "true",
     "JaCoCoverage.Html.AutoOpenReport" : "true",
     "JaCoCoverage.Html.EnableReport" : "true",
