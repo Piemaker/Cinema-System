@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.SQLDataException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
@@ -177,16 +178,15 @@ public class FrameUI extends javax.swing.JFrame {
 
     //method to check if movie feilds are empty
     public boolean checkEmptyMovie(String name, String genre, String rating) {
-try{
-        if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {
+        try {
+            if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException e) {
             return true;
-        } else {
-            return false;
         }
-}
-catch (NullPointerException e){
-return true;
-}
     }
 
     public boolean checkRating(double rate) {
@@ -1619,7 +1619,7 @@ return true;
                     System.out.println(count);
                     if (count != 0) {
 
-                        updateMovie(name, genre, rate);
+                       if( (updateMovie(name, genre, rate))==1){
                         System.out.println("Success 1");
 
                         //code for system logs.
@@ -1640,11 +1640,18 @@ return true;
                                 "Success",
                                 "Successfully Updated",
                                 JOptionPane.INFORMATION_MESSAGE);
+                    }
+                       else{
+                           JOptionPane.showMessageDialog(null,
+                            "Unable to submit",
+                            "Database error",
+                            JOptionPane.ERROR_MESSAGE);
+                               }
 
                     } else {
                         // query to insert data into movie table
 
-                        insertMovie(name, genre, rate);
+                       if( insertMovie(name, genre, rate)==1){
                         System.out.println("done1");
 
                         //code for system logs.
@@ -1663,18 +1670,31 @@ return true;
                         JOptionPane.showMessageDialog(null,
                                 "Success",
                                 "Successfully Added",
-                                JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.INFORMATION_MESSAGE);}
+                       else{
+                       JOptionPane.showMessageDialog(null,
+                            "Unable to submit",
+                            "Database error",
+                            JOptionPane.ERROR_MESSAGE);
+                       }
 
                     }
 
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    System.out.println("SQL EXC");
                     JOptionPane.showMessageDialog(null,
                             "Unable to submit",
                             "Database error",
                             JOptionPane.ERROR_MESSAGE);
                 } catch (Exception e1) {
+                    System.out.println("EXC");
+
                     e1.printStackTrace();
+                    JOptionPane.showMessageDialog(null,
+                            "Unable to submit",
+                            "Database error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else {

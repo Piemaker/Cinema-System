@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.sql.*;
-
+import ProjectPackage.RegisterLoginWindow;
 
 
 <span class="nc" id="L11">    public class Cinema {</span>
@@ -59,26 +59,28 @@ import java.sql.*;
         }*/
 
         public static void main(String args[]) {
-
+/*
 try{
-<span class="nc" id="L64">            getConnection();</span>
-<span class="nc" id="L65">            Statement stat= con.createStatement();</span>
-<span class="nc" id="L66">            ResultSet res= stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
-<span class="nc bnc" id="L67" title="All 2 branches missed.">               while(res.next()){</span>
-<span class="nc" id="L68">                   int id = res.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L69">                   String name = res.getString(&quot;name&quot;);</span>
-<span class="nc" id="L70">                   String genre = res.getString(&quot;genre&quot;);</span>
-<span class="nc" id="L71">                   double rating = res.getDouble(&quot;rating&quot;);</span>
-<span class="nc" id="L72">                   System.out.println(id+&quot; &quot;+ name+&quot; &quot;+genre + &quot; &quot;+ rating );</span>
-<span class="nc" id="L73">               }</span>
+            getConnection();
+            Statement stat= con.createStatement();
+            ResultSet res= stat.executeQuery(&quot;SELECT * FROM movies&quot;);
+               while(res.next()){
+                   int id = res.getInt(&quot;id&quot;);
+                   String name = res.getString(&quot;name&quot;);
+                   String genre = res.getString(&quot;genre&quot;);
+                   double rating = res.getDouble(&quot;rating&quot;);
+                   System.out.println(id+&quot; &quot;+ name+&quot; &quot;+genre + &quot; &quot;+ rating );
+               }
 }
 
-<span class="nc" id="L76">catch (Exception e){</span>
-<span class="nc" id="L77">    e.printStackTrace();</span>
-<span class="nc" id="L78">}</span>
-<span class="nc" id="L79">        }</span>
+catch (Exception e){
+    e.printStackTrace();
+}
+        
+*/ 
+<span class="nc" id="L81">RegisterLoginWindow a = new RegisterLoginWindow();</span>
+<span class="nc" id="L82">a.setVisible(true);</span>
 
-
- 
+<span class="nc" id="L84">        }</span>
     }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

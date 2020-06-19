@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.SQLDataException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
@@ -36,19 +37,19 @@ public class FrameUI extends javax.swing.JFrame {
     /**
      * Creates new form FrameUI
      */
-<span class="fc" id="L39">    public FrameUI() {</span>
-<span class="fc" id="L40">        initComponents();</span>
-<span class="fc" id="L41">        getConnection();</span>
-<span class="fc" id="L42">        initializations();</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L40">    public FrameUI() {</span>
+<span class="fc" id="L41">        initComponents();</span>
+<span class="fc" id="L42">        getConnection();</span>
+<span class="fc" id="L43">        initializations();</span>
+<span class="fc" id="L44">    }</span>
 
     Connection con;
     Statement stat;
     ResultSet res;
     PreparedStatement mystat;
-<span class="fc" id="L49">    String[][] movieArray = new String[100][4];</span>
-<span class="fc" id="L50">    String[][] logsArray = new String[300][8];</span>
-<span class="fc" id="L51">    String[][] actorArray = new String[100][4];</span>
+<span class="fc" id="L50">    String[][] movieArray = new String[100][4];</span>
+<span class="fc" id="L51">    String[][] logsArray = new String[300][8];</span>
+<span class="fc" id="L52">    String[][] actorArray = new String[100][4];</span>
 
     //statment to fetch data of userRevRateView
     PreparedStatement joinStatement;
@@ -59,7 +60,7 @@ public class FrameUI extends javax.swing.JFrame {
     int uID;
     String review;
     int count;// to count the number of reviews
-<span class="fc" id="L62">    int currentRevPage = 0;</span>
+<span class="fc" id="L63">    int currentRevPage = 0;</span>
     String name; //name of user
     //result sets for the userRevRateView
     ResultSet resJoin;
@@ -82,111 +83,110 @@ public class FrameUI extends javax.swing.JFrame {
     }
      */
     private void getConnection() {
-<span class="fc" id="L85">        this.con = Connect();</span>
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L86">        this.con = Connect();</span>
+<span class="fc" id="L87">    }</span>
 
     public void close() {
 
-<span class="nc" id="L90">        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);</span>
-<span class="nc" id="L91">        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);</span>
+<span class="nc" id="L91">        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);</span>
+<span class="nc" id="L92">        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);</span>
 
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L94">    }</span>
 
     public class reviewBackground extends JPanel {
 
         private BufferedImage image;
 
-<span class="fc" id="L99">        public reviewBackground() {</span>
+<span class="fc" id="L100">        public reviewBackground() {</span>
             try {
-<span class="fc" id="L101">                image = ImageIO.read(getClass().getResourceAsStream(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;));</span>
-<span class="nc" id="L102">            } catch (Exception ex) {</span>
-<span class="nc" id="L103">                System.out.println(ex.toString());</span>
-<span class="fc" id="L104">            }</span>
-<span class="fc" id="L105">        }</span>
+<span class="fc" id="L102">                image = ImageIO.read(getClass().getResourceAsStream(&quot;/Images/gradient-red-linear-black-1366x768-c2-8b0000-000000-a-270-f-14.png&quot;));</span>
+<span class="nc" id="L103">            } catch (Exception ex) {</span>
+<span class="nc" id="L104">                System.out.println(ex.toString());</span>
+<span class="fc" id="L105">            }</span>
+<span class="fc" id="L106">        }</span>
 
         @Override
         public void paintComponent(Graphics g) {
-<span class="nc" id="L109">            super.paintComponent(g);</span>
-<span class="nc" id="L110">            g.drawImage(image, 0, 0, this);</span>
-<span class="nc" id="L111">        }</span>
+<span class="nc" id="L110">            super.paintComponent(g);</span>
+<span class="nc" id="L111">            g.drawImage(image, 0, 0, this);</span>
+<span class="nc" id="L112">        }</span>
     }
 
     final void initializations() {
 // for user review/rating view
-<span class="fc" id="L116">        jtextUserName.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
-<span class="fc" id="L117">        jtextUserRate.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
-<span class="fc" id="L118">        jScrollPaneView.setOpaque(false);</span>
-<span class="fc" id="L119">        jScrollPaneView.getViewport().setOpaque(false);</span>
-<span class="fc" id="L120">        jScrollPaneView.setBorder(null);</span>
-<span class="fc" id="L121">        jScrollPaneView.setViewportBorder(null);</span>
-<span class="fc" id="L122">        jTextAreaViewReview.setBorder(null);</span>
-<span class="fc" id="L123">        jTextAreaViewReview.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L117">        jtextUserName.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L118">        jtextUserRate.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L119">        jScrollPaneView.setOpaque(false);</span>
+<span class="fc" id="L120">        jScrollPaneView.getViewport().setOpaque(false);</span>
+<span class="fc" id="L121">        jScrollPaneView.setBorder(null);</span>
+<span class="fc" id="L122">        jScrollPaneView.setViewportBorder(null);</span>
+<span class="fc" id="L123">        jTextAreaViewReview.setBorder(null);</span>
+<span class="fc" id="L124">        jTextAreaViewReview.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
 
-<span class="fc" id="L125">        jTextAreaViewReview.setLineWrap(true); //for adding new line instead of scrolling</span>
-<span class="fc" id="L126">        jTextAreaViewReview.setWrapStyleWord(true);</span>
+<span class="fc" id="L126">        jTextAreaViewReview.setLineWrap(true); //for adding new line instead of scrolling</span>
+<span class="fc" id="L127">        jTextAreaViewReview.setWrapStyleWord(true);</span>
 
 //for user review/rating submit
-<span class="fc" id="L129">        jScrollPaneSubmit.setOpaque(false);</span>
-<span class="fc" id="L130">        jScrollPaneSubmit.getViewport().setOpaque(false);</span>
-<span class="fc" id="L131">        jScrollPaneSubmit.setBorder(null);</span>
-<span class="fc" id="L132">        jScrollPaneSubmit.setViewportBorder(null);</span>
-<span class="fc" id="L133">        jTextAreaSubmitReview.setBorder(null);</span>
-<span class="fc" id="L134">        jTextAreaSubmitReview.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L130">        jScrollPaneSubmit.setOpaque(false);</span>
+<span class="fc" id="L131">        jScrollPaneSubmit.getViewport().setOpaque(false);</span>
+<span class="fc" id="L132">        jScrollPaneSubmit.setBorder(null);</span>
+<span class="fc" id="L133">        jScrollPaneSubmit.setViewportBorder(null);</span>
+<span class="fc" id="L134">        jTextAreaSubmitReview.setBorder(null);</span>
+<span class="fc" id="L135">        jTextAreaSubmitReview.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
 
-<span class="fc" id="L136">        jTextAreaSubmitReview.setLineWrap(true); //for adding new line instead of scrolling</span>
-<span class="fc" id="L137">        jTextAreaSubmitReview.setWrapStyleWord(true);</span>
+<span class="fc" id="L137">        jTextAreaSubmitReview.setLineWrap(true); //for adding new line instead of scrolling</span>
+<span class="fc" id="L138">        jTextAreaSubmitReview.setWrapStyleWord(true);</span>
 
 //for add/delete movies
-<span class="fc" id="L140">        jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
-<span class="fc" id="L141">        jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L141">        jtextname.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L142">        jtextgenre.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
 
-<span class="fc" id="L143">        jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L144">        jtextrating.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
 
 //for moviesTable
-<span class="fc" id="L146">        JTableHeader movieHeader = jmovieTable.getTableHeader();</span>
-<span class="fc" id="L147">        movieHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
-<span class="fc" id="L148">        movieHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L147">        JTableHeader movieHeader = jmovieTable.getTableHeader();</span>
+<span class="fc" id="L148">        movieHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L149">        movieHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
 
         //logsTable Color 
-<span class="fc" id="L151">        JTableHeader logHeader = jlogTable.getTableHeader();</span>
-<span class="fc" id="L152">        logHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
-<span class="fc" id="L153">        logHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L152">        JTableHeader logHeader = jlogTable.getTableHeader();</span>
+<span class="fc" id="L153">        logHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L154">        logHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
 
         //actorsTable Color
-<span class="fc" id="L156">        JTableHeader actorsHeader = jActorTable.getTableHeader();</span>
-<span class="fc" id="L157">        actorsHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
-<span class="fc" id="L158">        actorsHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L157">        JTableHeader actorsHeader = jActorTable.getTableHeader();</span>
+<span class="fc" id="L158">        actorsHeader.setForeground(new java.awt.Color(75, 75, 75));</span>
+<span class="fc" id="L159">        actorsHeader.setBackground(new java.awt.Color(75, 75, 75));</span>
 
         //for add actor
-<span class="fc" id="L161">        jtextName.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
-<span class="fc" id="L162">        jtextDate.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
-<span class="fc" id="L163">    }</span>
+<span class="fc" id="L162">        jtextName.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L163">        jtextDate.setBackground(new java.awt.Color(0, 0, 0, 1));</span>
+<span class="fc" id="L164">    }</span>
 
 //    SECTION FOR HELPER FUNCTIONS
     //method to check if rating is double
     public boolean checkDouble(String value) {
         try {
-<span class="fc" id="L169">            Double.parseDouble(value);</span>
-<span class="fc" id="L170">            return true;</span>
+<span class="fc" id="L170">            Double.parseDouble(value);</span>
+<span class="fc" id="L171">            return true;</span>
 
-<span class="fc" id="L172">        } catch (NumberFormatException e) {</span>
-<span class="fc" id="L173">            return false;</span>
+<span class="fc" id="L173">        } catch (NumberFormatException e) {</span>
+<span class="fc" id="L174">            return false;</span>
         }
 
     }
 
     //method to check if movie feilds are empty
     public boolean checkEmptyMovie(String name, String genre, String rating) {
-try{
-<span class="pc bpc" id="L181" title="5 of 12 branches missed.">        if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {</span>
-<span class="fc" id="L182">            return true;</span>
-        } else {
-<span class="fc" id="L184">            return false;</span>
+        try {
+<span class="pc bpc" id="L182" title="5 of 12 branches missed.">            if ((name.isEmpty() || name == null) || genre.isEmpty() || genre == null || rating.isEmpty() || rating == null) {</span>
+<span class="fc" id="L183">                return true;</span>
+            } else {
+<span class="fc" id="L185">                return false;</span>
+            }
+<span class="fc" id="L187">        } catch (NullPointerException e) {</span>
+<span class="fc" id="L188">            return true;</span>
         }
-}
-<span class="fc" id="L187">catch (NullPointerException e){</span>
-<span class="fc" id="L188">return true;</span>
-}
     }
 
     public boolean checkRating(double rate) {
@@ -1619,7 +1619,7 @@ try{
 <span class="nc" id="L1619">                    System.out.println(count);</span>
 <span class="nc bnc" id="L1620" title="All 2 branches missed.">                    if (count != 0) {</span>
 
-<span class="nc" id="L1622">                        updateMovie(name, genre, rate);</span>
+<span class="nc bnc" id="L1622" title="All 2 branches missed.">                       if( (updateMovie(name, genre, rate))==1){</span>
 <span class="nc" id="L1623">                        System.out.println(&quot;Success 1&quot;);</span>
 
                         //code for system logs.
@@ -1640,45 +1640,65 @@ try{
                                 &quot;Success&quot;,
                                 &quot;Successfully Updated&quot;,
                                 JOptionPane.INFORMATION_MESSAGE);
-
-<span class="nc" id="L1644">                    } else {</span>
-                        // query to insert data into movie table
-
-<span class="nc" id="L1647">                        insertMovie(name, genre, rate);</span>
-<span class="nc" id="L1648">                        System.out.println(&quot;done1&quot;);</span>
-
-                        //code for system logs.
-                        // first retrieve the id of the inserted movie.
-<span class="nc" id="L1652">                        stat = con.createStatement();</span>
-<span class="nc" id="L1653">                        res = stat.executeQuery(&quot;SELECT ID FROM movies WHERE name = '&quot; + name + &quot;'&quot;);</span>
-<span class="nc bnc" id="L1654" title="All 2 branches missed.">                        if (res.next()) {</span>
-<span class="nc" id="L1655">                            movieId = res.getInt(&quot;ID&quot;);</span>
-                        }
-<span class="nc" id="L1657">                        System.out.println(&quot;done2&quot;);</span>
-                        // Write the logs in the table
-<span class="nc" id="L1659">                        adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
-<span class="nc" id="L1660">                        String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added a movie with movieId = &quot; + movieId;</span>
-<span class="nc" id="L1661">                        insertUpdateMovieSystemLogs(adminId, movieId, &quot;Add&quot;, logMessage);</span>
-
-<span class="nc" id="L1663">                        JOptionPane.showMessageDialog(null,</span>
-                                &quot;Success&quot;,
-                                &quot;Successfully Added&quot;,
-                                JOptionPane.INFORMATION_MESSAGE);
-
-                    }
-
-<span class="nc" id="L1670">                } catch (SQLException e) {</span>
-<span class="nc" id="L1671">                    e.printStackTrace();</span>
-<span class="nc" id="L1672">                    JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1643">                    }</span>
+                       else{
+<span class="nc" id="L1645">                           JOptionPane.showMessageDialog(null,</span>
                             &quot;Unable to submit&quot;,
                             &quot;Database error&quot;,
                             JOptionPane.ERROR_MESSAGE);
-<span class="nc" id="L1676">                } catch (Exception e1) {</span>
-<span class="nc" id="L1677">                    e1.printStackTrace();</span>
-<span class="nc" id="L1678">                }</span>
+                               }
+
+                    } else {
+                        // query to insert data into movie table
+
+<span class="nc bnc" id="L1654" title="All 2 branches missed.">                       if( insertMovie(name, genre, rate)==1){</span>
+<span class="nc" id="L1655">                        System.out.println(&quot;done1&quot;);</span>
+
+                        //code for system logs.
+                        // first retrieve the id of the inserted movie.
+<span class="nc" id="L1659">                        stat = con.createStatement();</span>
+<span class="nc" id="L1660">                        res = stat.executeQuery(&quot;SELECT ID FROM movies WHERE name = '&quot; + name + &quot;'&quot;);</span>
+<span class="nc bnc" id="L1661" title="All 2 branches missed.">                        if (res.next()) {</span>
+<span class="nc" id="L1662">                            movieId = res.getInt(&quot;ID&quot;);</span>
+                        }
+<span class="nc" id="L1664">                        System.out.println(&quot;done2&quot;);</span>
+                        // Write the logs in the table
+<span class="nc" id="L1666">                        adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L1667">                        String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added a movie with movieId = &quot; + movieId;</span>
+<span class="nc" id="L1668">                        insertUpdateMovieSystemLogs(adminId, movieId, &quot;Add&quot;, logMessage);</span>
+
+<span class="nc" id="L1670">                        JOptionPane.showMessageDialog(null,</span>
+                                &quot;Success&quot;,
+                                &quot;Successfully Added&quot;,
+<span class="nc" id="L1673">                                JOptionPane.INFORMATION_MESSAGE);}</span>
+                       else{
+<span class="nc" id="L1675">                       JOptionPane.showMessageDialog(null,</span>
+                            &quot;Unable to submit&quot;,
+                            &quot;Database error&quot;,
+                            JOptionPane.ERROR_MESSAGE);
+                       }
+
+                    }
+
+<span class="nc" id="L1683">                } catch (SQLException e) {</span>
+<span class="nc" id="L1684">                    e.printStackTrace();</span>
+<span class="nc" id="L1685">                    System.out.println(&quot;SQL EXC&quot;);</span>
+<span class="nc" id="L1686">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Unable to submit&quot;,
+                            &quot;Database error&quot;,
+                            JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1690">                } catch (Exception e1) {</span>
+<span class="nc" id="L1691">                    System.out.println(&quot;EXC&quot;);</span>
+
+<span class="nc" id="L1693">                    e1.printStackTrace();</span>
+<span class="nc" id="L1694">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Unable to submit&quot;,
+                            &quot;Database error&quot;,
+                            JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1698">                }</span>
             }
         } else {
-<span class="nc" id="L1681">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1701">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Enter a numeric rating&quot;,
                     &quot;Rating error&quot;,
                     JOptionPane.ERROR_MESSAGE);
@@ -1686,53 +1706,53 @@ try{
         }
 
 
-<span class="nc" id="L1689">    }//GEN-LAST:event_jaddActionPerformed</span>
+<span class="nc" id="L1709">    }//GEN-LAST:event_jaddActionPerformed</span>
 
     private void refreshBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBActionPerformed
         try {
             //button to refresh the data in the movie table
 
-<span class="nc" id="L1695">            stat = con.createStatement();</span>
+<span class="nc" id="L1715">            stat = con.createStatement();</span>
             // query to select table
-<span class="nc" id="L1697">            res = stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
+<span class="nc" id="L1717">            res = stat.executeQuery(&quot;SELECT * FROM movies&quot;);</span>
 
             //model to update movie table values
-<span class="nc" id="L1700">            DefaultTableModel model = new DefaultTableModel();</span>
-<span class="nc" id="L1701">            model.addColumn(&quot;ID&quot;);</span>
-<span class="nc" id="L1702">            model.addColumn(&quot;Name&quot;);</span>
-<span class="nc" id="L1703">            model.addColumn(&quot;Genre&quot;);</span>
-<span class="nc" id="L1704">            model.addColumn(&quot;Rating&quot;);</span>
+<span class="nc" id="L1720">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L1721">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L1722">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L1723">            model.addColumn(&quot;Genre&quot;);</span>
+<span class="nc" id="L1724">            model.addColumn(&quot;Rating&quot;);</span>
             int id;
             String name;
             String genre;
             double rating;
-<span class="nc" id="L1709">            int row = 0;</span>
+<span class="nc" id="L1729">            int row = 0;</span>
             //loop to aquire data from the DB
-<span class="nc bnc" id="L1711" title="All 2 branches missed.">            while (res.next()) {</span>
-<span class="nc" id="L1712">                id = res.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L1713">                name = res.getString(&quot;name&quot;);</span>
-<span class="nc" id="L1714">                genre = res.getString(&quot;genre&quot;);</span>
-<span class="nc" id="L1715">                rating = res.getDouble(&quot;rating&quot;);</span>
-<span class="nc" id="L1716">                movieArray[row][0] = String.valueOf(id);</span>
-<span class="nc" id="L1717">                movieArray[row][1] = String.valueOf(name);</span>
-<span class="nc" id="L1718">                movieArray[row][2] = String.valueOf(genre);</span>
-<span class="nc" id="L1719">                movieArray[row][3] = String.valueOf(rating);</span>
-<span class="nc" id="L1720">                model.addRow(movieArray[row]);</span>
-<span class="nc" id="L1721">                row++;</span>
+<span class="nc bnc" id="L1731" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L1732">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L1733">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L1734">                genre = res.getString(&quot;genre&quot;);</span>
+<span class="nc" id="L1735">                rating = res.getDouble(&quot;rating&quot;);</span>
+<span class="nc" id="L1736">                movieArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L1737">                movieArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L1738">                movieArray[row][2] = String.valueOf(genre);</span>
+<span class="nc" id="L1739">                movieArray[row][3] = String.valueOf(rating);</span>
+<span class="nc" id="L1740">                model.addRow(movieArray[row]);</span>
+<span class="nc" id="L1741">                row++;</span>
             }
             //set model to table
-<span class="nc" id="L1724">            jmovieTable.setModel(model);</span>
+<span class="nc" id="L1744">            jmovieTable.setModel(model);</span>
 
-<span class="nc" id="L1726">        } catch (Exception e) {</span>
-<span class="nc" id="L1727">            e.printStackTrace();</span>
-<span class="nc" id="L1728">        }</span>
-<span class="nc" id="L1729">        jmovieTable.setAutoCreateRowSorter(true);</span>
+<span class="nc" id="L1746">        } catch (Exception e) {</span>
+<span class="nc" id="L1747">            e.printStackTrace();</span>
+<span class="nc" id="L1748">        }</span>
+<span class="nc" id="L1749">        jmovieTable.setAutoCreateRowSorter(true);</span>
 
-<span class="nc" id="L1731">    }//GEN-LAST:event_refreshBActionPerformed</span>
+<span class="nc" id="L1751">    }//GEN-LAST:event_refreshBActionPerformed</span>
 
     private void addDeleteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDeleteBActionPerformed
-<span class="nc" id="L1734">        this.LoadPanel(addMoviesP);</span>
-<span class="nc" id="L1735">    }//GEN-LAST:event_addDeleteBActionPerformed</span>
+<span class="nc" id="L1754">        this.LoadPanel(addMoviesP);</span>
+<span class="nc" id="L1755">    }//GEN-LAST:event_addDeleteBActionPerformed</span>
 
     private void deleteMovieBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMovieBActionPerformed
         //button to delete selected row without entering id works for id set to column 0
@@ -1742,47 +1762,47 @@ try{
         //try catch block for when no row is selected
         try {
 
-<span class="nc" id="L1745">            int id = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));</span>
+<span class="nc" id="L1765">            int id = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));</span>
 
             PreparedStatement mystatement;
             try {
-<span class="nc" id="L1749">                mystatement = con.prepareStatement(&quot;DELETE FROM movies WHERE id = ?&quot;);</span>
-<span class="nc" id="L1750">                mystatement.setInt(1, id);</span>
-<span class="nc" id="L1751">                mystatement.execute();</span>
+<span class="nc" id="L1769">                mystatement = con.prepareStatement(&quot;DELETE FROM movies WHERE id = ?&quot;);</span>
+<span class="nc" id="L1770">                mystatement.setInt(1, id);</span>
+<span class="nc" id="L1771">                mystatement.execute();</span>
 
                 // code for system logs.
-<span class="nc" id="L1754">                int adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
-<span class="nc" id="L1755">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added a deleted a movie with movieId = &quot; + id;</span>
-<span class="nc" id="L1756">                insertUpdateMovieSystemLogs(adminId, id, &quot;Delete&quot;, logMessage);</span>
+<span class="nc" id="L1774">                int adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L1775">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added a deleted a movie with movieId = &quot; + id;</span>
+<span class="nc" id="L1776">                insertUpdateMovieSystemLogs(adminId, id, &quot;Delete&quot;, logMessage);</span>
 
-<span class="nc" id="L1758">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1778">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Success&quot;,
                         &quot;Successfully Deleted&quot;,
                         JOptionPane.INFORMATION_MESSAGE);
 
-<span class="nc" id="L1763">            } catch (SQLException ex) {</span>
-<span class="nc" id="L1764">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1783">            } catch (SQLException ex) {</span>
+<span class="nc" id="L1784">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Enter a numeric rating&quot;,
                         &quot;Rating error&quot;,
                         JOptionPane.ERROR_MESSAGE);
 
-<span class="nc" id="L1769">            }</span>
-<span class="nc" id="L1770">        } catch (IndexOutOfBoundsException e) {</span>
-<span class="nc" id="L1771">            e.printStackTrace();</span>
-<span class="nc" id="L1772">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1789">            }</span>
+<span class="nc" id="L1790">        } catch (IndexOutOfBoundsException e) {</span>
+<span class="nc" id="L1791">            e.printStackTrace();</span>
+<span class="nc" id="L1792">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Please select a row to delete&quot;,
                     &quot;Selection error&quot;,
                     JOptionPane.ERROR_MESSAGE);
-<span class="nc" id="L1776">        }</span>
+<span class="nc" id="L1796">        }</span>
 
-<span class="nc" id="L1778">    }//GEN-LAST:event_deleteMovieBActionPerformed</span>
+<span class="nc" id="L1798">    }//GEN-LAST:event_deleteMovieBActionPerformed</span>
 
     private void jTextSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSearchActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L1782">    }//GEN-LAST:event_jTextSearchActionPerformed</span>
+<span class="nc" id="L1802">    }//GEN-LAST:event_jTextSearchActionPerformed</span>
 
     private void jSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchActionPerformed
-<span class="nc" id="L1785">        String search = jTextSearch.getText();</span>
+<span class="nc" id="L1805">        String search = jTextSearch.getText();</span>
         PreparedStatement myStatement;
         ResultSet res;
 
@@ -1791,119 +1811,119 @@ try{
             // myStatement = con.prepareStatement(&quot;SELECT * FROM movies WHERE name LIKE ?'%'&quot;);
             //  myStatement.setString(1, search);
             // res=  myStatement.executeQuery();
-<span class="nc" id="L1794">            stat = con.createStatement();</span>
-<span class="nc" id="L1795">            res = stat.executeQuery(&quot;SELECT * FROM movies WHERE name LIKE '&quot; + search + &quot;%'&quot;);</span>
+<span class="nc" id="L1814">            stat = con.createStatement();</span>
+<span class="nc" id="L1815">            res = stat.executeQuery(&quot;SELECT * FROM movies WHERE name LIKE '&quot; + search + &quot;%'&quot;);</span>
 
-<span class="nc" id="L1797">            DefaultTableModel model = new DefaultTableModel();</span>
-<span class="nc" id="L1798">            model.addColumn(&quot;ID&quot;);</span>
-<span class="nc" id="L1799">            model.addColumn(&quot;Name&quot;);</span>
-<span class="nc" id="L1800">            model.addColumn(&quot;Genre&quot;);</span>
-<span class="nc" id="L1801">            model.addColumn(&quot;Rating&quot;);</span>
+<span class="nc" id="L1817">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L1818">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L1819">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L1820">            model.addColumn(&quot;Genre&quot;);</span>
+<span class="nc" id="L1821">            model.addColumn(&quot;Rating&quot;);</span>
             int id;
             String name;
             String genre;
             double rating;
-<span class="nc" id="L1806">            int row = 0;</span>
+<span class="nc" id="L1826">            int row = 0;</span>
             //loop to aquire data from the DB
-<span class="nc bnc" id="L1808" title="All 2 branches missed.">            while (res.next()) {</span>
-<span class="nc" id="L1809">                id = res.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L1810">                name = res.getString(&quot;name&quot;);</span>
-<span class="nc" id="L1811">                genre = res.getString(&quot;genre&quot;);</span>
-<span class="nc" id="L1812">                rating = res.getDouble(&quot;rating&quot;);</span>
-<span class="nc" id="L1813">                movieArray[row][0] = String.valueOf(id);</span>
-<span class="nc" id="L1814">                movieArray[row][1] = String.valueOf(name);</span>
-<span class="nc" id="L1815">                movieArray[row][2] = String.valueOf(genre);</span>
-<span class="nc" id="L1816">                movieArray[row][3] = String.valueOf(rating);</span>
-<span class="nc" id="L1817">                model.addRow(movieArray[row]);</span>
-<span class="nc" id="L1818">                row++;</span>
+<span class="nc bnc" id="L1828" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L1829">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L1830">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L1831">                genre = res.getString(&quot;genre&quot;);</span>
+<span class="nc" id="L1832">                rating = res.getDouble(&quot;rating&quot;);</span>
+<span class="nc" id="L1833">                movieArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L1834">                movieArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L1835">                movieArray[row][2] = String.valueOf(genre);</span>
+<span class="nc" id="L1836">                movieArray[row][3] = String.valueOf(rating);</span>
+<span class="nc" id="L1837">                model.addRow(movieArray[row]);</span>
+<span class="nc" id="L1838">                row++;</span>
             }
             //set model to table
-<span class="nc" id="L1821">            jmovieTable.setModel(model);</span>
+<span class="nc" id="L1841">            jmovieTable.setModel(model);</span>
 
-<span class="nc" id="L1823">            jmovieTable.setAutoCreateRowSorter(true);</span>
+<span class="nc" id="L1843">            jmovieTable.setAutoCreateRowSorter(true);</span>
 
-<span class="nc" id="L1825">        } catch (SQLException ex) {</span>
-<span class="nc" id="L1826">        }</span>
-<span class="nc" id="L1827">    }//GEN-LAST:event_jSearchActionPerformed</span>
+<span class="nc" id="L1845">        } catch (SQLException ex) {</span>
+<span class="nc" id="L1846">        }</span>
+<span class="nc" id="L1847">    }//GEN-LAST:event_jSearchActionPerformed</span>
 
     private void revRateViewBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateViewBActionPerformed
         //button to view reviews of selected movie
 
         try {
 
-<span class="nc" id="L1834">            int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));</span>
+<span class="nc" id="L1854">            int movieID = Integer.parseInt((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0));</span>
 
             //join review table and rate table to get review,rate and userid
-<span class="nc" id="L1837">            joinStatement = con.prepareStatement(&quot;SELECT userreview.review, userrating.userrating, userrating.userid&quot;</span>
+<span class="nc" id="L1857">            joinStatement = con.prepareStatement(&quot;SELECT userreview.review, userrating.userrating, userrating.userid&quot;</span>
                     + &quot; FROM userreview INNER JOIN userrating ON userrating.UserID = userreview.UserID&quot;
                     + &quot; WHERE userrating.MovieID = ? AND userreview.MovieID = ?&quot;);
 
-<span class="nc" id="L1841">            joinStatement.setInt(1, movieID);</span>
-<span class="nc" id="L1842">            joinStatement.setInt(2, movieID);</span>
-<span class="nc" id="L1843">            resJoin = joinStatement.executeQuery();</span>
-<span class="nc" id="L1844">            resJoin.next();</span>
-<span class="nc" id="L1845">            review = resJoin.getString(&quot;review&quot;);</span>
-<span class="nc" id="L1846">            rate = resJoin.getInt(&quot;userrating&quot;);</span>
-<span class="nc" id="L1847">            uID = resJoin.getInt(&quot;userid&quot;);</span>
+<span class="nc" id="L1861">            joinStatement.setInt(1, movieID);</span>
+<span class="nc" id="L1862">            joinStatement.setInt(2, movieID);</span>
+<span class="nc" id="L1863">            resJoin = joinStatement.executeQuery();</span>
+<span class="nc" id="L1864">            resJoin.next();</span>
+<span class="nc" id="L1865">            review = resJoin.getString(&quot;review&quot;);</span>
+<span class="nc" id="L1866">            rate = resJoin.getInt(&quot;userrating&quot;);</span>
+<span class="nc" id="L1867">            uID = resJoin.getInt(&quot;userid&quot;);</span>
 
             //get count of reviews
-<span class="nc" id="L1850">            PreparedStatement getCount = con.prepareStatement(&quot;SELECT count(*) FROM userreview&quot;</span>
+<span class="nc" id="L1870">            PreparedStatement getCount = con.prepareStatement(&quot;SELECT count(*) FROM userreview&quot;</span>
                     + &quot; INNER JOIN userrating ON userrating.UserID = userreview.UserID&quot;
                     + &quot; WHERE userrating.MovieID = ? AND userreview.MovieID = ?&quot;);
-<span class="nc" id="L1853">            getCount.setInt(1, movieID);</span>
-<span class="nc" id="L1854">            getCount.setInt(2, movieID);</span>
-<span class="nc" id="L1855">            res = getCount.executeQuery();</span>
-<span class="nc" id="L1856">            res.next();</span>
-<span class="nc" id="L1857">            count = res.getInt(&quot;COUNT(*)&quot;);</span>
+<span class="nc" id="L1873">            getCount.setInt(1, movieID);</span>
+<span class="nc" id="L1874">            getCount.setInt(2, movieID);</span>
+<span class="nc" id="L1875">            res = getCount.executeQuery();</span>
+<span class="nc" id="L1876">            res.next();</span>
+<span class="nc" id="L1877">            count = res.getInt(&quot;COUNT(*)&quot;);</span>
 
             //set review,rate,count and currentRevPage
-<span class="nc" id="L1860">            jTextAreaViewReview.setText(review);</span>
-<span class="nc" id="L1861">            jtextUserRate.setText(Integer.toString(rate));</span>
-<span class="nc" id="L1862">            jLabelReviewCount.setText(Integer.toString(count));</span>
-<span class="nc" id="L1863">            currentRevPage = 1;</span>
-<span class="nc" id="L1864">            jLabelCurrentReview.setText(Integer.toString(currentRevPage));</span>
+<span class="nc" id="L1880">            jTextAreaViewReview.setText(review);</span>
+<span class="nc" id="L1881">            jtextUserRate.setText(Integer.toString(rate));</span>
+<span class="nc" id="L1882">            jLabelReviewCount.setText(Integer.toString(count));</span>
+<span class="nc" id="L1883">            currentRevPage = 1;</span>
+<span class="nc" id="L1884">            jLabelCurrentReview.setText(Integer.toString(currentRevPage));</span>
 
             //get username from user table
-<span class="nc" id="L1867">            fetchNameStatement = con.prepareStatement(&quot;SELECT name FROM users WHERE id = ?&quot;);</span>
-<span class="nc" id="L1868">            fetchNameStatement.setInt(1, uID);</span>
-<span class="nc" id="L1869">            resName = fetchNameStatement.executeQuery();</span>
+<span class="nc" id="L1887">            fetchNameStatement = con.prepareStatement(&quot;SELECT name FROM users WHERE id = ?&quot;);</span>
+<span class="nc" id="L1888">            fetchNameStatement.setInt(1, uID);</span>
+<span class="nc" id="L1889">            resName = fetchNameStatement.executeQuery();</span>
 
             //set name of user
-<span class="nc" id="L1872">            resName.next();</span>
-<span class="nc" id="L1873">            name = resName.getString(&quot;name&quot;);</span>
-<span class="nc" id="L1874">            jtextUserName.setText(name);</span>
-<span class="nc" id="L1875">            this.LoadPanel(reviewRatingViewP);</span>
-<span class="nc" id="L1876">        } catch (SQLException e) {</span>
-<span class="nc" id="L1877">            e.printStackTrace();</span>
+<span class="nc" id="L1892">            resName.next();</span>
+<span class="nc" id="L1893">            name = resName.getString(&quot;name&quot;);</span>
+<span class="nc" id="L1894">            jtextUserName.setText(name);</span>
+<span class="nc" id="L1895">            this.LoadPanel(reviewRatingViewP);</span>
+<span class="nc" id="L1896">        } catch (SQLException e) {</span>
+<span class="nc" id="L1897">            e.printStackTrace();</span>
 
-<span class="nc" id="L1879">            jTextAreaViewReview.setText(&quot;No one has reviewd this movie yet, be the first to.&quot;);</span>
-<span class="nc" id="L1880">            jtextUserRate.setText(&quot;X&quot;);</span>
-<span class="nc" id="L1881">            jtextUserName.setText(&quot;XXXX&quot;);</span>
-<span class="nc" id="L1882">            jLabelReviewCount.setText(&quot;MAX&quot;);</span>
-<span class="nc" id="L1883">            jLabelCurrentReview.setText(&quot;1&quot;);</span>
-<span class="nc" id="L1884">            this.LoadPanel(reviewRatingViewP);</span>
-<span class="nc" id="L1885">        } catch (Exception ex) {</span>
-<span class="nc" id="L1886">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1899">            jTextAreaViewReview.setText(&quot;No one has reviewd this movie yet, be the first to.&quot;);</span>
+<span class="nc" id="L1900">            jtextUserRate.setText(&quot;X&quot;);</span>
+<span class="nc" id="L1901">            jtextUserName.setText(&quot;XXXX&quot;);</span>
+<span class="nc" id="L1902">            jLabelReviewCount.setText(&quot;MAX&quot;);</span>
+<span class="nc" id="L1903">            jLabelCurrentReview.setText(&quot;1&quot;);</span>
+<span class="nc" id="L1904">            this.LoadPanel(reviewRatingViewP);</span>
+<span class="nc" id="L1905">        } catch (Exception ex) {</span>
+<span class="nc" id="L1906">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Please select a movie to view its reviews&quot;,
                     &quot;Selection error&quot;,
                     JOptionPane.ERROR_MESSAGE);
-<span class="nc" id="L1890">        }</span>
+<span class="nc" id="L1910">        }</span>
 
 
-<span class="nc" id="L1893">    }//GEN-LAST:event_revRateViewBActionPerformed</span>
+<span class="nc" id="L1913">    }//GEN-LAST:event_revRateViewBActionPerformed</span>
 
     private void revRateSubmitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revRateSubmitBActionPerformed
         try {
-<span class="nc" id="L1897">            movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));</span>
-<span class="nc" id="L1898">            this.LoadPanel(reviewRatingSubmitP);</span>
-<span class="nc" id="L1899">        } catch (Exception e) {</span>
-<span class="nc" id="L1900">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1917">            movieIdL.setText(((String) jmovieTable.getValueAt(jmovieTable.getSelectedRow(), 0)));</span>
+<span class="nc" id="L1918">            this.LoadPanel(reviewRatingSubmitP);</span>
+<span class="nc" id="L1919">        } catch (Exception e) {</span>
+<span class="nc" id="L1920">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Please select a movie to review&quot;,
                     &quot;Selection error&quot;,
                     JOptionPane.ERROR_MESSAGE);
-<span class="nc" id="L1904">        }</span>
+<span class="nc" id="L1924">        }</span>
 
-<span class="nc" id="L1906">    }//GEN-LAST:event_revRateSubmitBActionPerformed</span>
+<span class="nc" id="L1926">    }//GEN-LAST:event_revRateSubmitBActionPerformed</span>
 
     private void jButtonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitActionPerformed
 
@@ -1911,23 +1931,23 @@ try{
         String review, username, logMessage;
         int movieID, userID, rate;
 
-<span class="nc" id="L1914">        movieID = Integer.parseInt(movieIdL.getText());</span>
-<span class="nc" id="L1915">        userID = Integer.parseInt(userIdL.getText().substring(9));</span>
-<span class="nc" id="L1916">        username = userNameL.getText().substring(10);</span>
-<span class="nc" id="L1917">        rate = jComboBoxRate.getSelectedIndex();</span>
-<span class="nc" id="L1918">        review = jTextAreaSubmitReview.getText();</span>
-<span class="nc bnc" id="L1919" title="All 2 branches missed.">        if (checkRating2(rate) == 0) {</span>
-<span class="nc" id="L1920">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L1934">        movieID = Integer.parseInt(movieIdL.getText());</span>
+<span class="nc" id="L1935">        userID = Integer.parseInt(userIdL.getText().substring(9));</span>
+<span class="nc" id="L1936">        username = userNameL.getText().substring(10);</span>
+<span class="nc" id="L1937">        rate = jComboBoxRate.getSelectedIndex();</span>
+<span class="nc" id="L1938">        review = jTextAreaSubmitReview.getText();</span>
+<span class="nc bnc" id="L1939" title="All 2 branches missed.">        if (checkRating2(rate) == 0) {</span>
+<span class="nc" id="L1940">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Please select a rating&quot;,
                     &quot;Please select a value&quot;,
                     JOptionPane.INFORMATION_MESSAGE);
-<span class="nc bnc" id="L1924" title="All 2 branches missed.">        } else if (checkReview(review) == 0) {</span>
-<span class="nc" id="L1925">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc bnc" id="L1944" title="All 2 branches missed.">        } else if (checkReview(review) == 0) {</span>
+<span class="nc" id="L1945">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Please write a review&quot;,
                     &quot;Empty review isn't accepeted&quot;,
                     JOptionPane.INFORMATION_MESSAGE);
-<span class="nc bnc" id="L1929" title="All 2 branches missed.">        } else if (checkReviewLength(review) == 0) {</span>
-<span class="nc" id="L1930">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc bnc" id="L1949" title="All 2 branches missed.">        } else if (checkReviewLength(review) == 0) {</span>
+<span class="nc" id="L1950">            JOptionPane.showMessageDialog(null,</span>
                     &quot;You exceeded the 1000 character limit in the review&quot;,
                     &quot;Limit exceeded&quot;,
                     JOptionPane.INFORMATION_MESSAGE);
@@ -1936,181 +1956,181 @@ try{
             try {
                 //check if review already exists by counting if a row exists
 
-<span class="nc" id="L1939">                mystatement = con.prepareStatement(&quot;SELECT COUNT(*) FROM userreview  WHERE movieid = ? AND userid = ?&quot;);</span>
-<span class="nc" id="L1940">                mystatement.setInt(1, movieID);</span>
-<span class="nc" id="L1941">                mystatement.setInt(2, userID);</span>
-<span class="nc" id="L1942">                res = mystatement.executeQuery();</span>
-<span class="nc" id="L1943">                res.next();</span>
-<span class="nc" id="L1944">                int count = res.getInt(&quot;COUNT(*)&quot;);</span>
-<span class="nc" id="L1945">                System.out.println(count);</span>
-<span class="nc bnc" id="L1946" title="All 2 branches missed.">                if (count != 0) {</span>
+<span class="nc" id="L1959">                mystatement = con.prepareStatement(&quot;SELECT COUNT(*) FROM userreview  WHERE movieid = ? AND userid = ?&quot;);</span>
+<span class="nc" id="L1960">                mystatement.setInt(1, movieID);</span>
+<span class="nc" id="L1961">                mystatement.setInt(2, userID);</span>
+<span class="nc" id="L1962">                res = mystatement.executeQuery();</span>
+<span class="nc" id="L1963">                res.next();</span>
+<span class="nc" id="L1964">                int count = res.getInt(&quot;COUNT(*)&quot;);</span>
+<span class="nc" id="L1965">                System.out.println(count);</span>
+<span class="nc bnc" id="L1966" title="All 2 branches missed.">                if (count != 0) {</span>
 
-<span class="nc" id="L1948">                    mystatement = con.prepareStatement(&quot;UPDATE userrating SET userrating = ? WHERE movieid = ? AND userid = ?&quot;);</span>
-<span class="nc" id="L1949">                    mystatement.setInt(1, rate);</span>
-<span class="nc" id="L1950">                    mystatement.setInt(2, movieID);</span>
-<span class="nc" id="L1951">                    mystatement.setInt(3, userID);</span>
-<span class="nc" id="L1952">                    mystatement.execute();</span>
-<span class="nc" id="L1953">                    System.out.println(&quot;Success 1&quot;);</span>
+<span class="nc" id="L1968">                    mystatement = con.prepareStatement(&quot;UPDATE userrating SET userrating = ? WHERE movieid = ? AND userid = ?&quot;);</span>
+<span class="nc" id="L1969">                    mystatement.setInt(1, rate);</span>
+<span class="nc" id="L1970">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1971">                    mystatement.setInt(3, userID);</span>
+<span class="nc" id="L1972">                    mystatement.execute();</span>
+<span class="nc" id="L1973">                    System.out.println(&quot;Success 1&quot;);</span>
 
-<span class="nc" id="L1955">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has updated rating for a movie with movieId = &quot; + movieID;</span>
-<span class="nc" id="L1956">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
-<span class="nc" id="L1957">                    mystatement.setInt(1, userID);</span>
-<span class="nc" id="L1958">                    mystatement.setInt(2, movieID);</span>
-<span class="nc" id="L1959">                    mystatement.setString(3, getDateTime());</span>
-<span class="nc" id="L1960">                    mystatement.setString(4, &quot;Update&quot;);</span>
-<span class="nc" id="L1961">                    mystatement.setString(5, logMessage);</span>
-<span class="nc" id="L1962">                    mystatement.execute();</span>
+<span class="nc" id="L1975">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has updated rating for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L1976">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L1977">                    mystatement.setInt(1, userID);</span>
+<span class="nc" id="L1978">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1979">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L1980">                    mystatement.setString(4, &quot;Update&quot;);</span>
+<span class="nc" id="L1981">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L1982">                    mystatement.execute();</span>
 
-<span class="nc" id="L1964">                    mystatement = con.prepareStatement(&quot;UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?&quot;);</span>
-<span class="nc" id="L1965">                    mystatement.setString(1, review);</span>
-<span class="nc" id="L1966">                    mystatement.setInt(2, movieID);</span>
-<span class="nc" id="L1967">                    mystatement.setInt(3, userID);</span>
-<span class="nc" id="L1968">                    mystatement.execute();</span>
+<span class="nc" id="L1984">                    mystatement = con.prepareStatement(&quot;UPDATE userreview SET review = ? WHERE movieid = ? AND userid = ?&quot;);</span>
+<span class="nc" id="L1985">                    mystatement.setString(1, review);</span>
+<span class="nc" id="L1986">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1987">                    mystatement.setInt(3, userID);</span>
+<span class="nc" id="L1988">                    mystatement.execute();</span>
 
-<span class="nc" id="L1970">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has updated review for a movie with movieId = &quot; + movieID;</span>
-<span class="nc" id="L1971">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
-<span class="nc" id="L1972">                    mystatement.setInt(1, userID);</span>
+<span class="nc" id="L1990">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has updated review for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L1991">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L1992">                    mystatement.setInt(1, userID);</span>
                     //mystatement.setInt(2, java.sql.Types.INTEGER);
-<span class="nc" id="L1974">                    mystatement.setInt(2, movieID);</span>
-<span class="nc" id="L1975">                    mystatement.setString(3, getDateTime());</span>
-<span class="nc" id="L1976">                    mystatement.setString(4, &quot;Update&quot;);</span>
-<span class="nc" id="L1977">                    mystatement.setString(5, logMessage);</span>
-<span class="nc" id="L1978">                    mystatement.execute();</span>
-<span class="nc" id="L1979">                    System.out.println(&quot;Success 4&quot;);</span>
+<span class="nc" id="L1994">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L1995">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L1996">                    mystatement.setString(4, &quot;Update&quot;);</span>
+<span class="nc" id="L1997">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L1998">                    mystatement.execute();</span>
+<span class="nc" id="L1999">                    System.out.println(&quot;Success 4&quot;);</span>
 
-<span class="nc" id="L1981">                    JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2001">                    JOptionPane.showMessageDialog(null,</span>
                             &quot;Success!&quot;,
                             &quot;Review and rate have been updated.&quot;,
                             JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
                     //insert rate into userrate table
-<span class="nc" id="L1988">                    mystatement = con.prepareStatement(&quot;INSERT INTO userrating (id,movieid,userid,userrating) VALUES(DEFAULT,?,?,?)&quot;);</span>
-<span class="nc" id="L1989">                    mystatement.setInt(1, movieID);</span>
-<span class="nc" id="L1990">                    mystatement.setInt(2, userID);</span>
-<span class="nc" id="L1991">                    mystatement.setInt(3, rate);</span>
-<span class="nc" id="L1992">                    mystatement.execute();</span>
+<span class="nc" id="L2008">                    mystatement = con.prepareStatement(&quot;INSERT INTO userrating (id,movieid,userid,userrating) VALUES(DEFAULT,?,?,?)&quot;);</span>
+<span class="nc" id="L2009">                    mystatement.setInt(1, movieID);</span>
+<span class="nc" id="L2010">                    mystatement.setInt(2, userID);</span>
+<span class="nc" id="L2011">                    mystatement.setInt(3, rate);</span>
+<span class="nc" id="L2012">                    mystatement.execute();</span>
 
-<span class="nc" id="L1994">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has added rating for a movie with movieId = &quot; + movieID;</span>
-<span class="nc" id="L1995">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
-<span class="nc" id="L1996">                    mystatement.setInt(1, userID);</span>
+<span class="nc" id="L2014">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has added rating for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L2015">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L2016">                    mystatement.setInt(1, userID);</span>
                     //mystatement.setInt(2, java.sql.Types.INTEGER);
-<span class="nc" id="L1998">                    mystatement.setInt(2, movieID);</span>
-<span class="nc" id="L1999">                    mystatement.setString(3, getDateTime());</span>
-<span class="nc" id="L2000">                    mystatement.setString(4, &quot;Add&quot;);</span>
-<span class="nc" id="L2001">                    mystatement.setString(5, logMessage);</span>
-<span class="nc" id="L2002">                    mystatement.execute();</span>
+<span class="nc" id="L2018">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L2019">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L2020">                    mystatement.setString(4, &quot;Add&quot;);</span>
+<span class="nc" id="L2021">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L2022">                    mystatement.execute();</span>
 
                     //insert review into userreview table
-<span class="nc" id="L2005">                    mystatement = con.prepareStatement(&quot;INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)&quot;);</span>
-<span class="nc" id="L2006">                    mystatement.setInt(1, movieID);</span>
-<span class="nc" id="L2007">                    mystatement.setInt(2, userID);</span>
-<span class="nc" id="L2008">                    mystatement.setString(3, review);</span>
-<span class="nc" id="L2009">                    mystatement.execute();</span>
+<span class="nc" id="L2025">                    mystatement = con.prepareStatement(&quot;INSERT INTO userreview (id,movieid,userid,review) VALUES(DEFAULT,?,?,?)&quot;);</span>
+<span class="nc" id="L2026">                    mystatement.setInt(1, movieID);</span>
+<span class="nc" id="L2027">                    mystatement.setInt(2, userID);</span>
+<span class="nc" id="L2028">                    mystatement.setString(3, review);</span>
+<span class="nc" id="L2029">                    mystatement.execute();</span>
 
-<span class="nc" id="L2011">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has added review for a movie with movieId = &quot; + movieID;</span>
-<span class="nc" id="L2012">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
-<span class="nc" id="L2013">                    mystatement.setInt(1, userID);</span>
+<span class="nc" id="L2031">                    logMessage = &quot;User: &quot; + username + &quot; with User ID = &quot; + userID + &quot; has added review for a movie with movieId = &quot; + movieID;</span>
+<span class="nc" id="L2032">                    mystatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?, DEFAULT, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L2033">                    mystatement.setInt(1, userID);</span>
                     //mystatement.setInt(2, java.sql.Types.INTEGER);
-<span class="nc" id="L2015">                    mystatement.setInt(2, movieID);</span>
-<span class="nc" id="L2016">                    mystatement.setString(3, getDateTime());</span>
-<span class="nc" id="L2017">                    mystatement.setString(4, &quot;Add&quot;);</span>
-<span class="nc" id="L2018">                    mystatement.setString(5, logMessage);</span>
-<span class="nc" id="L2019">                    mystatement.execute();</span>
+<span class="nc" id="L2035">                    mystatement.setInt(2, movieID);</span>
+<span class="nc" id="L2036">                    mystatement.setString(3, getDateTime());</span>
+<span class="nc" id="L2037">                    mystatement.setString(4, &quot;Add&quot;);</span>
+<span class="nc" id="L2038">                    mystatement.setString(5, logMessage);</span>
+<span class="nc" id="L2039">                    mystatement.execute();</span>
 
-<span class="nc" id="L2021">                    JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2041">                    JOptionPane.showMessageDialog(null,</span>
                             &quot;Success!&quot;,
                             &quot;Success&quot;,
                             JOptionPane.INFORMATION_MESSAGE);
                 }
 
-<span class="nc" id="L2027">            } catch (SQLException ex) {</span>
-<span class="nc" id="L2028">                ex.printStackTrace();</span>
+<span class="nc" id="L2047">            } catch (SQLException ex) {</span>
+<span class="nc" id="L2048">                ex.printStackTrace();</span>
 
-<span class="nc" id="L2030">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2050">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Unable to submit&quot;,
                         &quot;Error&quot;,
                         JOptionPane.ERROR_MESSAGE);
 
-<span class="nc" id="L2035">            }</span>
+<span class="nc" id="L2055">            }</span>
 
         }
 
 
-<span class="nc" id="L2040">    }//GEN-LAST:event_jButtonSubmitActionPerformed</span>
+<span class="nc" id="L2060">    }//GEN-LAST:event_jButtonSubmitActionPerformed</span>
 
     private void jComboBoxRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRateActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L2044">    }//GEN-LAST:event_jComboBoxRateActionPerformed</span>
+<span class="nc" id="L2064">    }//GEN-LAST:event_jComboBoxRateActionPerformed</span>
 
     private void jButtonNextReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextReviewActionPerformed
         //button to get next user rate/review from global result variable resJoin and resName
         try {
-<span class="nc" id="L2049">            resJoin.next();</span>
-<span class="nc" id="L2050">            review = resJoin.getString(&quot;review&quot;);</span>
-<span class="nc" id="L2051">            rate = resJoin.getInt(&quot;userrating&quot;);</span>
-<span class="nc" id="L2052">            uID = resJoin.getInt(&quot;userid&quot;);</span>
+<span class="nc" id="L2069">            resJoin.next();</span>
+<span class="nc" id="L2070">            review = resJoin.getString(&quot;review&quot;);</span>
+<span class="nc" id="L2071">            rate = resJoin.getInt(&quot;userrating&quot;);</span>
+<span class="nc" id="L2072">            uID = resJoin.getInt(&quot;userid&quot;);</span>
 
             //set review,rate,count and currentRevPage
-<span class="nc" id="L2055">            jTextAreaViewReview.setText(review);</span>
-<span class="nc" id="L2056">            jtextUserRate.setText(Integer.toString(rate));</span>
-<span class="nc bnc" id="L2057" title="All 2 branches missed.">            if ((currentRevPage + 1) &lt;= count) {</span>
-<span class="nc" id="L2058">                jLabelCurrentReview.setText(Integer.toString(++currentRevPage));</span>
+<span class="nc" id="L2075">            jTextAreaViewReview.setText(review);</span>
+<span class="nc" id="L2076">            jtextUserRate.setText(Integer.toString(rate));</span>
+<span class="nc bnc" id="L2077" title="All 2 branches missed.">            if ((currentRevPage + 1) &lt;= count) {</span>
+<span class="nc" id="L2078">                jLabelCurrentReview.setText(Integer.toString(++currentRevPage));</span>
             }
 
             //this query has to be re written beacuse it depends on the value taken from the previous query
-<span class="nc" id="L2062">            fetchNameStatement = con.prepareStatement(&quot;SELECT name FROM users WHERE id = ?&quot;);</span>
-<span class="nc" id="L2063">            fetchNameStatement.setInt(1, uID);</span>
-<span class="nc" id="L2064">            resName = fetchNameStatement.executeQuery();</span>
+<span class="nc" id="L2082">            fetchNameStatement = con.prepareStatement(&quot;SELECT name FROM users WHERE id = ?&quot;);</span>
+<span class="nc" id="L2083">            fetchNameStatement.setInt(1, uID);</span>
+<span class="nc" id="L2084">            resName = fetchNameStatement.executeQuery();</span>
 
             //set name of user
-<span class="nc" id="L2067">            resName.next();</span>
-<span class="nc" id="L2068">            name = resName.getString(&quot;name&quot;);</span>
-<span class="nc" id="L2069">            jtextUserName.setText(name);</span>
+<span class="nc" id="L2087">            resName.next();</span>
+<span class="nc" id="L2088">            name = resName.getString(&quot;name&quot;);</span>
+<span class="nc" id="L2089">            jtextUserName.setText(name);</span>
 
-<span class="nc" id="L2071">        } catch (SQLException e) {</span>
+<span class="nc" id="L2091">        } catch (SQLException e) {</span>
 
-<span class="nc" id="L2073">        }</span>
-<span class="nc" id="L2074">    }//GEN-LAST:event_jButtonNextReviewActionPerformed</span>
+<span class="nc" id="L2093">        }</span>
+<span class="nc" id="L2094">    }//GEN-LAST:event_jButtonNextReviewActionPerformed</span>
 
     private void jTextAreaSubmitReviewFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextAreaSubmitReviewFocusGained
-<span class="nc" id="L2077">        jTextAreaSubmitReview.setText(&quot;&quot;);</span>
-<span class="nc" id="L2078">    }//GEN-LAST:event_jTextAreaSubmitReviewFocusGained</span>
+<span class="nc" id="L2097">        jTextAreaSubmitReview.setText(&quot;&quot;);</span>
+<span class="nc" id="L2098">    }//GEN-LAST:event_jTextAreaSubmitReviewFocusGained</span>
 
     private void jtextnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextnameActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L2082">    }//GEN-LAST:event_jtextnameActionPerformed</span>
+<span class="nc" id="L2102">    }//GEN-LAST:event_jtextnameActionPerformed</span>
 
     private void jtextnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextnameFocusGained
-<span class="nc" id="L2085">        jtextname.setText(&quot;&quot;);</span>
-<span class="nc" id="L2086">    }//GEN-LAST:event_jtextnameFocusGained</span>
+<span class="nc" id="L2105">        jtextname.setText(&quot;&quot;);</span>
+<span class="nc" id="L2106">    }//GEN-LAST:event_jtextnameFocusGained</span>
 
     private void jtextgenreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextgenreFocusGained
-<span class="nc" id="L2089">        jtextgenre.setText(&quot;&quot;);</span>
-<span class="nc" id="L2090">    }//GEN-LAST:event_jtextgenreFocusGained</span>
+<span class="nc" id="L2109">        jtextgenre.setText(&quot;&quot;);</span>
+<span class="nc" id="L2110">    }//GEN-LAST:event_jtextgenreFocusGained</span>
 
     private void jtextratingFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextratingFocusGained
-<span class="nc" id="L2093">        jtextrating.setText(&quot;&quot;);</span>
-<span class="nc" id="L2094">    }//GEN-LAST:event_jtextratingFocusGained</span>
+<span class="nc" id="L2113">        jtextrating.setText(&quot;&quot;);</span>
+<span class="nc" id="L2114">    }//GEN-LAST:event_jtextratingFocusGained</span>
 
     private void moviesTableBa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moviesTableBa1ActionPerformed
         try {
             //button to refresh the data in the movie table
 
-<span class="nc" id="L2100">            stat = con.createStatement();</span>
+<span class="nc" id="L2120">            stat = con.createStatement();</span>
             // query to select table
-<span class="nc" id="L2102">            res = stat.executeQuery(&quot;SELECT * FROM system_logs&quot;);</span>
+<span class="nc" id="L2122">            res = stat.executeQuery(&quot;SELECT * FROM system_logs&quot;);</span>
 
             //model to update movie table values
-<span class="nc" id="L2105">            DefaultTableModel model = new DefaultTableModel();</span>
-<span class="nc" id="L2106">            model.addColumn(&quot;ID&quot;);</span>
-<span class="nc" id="L2107">            model.addColumn(&quot;UserID&quot;);</span>
-<span class="nc" id="L2108">            model.addColumn(&quot;AdminID&quot;);</span>
-<span class="nc" id="L2109">            model.addColumn(&quot;MovieID&quot;);</span>
-<span class="nc" id="L2110">            model.addColumn(&quot;ActorID&quot;);</span>
-<span class="nc" id="L2111">            model.addColumn(&quot;TimeStamp&quot;);</span>
-<span class="nc" id="L2112">            model.addColumn(&quot;Opeartion&quot;);</span>
-<span class="nc" id="L2113">            model.addColumn(&quot;LogMessage&quot;);</span>
+<span class="nc" id="L2125">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L2126">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L2127">            model.addColumn(&quot;UserID&quot;);</span>
+<span class="nc" id="L2128">            model.addColumn(&quot;AdminID&quot;);</span>
+<span class="nc" id="L2129">            model.addColumn(&quot;MovieID&quot;);</span>
+<span class="nc" id="L2130">            model.addColumn(&quot;ActorID&quot;);</span>
+<span class="nc" id="L2131">            model.addColumn(&quot;TimeStamp&quot;);</span>
+<span class="nc" id="L2132">            model.addColumn(&quot;Opeartion&quot;);</span>
+<span class="nc" id="L2133">            model.addColumn(&quot;LogMessage&quot;);</span>
 
             int id;
             int userID;
@@ -2121,123 +2141,123 @@ try{
             String operation;
             String logMessage;
 
-<span class="nc" id="L2124">            int row = 0;</span>
+<span class="nc" id="L2144">            int row = 0;</span>
             //loop to aquire data from the DB
-<span class="nc bnc" id="L2126" title="All 2 branches missed.">            while (res.next()) {</span>
-<span class="nc" id="L2127">                id = res.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L2128">                userID = res.getInt(&quot;UserID&quot;);</span>
-<span class="nc" id="L2129">                adminID = res.getInt(&quot;AdminID&quot;);</span>
-<span class="nc" id="L2130">                movieID = res.getInt(&quot;MovieID&quot;);</span>
-<span class="nc" id="L2131">                actorID = res.getInt(&quot;actorID&quot;);</span>
-<span class="nc" id="L2132">                timeStamp = res.getString(&quot;TimeStamp&quot;);</span>
-<span class="nc" id="L2133">                operation = res.getString(&quot;Operation&quot;);</span>
-<span class="nc" id="L2134">                logMessage = res.getString(&quot;LogMessage&quot;);</span>
+<span class="nc bnc" id="L2146" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L2147">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L2148">                userID = res.getInt(&quot;UserID&quot;);</span>
+<span class="nc" id="L2149">                adminID = res.getInt(&quot;AdminID&quot;);</span>
+<span class="nc" id="L2150">                movieID = res.getInt(&quot;MovieID&quot;);</span>
+<span class="nc" id="L2151">                actorID = res.getInt(&quot;actorID&quot;);</span>
+<span class="nc" id="L2152">                timeStamp = res.getString(&quot;TimeStamp&quot;);</span>
+<span class="nc" id="L2153">                operation = res.getString(&quot;Operation&quot;);</span>
+<span class="nc" id="L2154">                logMessage = res.getString(&quot;LogMessage&quot;);</span>
 
-<span class="nc" id="L2136">                logsArray[row][0] = String.valueOf(id);</span>
-<span class="nc" id="L2137">                logsArray[row][1] = String.valueOf(userID);</span>
-<span class="nc" id="L2138">                logsArray[row][2] = String.valueOf(adminID);</span>
-<span class="nc" id="L2139">                logsArray[row][3] = String.valueOf(movieID);</span>
-<span class="nc" id="L2140">                logsArray[row][4] = String.valueOf(actorID);</span>
-<span class="nc" id="L2141">                logsArray[row][5] = String.valueOf(timeStamp);</span>
-<span class="nc" id="L2142">                logsArray[row][6] = String.valueOf(operation);</span>
-<span class="nc" id="L2143">                logsArray[row][7] = String.valueOf(logMessage);</span>
+<span class="nc" id="L2156">                logsArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L2157">                logsArray[row][1] = String.valueOf(userID);</span>
+<span class="nc" id="L2158">                logsArray[row][2] = String.valueOf(adminID);</span>
+<span class="nc" id="L2159">                logsArray[row][3] = String.valueOf(movieID);</span>
+<span class="nc" id="L2160">                logsArray[row][4] = String.valueOf(actorID);</span>
+<span class="nc" id="L2161">                logsArray[row][5] = String.valueOf(timeStamp);</span>
+<span class="nc" id="L2162">                logsArray[row][6] = String.valueOf(operation);</span>
+<span class="nc" id="L2163">                logsArray[row][7] = String.valueOf(logMessage);</span>
 
-<span class="nc" id="L2145">                model.addRow(logsArray[row]);</span>
-<span class="nc" id="L2146">                row++;</span>
+<span class="nc" id="L2165">                model.addRow(logsArray[row]);</span>
+<span class="nc" id="L2166">                row++;</span>
             }
             //set model to table
 
-<span class="nc" id="L2150">            jlogTable.setModel(model);</span>
+<span class="nc" id="L2170">            jlogTable.setModel(model);</span>
             //set prefered width size
-<span class="nc" id="L2152">            jlogTable.getColumnModel().getColumn(0).setPreferredWidth(100);</span>
-<span class="nc" id="L2153">            jlogTable.getColumnModel().getColumn(1).setPreferredWidth(100);</span>
-<span class="nc" id="L2154">            jlogTable.getColumnModel().getColumn(2).setPreferredWidth(100);</span>
-<span class="nc" id="L2155">            jlogTable.getColumnModel().getColumn(3).setPreferredWidth(100);</span>
-<span class="nc" id="L2156">            jlogTable.getColumnModel().getColumn(4).setPreferredWidth(100);</span>
-<span class="nc" id="L2157">            jlogTable.getColumnModel().getColumn(5).setPreferredWidth(150);</span>
-<span class="nc" id="L2158">            jlogTable.getColumnModel().getColumn(6).setPreferredWidth(100);</span>
-<span class="nc" id="L2159">            jlogTable.getColumnModel().getColumn(7).setPreferredWidth(750);</span>
+<span class="nc" id="L2172">            jlogTable.getColumnModel().getColumn(0).setPreferredWidth(100);</span>
+<span class="nc" id="L2173">            jlogTable.getColumnModel().getColumn(1).setPreferredWidth(100);</span>
+<span class="nc" id="L2174">            jlogTable.getColumnModel().getColumn(2).setPreferredWidth(100);</span>
+<span class="nc" id="L2175">            jlogTable.getColumnModel().getColumn(3).setPreferredWidth(100);</span>
+<span class="nc" id="L2176">            jlogTable.getColumnModel().getColumn(4).setPreferredWidth(100);</span>
+<span class="nc" id="L2177">            jlogTable.getColumnModel().getColumn(5).setPreferredWidth(150);</span>
+<span class="nc" id="L2178">            jlogTable.getColumnModel().getColumn(6).setPreferredWidth(100);</span>
+<span class="nc" id="L2179">            jlogTable.getColumnModel().getColumn(7).setPreferredWidth(750);</span>
 
-<span class="nc" id="L2161">        } catch (Exception e) {</span>
-<span class="nc" id="L2162">            e.printStackTrace();</span>
-<span class="nc" id="L2163">        }</span>
-<span class="nc" id="L2164">        jlogTable.setAutoCreateRowSorter(true);</span>
+<span class="nc" id="L2181">        } catch (Exception e) {</span>
+<span class="nc" id="L2182">            e.printStackTrace();</span>
+<span class="nc" id="L2183">        }</span>
+<span class="nc" id="L2184">        jlogTable.setAutoCreateRowSorter(true);</span>
 
-<span class="nc" id="L2166">        this.LoadPanel(backGroundP3a);</span>
-<span class="nc" id="L2167">    }//GEN-LAST:event_moviesTableBa1ActionPerformed</span>
+<span class="nc" id="L2186">        this.LoadPanel(backGroundP3a);</span>
+<span class="nc" id="L2187">    }//GEN-LAST:event_moviesTableBa1ActionPerformed</span>
 
     private void ReportListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportListButtonActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L2171">        Statistics.showList();</span>
-<span class="nc" id="L2172">    }//GEN-LAST:event_ReportListButtonActionPerformed</span>
+<span class="nc" id="L2191">        Statistics.showList();</span>
+<span class="nc" id="L2192">    }//GEN-LAST:event_ReportListButtonActionPerformed</span>
 
     private void CreateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateReportActionPerformed
-<span class="nc" id="L2175">        this.LoadPanel(ReportTypeP);</span>
-<span class="nc" id="L2176">    }//GEN-LAST:event_CreateReportActionPerformed</span>
+<span class="nc" id="L2195">        this.LoadPanel(ReportTypeP);</span>
+<span class="nc" id="L2196">    }//GEN-LAST:event_CreateReportActionPerformed</span>
 
     private void OrederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrederActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L2180">        Statistics R = new Statistics();</span>
-<span class="nc" id="L2181">        int ID = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L2200">        Statistics R = new Statistics();</span>
+<span class="nc" id="L2201">        int ID = Integer.parseInt(adminIdL.getText().substring(10));</span>
         //int ID = 1;
-<span class="nc" id="L2183">        int Type = ReportType.getSelectedIndex();</span>
+<span class="nc" id="L2203">        int Type = ReportType.getSelectedIndex();</span>
 
-<span class="nc" id="L2185">        R.orderReport(ID, Type);</span>
+<span class="nc" id="L2205">        R.orderReport(ID, Type);</span>
 
-<span class="nc" id="L2187">    }//GEN-LAST:event_OrederActionPerformed</span>
+<span class="nc" id="L2207">    }//GEN-LAST:event_OrederActionPerformed</span>
 
     private void actorsTablebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actorsTablebuttonActionPerformed
-<span class="nc" id="L2190">        this.LoadPanel(actors);</span>
-<span class="nc" id="L2191">    }//GEN-LAST:event_actorsTablebuttonActionPerformed</span>
+<span class="nc" id="L2210">        this.LoadPanel(actors);</span>
+<span class="nc" id="L2211">    }//GEN-LAST:event_actorsTablebuttonActionPerformed</span>
 
     private void actorsTablebutton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actorsTablebutton1ActionPerformed
-<span class="nc" id="L2194">        this.LoadPanel(actors);</span>
-<span class="nc" id="L2195">    }//GEN-LAST:event_actorsTablebutton1ActionPerformed</span>
+<span class="nc" id="L2214">        this.LoadPanel(actors);</span>
+<span class="nc" id="L2215">    }//GEN-LAST:event_actorsTablebutton1ActionPerformed</span>
 
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
         try {
             //button to refresh the data in the movie table
 
-<span class="nc" id="L2201">            stat = con.createStatement();</span>
+<span class="nc" id="L2221">            stat = con.createStatement();</span>
             // query to select table
-<span class="nc" id="L2203">            res = stat.executeQuery(&quot;SELECT * FROM actors&quot;);</span>
+<span class="nc" id="L2223">            res = stat.executeQuery(&quot;SELECT * FROM actors&quot;);</span>
 
             //model to update movie table values
-<span class="nc" id="L2206">            DefaultTableModel model = new DefaultTableModel();</span>
-<span class="nc" id="L2207">            model.addColumn(&quot;ID&quot;);</span>
-<span class="nc" id="L2208">            model.addColumn(&quot;Name&quot;);</span>
-<span class="nc" id="L2209">            model.addColumn(&quot;Date of Birth&quot;);</span>
-<span class="nc" id="L2210">            model.addColumn(&quot;Age&quot;);</span>
+<span class="nc" id="L2226">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L2227">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L2228">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L2229">            model.addColumn(&quot;Date of Birth&quot;);</span>
+<span class="nc" id="L2230">            model.addColumn(&quot;Age&quot;);</span>
             int id;
             String name;
             String DoB;
             String age;
-<span class="nc" id="L2215">            int row = 0;</span>
+<span class="nc" id="L2235">            int row = 0;</span>
             //loop to aquire data from the DB
-<span class="nc bnc" id="L2217" title="All 2 branches missed.">            while (res.next()) {</span>
-<span class="nc" id="L2218">                id = res.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L2219">                name = res.getString(&quot;name&quot;);</span>
-<span class="nc" id="L2220">                DoB = res.getString(&quot;dateOfBirth&quot;);</span>
-<span class="nc" id="L2221">                age = res.getString(&quot;age&quot;);</span>
-<span class="nc" id="L2222">                actorArray[row][0] = String.valueOf(id);</span>
-<span class="nc" id="L2223">                actorArray[row][1] = String.valueOf(name);</span>
-<span class="nc" id="L2224">                actorArray[row][2] = String.valueOf(DoB);</span>
-<span class="nc" id="L2225">                actorArray[row][3] = String.valueOf(age);</span>
-<span class="nc" id="L2226">                model.addRow(actorArray[row]);</span>
-<span class="nc" id="L2227">                row++;</span>
+<span class="nc bnc" id="L2237" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L2238">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L2239">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L2240">                DoB = res.getString(&quot;dateOfBirth&quot;);</span>
+<span class="nc" id="L2241">                age = res.getString(&quot;age&quot;);</span>
+<span class="nc" id="L2242">                actorArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L2243">                actorArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L2244">                actorArray[row][2] = String.valueOf(DoB);</span>
+<span class="nc" id="L2245">                actorArray[row][3] = String.valueOf(age);</span>
+<span class="nc" id="L2246">                model.addRow(actorArray[row]);</span>
+<span class="nc" id="L2247">                row++;</span>
             }
             //set model to table
-<span class="nc" id="L2230">            jActorTable.setModel(model);</span>
+<span class="nc" id="L2250">            jActorTable.setModel(model);</span>
 
-<span class="nc" id="L2232">        } catch (Exception e) {</span>
-<span class="nc" id="L2233">            e.printStackTrace();</span>
-<span class="nc" id="L2234">        }</span>
-<span class="nc" id="L2235">        jmovieTable.setAutoCreateRowSorter(true);</span>
-<span class="nc" id="L2236">    }//GEN-LAST:event_jButtonRefreshActionPerformed</span>
+<span class="nc" id="L2252">        } catch (Exception e) {</span>
+<span class="nc" id="L2253">            e.printStackTrace();</span>
+<span class="nc" id="L2254">        }</span>
+<span class="nc" id="L2255">        jmovieTable.setAutoCreateRowSorter(true);</span>
+<span class="nc" id="L2256">    }//GEN-LAST:event_jButtonRefreshActionPerformed</span>
 
     private void jButtonAddActorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActorActionPerformed
-<span class="nc" id="L2239">        this.LoadPanel(addActor);</span>
-<span class="nc" id="L2240">    }//GEN-LAST:event_jButtonAddActorActionPerformed</span>
+<span class="nc" id="L2259">        this.LoadPanel(addActor);</span>
+<span class="nc" id="L2260">    }//GEN-LAST:event_jButtonAddActorActionPerformed</span>
 
     private void jButtonDeleteSelectedActorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteSelectedActorActionPerformed
         //button to delete selected row without entering id works for id set to column 0
@@ -2247,41 +2267,41 @@ try{
         //try catch block for when no row is selected
         try {
 
-<span class="nc" id="L2250">            int id = Integer.parseInt((String) jActorTable.getValueAt(jActorTable.getSelectedRow(), 0));</span>
-<span class="nc" id="L2251">            int actorId = id;</span>
+<span class="nc" id="L2270">            int id = Integer.parseInt((String) jActorTable.getValueAt(jActorTable.getSelectedRow(), 0));</span>
+<span class="nc" id="L2271">            int actorId = id;</span>
             PreparedStatement mystatement;
             try {
-<span class="nc" id="L2254">                mystatement = con.prepareStatement(&quot;DELETE FROM actors WHERE id = ?&quot;);</span>
-<span class="nc" id="L2255">                mystatement.setInt(1, id);</span>
-<span class="nc" id="L2256">                mystatement.execute();</span>
+<span class="nc" id="L2274">                mystatement = con.prepareStatement(&quot;DELETE FROM actors WHERE id = ?&quot;);</span>
+<span class="nc" id="L2275">                mystatement.setInt(1, id);</span>
+<span class="nc" id="L2276">                mystatement.execute();</span>
 
                 //System log
-<span class="nc" id="L2259">                int adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
-<span class="nc" id="L2260">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has delted an actor with actorId = &quot; + actorId;</span>
-<span class="nc" id="L2261">                insertActorSystemLogs(adminId, actorId, &quot;Delete&quot;, logMessage);</span>
-<span class="nc" id="L2262">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2279">                int adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L2280">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has delted an actor with actorId = &quot; + actorId;</span>
+<span class="nc" id="L2281">                insertActorSystemLogs(adminId, actorId, &quot;Delete&quot;, logMessage);</span>
+<span class="nc" id="L2282">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Success&quot;,
                         &quot;Successfully Deleted&quot;,
                         JOptionPane.INFORMATION_MESSAGE);
 
-<span class="nc" id="L2267">            } catch (SQLException ex) {</span>
+<span class="nc" id="L2287">            } catch (SQLException ex) {</span>
 
-<span class="nc" id="L2269">            }</span>
-<span class="nc" id="L2270">        } catch (IndexOutOfBoundsException e) {</span>
-<span class="nc" id="L2271">            e.printStackTrace();</span>
-<span class="nc" id="L2272">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2289">            }</span>
+<span class="nc" id="L2290">        } catch (IndexOutOfBoundsException e) {</span>
+<span class="nc" id="L2291">            e.printStackTrace();</span>
+<span class="nc" id="L2292">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Please select a row to delete&quot;,
                     &quot;Selection error&quot;,
                     JOptionPane.ERROR_MESSAGE);
-<span class="nc" id="L2276">        }</span>
-<span class="nc" id="L2277">    }//GEN-LAST:event_jButtonDeleteSelectedActorActionPerformed</span>
+<span class="nc" id="L2296">        }</span>
+<span class="nc" id="L2297">    }//GEN-LAST:event_jButtonDeleteSelectedActorActionPerformed</span>
 
     private void jTextSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSearch1ActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L2281">    }//GEN-LAST:event_jTextSearch1ActionPerformed</span>
+<span class="nc" id="L2301">    }//GEN-LAST:event_jTextSearch1ActionPerformed</span>
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
-<span class="nc" id="L2284">        String search = jTextSearch.getText();</span>
+<span class="nc" id="L2304">        String search = jTextSearch.getText();</span>
 
         ResultSet res;
 
@@ -2290,65 +2310,65 @@ try{
             // myStatement = con.prepareStatement(&quot;SELECT * FROM movies WHERE name LIKE ?'%'&quot;);
             //  myStatement.setString(1, search);
             // res=  myStatement.executeQuery();
-<span class="nc" id="L2293">            stat = con.createStatement();</span>
-<span class="nc" id="L2294">            res = stat.executeQuery(&quot;SELECT * FROM actors WHERE name LIKE '&quot; + search + &quot;%'&quot;);</span>
+<span class="nc" id="L2313">            stat = con.createStatement();</span>
+<span class="nc" id="L2314">            res = stat.executeQuery(&quot;SELECT * FROM actors WHERE name LIKE '&quot; + search + &quot;%'&quot;);</span>
 
             //model to update movie table values
-<span class="nc" id="L2297">            DefaultTableModel model = new DefaultTableModel();</span>
-<span class="nc" id="L2298">            model.addColumn(&quot;ID&quot;);</span>
-<span class="nc" id="L2299">            model.addColumn(&quot;Name&quot;);</span>
-<span class="nc" id="L2300">            model.addColumn(&quot;Date of Birth&quot;);</span>
-<span class="nc" id="L2301">            model.addColumn(&quot;Age&quot;);</span>
+<span class="nc" id="L2317">            DefaultTableModel model = new DefaultTableModel();</span>
+<span class="nc" id="L2318">            model.addColumn(&quot;ID&quot;);</span>
+<span class="nc" id="L2319">            model.addColumn(&quot;Name&quot;);</span>
+<span class="nc" id="L2320">            model.addColumn(&quot;Date of Birth&quot;);</span>
+<span class="nc" id="L2321">            model.addColumn(&quot;Age&quot;);</span>
             int id;
             String name;
             String DoB;
             String age;
-<span class="nc" id="L2306">            int row = 0;</span>
+<span class="nc" id="L2326">            int row = 0;</span>
             //loop to aquire data from the DB
-<span class="nc bnc" id="L2308" title="All 2 branches missed.">            while (res.next()) {</span>
-<span class="nc" id="L2309">                id = res.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L2310">                name = res.getString(&quot;name&quot;);</span>
-<span class="nc" id="L2311">                DoB = res.getString(&quot;dateOfBirth&quot;);</span>
-<span class="nc" id="L2312">                age = res.getString(&quot;age&quot;);</span>
-<span class="nc" id="L2313">                actorArray[row][0] = String.valueOf(id);</span>
-<span class="nc" id="L2314">                actorArray[row][1] = String.valueOf(name);</span>
-<span class="nc" id="L2315">                actorArray[row][2] = String.valueOf(DoB);</span>
-<span class="nc" id="L2316">                actorArray[row][3] = String.valueOf(age);</span>
-<span class="nc" id="L2317">                model.addRow(actorArray[row]);</span>
-<span class="nc" id="L2318">                row++;</span>
+<span class="nc bnc" id="L2328" title="All 2 branches missed.">            while (res.next()) {</span>
+<span class="nc" id="L2329">                id = res.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L2330">                name = res.getString(&quot;name&quot;);</span>
+<span class="nc" id="L2331">                DoB = res.getString(&quot;dateOfBirth&quot;);</span>
+<span class="nc" id="L2332">                age = res.getString(&quot;age&quot;);</span>
+<span class="nc" id="L2333">                actorArray[row][0] = String.valueOf(id);</span>
+<span class="nc" id="L2334">                actorArray[row][1] = String.valueOf(name);</span>
+<span class="nc" id="L2335">                actorArray[row][2] = String.valueOf(DoB);</span>
+<span class="nc" id="L2336">                actorArray[row][3] = String.valueOf(age);</span>
+<span class="nc" id="L2337">                model.addRow(actorArray[row]);</span>
+<span class="nc" id="L2338">                row++;</span>
             }
             //set model to table
-<span class="nc" id="L2321">            jActorTable.setModel(model);</span>
-<span class="nc" id="L2322">        } catch (SQLException ex) {</span>
-<span class="nc" id="L2323">        }</span>
-<span class="nc" id="L2324">    }//GEN-LAST:event_jButtonSearchActionPerformed</span>
+<span class="nc" id="L2341">            jActorTable.setModel(model);</span>
+<span class="nc" id="L2342">        } catch (SQLException ex) {</span>
+<span class="nc" id="L2343">        }</span>
+<span class="nc" id="L2344">    }//GEN-LAST:event_jButtonSearchActionPerformed</span>
 
     private void jButtonAddActor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActor1ActionPerformed
-<span class="nc" id="L2327">        String name = jtextName.getText();</span>
-<span class="nc" id="L2328">        String DoB = jtextDate.getText();</span>
+<span class="nc" id="L2347">        String name = jtextName.getText();</span>
+<span class="nc" id="L2348">        String DoB = jtextDate.getText();</span>
 
         //check if values are null/empty
-<span class="nc bnc" id="L2331" title="All 2 branches missed.">        if (addActorNameField(name) == 0) {</span>
+<span class="nc bnc" id="L2351" title="All 2 branches missed.">        if (addActorNameField(name) == 0) {</span>
             //display error message
-<span class="nc" id="L2333">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2353">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Name field can't be set to empty or null!&quot;,
                     &quot;Empty/Null Error!&quot;,
                     JOptionPane.ERROR_MESSAGE);
-<span class="nc bnc" id="L2337" title="All 2 branches missed.">        } else if (addActorDoBField(DoB) == 0) {</span>
+<span class="nc bnc" id="L2357" title="All 2 branches missed.">        } else if (addActorDoBField(DoB) == 0) {</span>
             //display error message
-<span class="nc" id="L2339">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2359">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Date of birth field can't be set to empty or null!&quot;,
                     &quot;Empty/Null Error!&quot;,
                     JOptionPane.ERROR_MESSAGE);
-<span class="nc bnc" id="L2343" title="All 2 branches missed.">        } else if (addActorNameLength(name) == 0) {</span>
+<span class="nc bnc" id="L2363" title="All 2 branches missed.">        } else if (addActorNameLength(name) == 0) {</span>
             //display error message
-<span class="nc" id="L2345">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2365">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Enter a name less than 45 character&quot;,
                     &quot;Empty/Null Error!&quot;,
                     JOptionPane.ERROR_MESSAGE);
-<span class="nc bnc" id="L2349" title="All 2 branches missed.">        } else if (addActorDoBValid(DoB) == 0) {</span>
+<span class="nc bnc" id="L2369" title="All 2 branches missed.">        } else if (addActorDoBValid(DoB) == 0) {</span>
             //display error message
-<span class="nc" id="L2351">            JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2371">            JOptionPane.showMessageDialog(null,</span>
                     &quot;Enter a valid date format&quot;,
                     &quot;Empty/Null Error!&quot;,
                     JOptionPane.ERROR_MESSAGE);
@@ -2357,83 +2377,83 @@ try{
             try {
 
                 // query to insert data into movie table
-<span class="nc" id="L2360">                int actorId = 0;</span>
-<span class="nc" id="L2361">                int adminId = 0;</span>
+<span class="nc" id="L2380">                int actorId = 0;</span>
+<span class="nc" id="L2381">                int adminId = 0;</span>
 
                 //get time
-<span class="nc" id="L2364">                long millis = System.currentTimeMillis();</span>
-<span class="nc" id="L2365">                java.sql.Date date = new java.sql.Date(millis);</span>
-<span class="nc" id="L2366">                System.out.println(date);</span>
-<span class="nc" id="L2367">                String dateString = String.valueOf(date);</span>
+<span class="nc" id="L2384">                long millis = System.currentTimeMillis();</span>
+<span class="nc" id="L2385">                java.sql.Date date = new java.sql.Date(millis);</span>
+<span class="nc" id="L2386">                System.out.println(date);</span>
+<span class="nc" id="L2387">                String dateString = String.valueOf(date);</span>
 
-<span class="nc" id="L2369">                PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO actors (id,name,dateOfBirth,age) VALUES(DEFAULT,?,?,FLOOR(DATEDIFF( ?, ?)/365))&quot;);</span>
-<span class="nc" id="L2370">                myStatement.setString(1, name);</span>
-<span class="nc" id="L2371">                myStatement.setString(2, DoB);</span>
-<span class="nc" id="L2372">                myStatement.setString(3, dateString);</span>
-<span class="nc" id="L2373">                myStatement.setString(4, DoB);</span>
-<span class="nc" id="L2374">                myStatement.execute();</span>
-<span class="nc" id="L2375">                System.out.println(&quot;done1&quot;);</span>
+<span class="nc" id="L2389">                PreparedStatement myStatement = con.prepareStatement(&quot;INSERT INTO actors (id,name,dateOfBirth,age) VALUES(DEFAULT,?,?,FLOOR(DATEDIFF( ?, ?)/365))&quot;);</span>
+<span class="nc" id="L2390">                myStatement.setString(1, name);</span>
+<span class="nc" id="L2391">                myStatement.setString(2, DoB);</span>
+<span class="nc" id="L2392">                myStatement.setString(3, dateString);</span>
+<span class="nc" id="L2393">                myStatement.setString(4, DoB);</span>
+<span class="nc" id="L2394">                myStatement.execute();</span>
+<span class="nc" id="L2395">                System.out.println(&quot;done1&quot;);</span>
 
                 //code for system logs.
                 // first retrieve the id of the inserted movie.
-<span class="nc" id="L2379">                stat = con.createStatement();</span>
-<span class="nc" id="L2380">                res = stat.executeQuery(&quot;SELECT ID FROM actors ORDER BY ID DESC LIMIT 1&quot;);</span>
-<span class="nc bnc" id="L2381" title="All 2 branches missed.">                if (res.next()) {</span>
-<span class="nc" id="L2382">                    actorId = res.getInt(&quot;ID&quot;);</span>
+<span class="nc" id="L2399">                stat = con.createStatement();</span>
+<span class="nc" id="L2400">                res = stat.executeQuery(&quot;SELECT ID FROM actors ORDER BY ID DESC LIMIT 1&quot;);</span>
+<span class="nc bnc" id="L2401" title="All 2 branches missed.">                if (res.next()) {</span>
+<span class="nc" id="L2402">                    actorId = res.getInt(&quot;ID&quot;);</span>
                 }
-<span class="nc" id="L2384">                System.out.println(&quot;done2&quot;);</span>
+<span class="nc" id="L2404">                System.out.println(&quot;done2&quot;);</span>
                 // Write the logs in the table
-<span class="nc" id="L2386">                adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
-<span class="nc" id="L2387">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added an actor with actorId = &quot; + actorId;</span>
-<span class="nc" id="L2388">                myStatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID,actorID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?,?, ?, ?, ?, ?, ?)&quot;);</span>
-<span class="nc" id="L2389">                myStatement.setNull(1, java.sql.Types.INTEGER);</span>
-<span class="nc" id="L2390">                myStatement.setInt(2, adminId);</span>
-<span class="nc" id="L2391">                myStatement.setNull(3, java.sql.Types.INTEGER);</span>
-<span class="nc" id="L2392">                myStatement.setInt(4, actorId);</span>
-<span class="nc" id="L2393">                myStatement.setString(5, getDateTime());</span>
-<span class="nc" id="L2394">                myStatement.setString(6, &quot;Add&quot;);</span>
-<span class="nc" id="L2395">                myStatement.setString(7, logMessage);</span>
-<span class="nc" id="L2396">                myStatement.execute();</span>
-<span class="nc" id="L2397">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2406">                adminId = Integer.parseInt(adminIdL.getText().substring(10));</span>
+<span class="nc" id="L2407">                String logMessage = &quot;Admin with adminID = &quot; + adminId + &quot; has added an actor with actorId = &quot; + actorId;</span>
+<span class="nc" id="L2408">                myStatement = con.prepareStatement(&quot;INSERT INTO system_logs (ID, UserID, AdminID, movieID,actorID, TimeStamp, Operation, LogMessage) Values(DEFAULT, ?,?, ?, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L2409">                myStatement.setNull(1, java.sql.Types.INTEGER);</span>
+<span class="nc" id="L2410">                myStatement.setInt(2, adminId);</span>
+<span class="nc" id="L2411">                myStatement.setNull(3, java.sql.Types.INTEGER);</span>
+<span class="nc" id="L2412">                myStatement.setInt(4, actorId);</span>
+<span class="nc" id="L2413">                myStatement.setString(5, getDateTime());</span>
+<span class="nc" id="L2414">                myStatement.setString(6, &quot;Add&quot;);</span>
+<span class="nc" id="L2415">                myStatement.setString(7, logMessage);</span>
+<span class="nc" id="L2416">                myStatement.execute();</span>
+<span class="nc" id="L2417">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Success&quot;,
                         &quot;Successfully Added&quot;,
                         JOptionPane.INFORMATION_MESSAGE);
 
-<span class="nc" id="L2402">            } catch (MysqlDataTruncation e) {</span>
-<span class="nc" id="L2403">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2422">            } catch (MysqlDataTruncation e) {</span>
+<span class="nc" id="L2423">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Error&quot;,
                         &quot;Enter a valid date of birth&quot;,
                         JOptionPane.ERROR_MESSAGE);
 
-<span class="nc" id="L2408">                e.printStackTrace();</span>
+<span class="nc" id="L2428">                e.printStackTrace();</span>
 
-<span class="nc" id="L2410">            } catch (SQLException ex) {</span>
-<span class="nc" id="L2411">                ex.printStackTrace();</span>
+<span class="nc" id="L2430">            } catch (SQLException ex) {</span>
+<span class="nc" id="L2431">                ex.printStackTrace();</span>
 
-<span class="nc" id="L2413">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L2433">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Unable to submit&quot;,
                         &quot;Error&quot;,
                         JOptionPane.ERROR_MESSAGE);
 
-<span class="nc" id="L2418">            }</span>
+<span class="nc" id="L2438">            }</span>
         }
-<span class="nc" id="L2420">    }//GEN-LAST:event_jButtonAddActor1ActionPerformed</span>
+<span class="nc" id="L2440">    }//GEN-LAST:event_jButtonAddActor1ActionPerformed</span>
 
     private void jtextDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextDateActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L2424">    }//GEN-LAST:event_jtextDateActionPerformed</span>
+<span class="nc" id="L2444">    }//GEN-LAST:event_jtextDateActionPerformed</span>
 
     private void jtextDateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextDateFocusGained
-<span class="nc" id="L2427">        jtextDate.setText(&quot;&quot;);</span>
-<span class="nc" id="L2428">    }//GEN-LAST:event_jtextDateFocusGained</span>
+<span class="nc" id="L2447">        jtextDate.setText(&quot;&quot;);</span>
+<span class="nc" id="L2448">    }//GEN-LAST:event_jtextDateFocusGained</span>
 
     private void jtextNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtextNameActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L2432">    }//GEN-LAST:event_jtextNameActionPerformed</span>
+<span class="nc" id="L2452">    }//GEN-LAST:event_jtextNameActionPerformed</span>
 
     private void jtextNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtextNameFocusGained
-<span class="nc" id="L2435">        jtextName.setText(&quot;&quot;);</span>
-<span class="nc" id="L2436">    }//GEN-LAST:event_jtextNameFocusGained</span>
+<span class="nc" id="L2455">        jtextName.setText(&quot;&quot;);</span>
+<span class="nc" id="L2456">    }//GEN-LAST:event_jtextNameFocusGained</span>
 
     /**
      * @param args the command line arguments
@@ -2445,30 +2465,30 @@ try{
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-<span class="nc bnc" id="L2448" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
-<span class="nc bnc" id="L2449" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
-<span class="nc" id="L2450">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
-<span class="nc" id="L2451">                    break;</span>
+<span class="nc bnc" id="L2468" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L2469" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L2470">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L2471">                    break;</span>
                 }
             }
-<span class="nc" id="L2454">        } catch (ClassNotFoundException ex) {</span>
-<span class="nc" id="L2455">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L2456">        } catch (InstantiationException ex) {</span>
-<span class="nc" id="L2457">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L2458">        } catch (IllegalAccessException ex) {</span>
-<span class="nc" id="L2459">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L2460">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
-<span class="nc" id="L2461">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L2462">        }</span>
+<span class="nc" id="L2474">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L2475">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2476">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L2477">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2478">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L2479">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2480">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L2481">            java.util.logging.Logger.getLogger(FrameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L2482">        }</span>
         //&lt;/editor-fold&gt;
 
         /* Create and display the form */
-<span class="nc" id="L2466">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+<span class="nc" id="L2486">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
             public void run() {
-<span class="nc" id="L2468">                new FrameUI().setVisible(true);</span>
-<span class="nc" id="L2469">            }</span>
+<span class="nc" id="L2488">                new FrameUI().setVisible(true);</span>
+<span class="nc" id="L2489">            }</span>
         });
-<span class="nc" id="L2471">    }</span>
+<span class="nc" id="L2491">    }</span>
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateReport;
