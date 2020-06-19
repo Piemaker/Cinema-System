@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.sql.*;
-
+import ProjectPackage.RegisterLoginWindow;
 
 
     public class Cinema {
@@ -59,7 +59,7 @@ import java.sql.*;
         }*/
 
         public static void main(String args[]) {
-
+/*
 try{
             getConnection();
             Statement stat= con.createStatement();
@@ -76,8 +76,9 @@ try{
 catch (Exception e){
     e.printStackTrace();
 }
+        
+*/ 
+RegisterLoginWindow a = new RegisterLoginWindow();
+
         }
-
-
- 
     }

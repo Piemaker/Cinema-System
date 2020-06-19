@@ -1,3 +1,5 @@
+package trash;
+
 
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
